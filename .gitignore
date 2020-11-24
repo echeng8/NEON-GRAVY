@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+#some things i added
+**/.idea/workspace.xml 
+**/.idea/tasks.xml

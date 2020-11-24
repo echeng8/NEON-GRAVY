@@ -46,7 +46,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
-            if (!photonView.IsMine)
+            if (PhotonNetwork.IsConnected && !photonView.IsMine)
                 return; 
             
             // read inputs
