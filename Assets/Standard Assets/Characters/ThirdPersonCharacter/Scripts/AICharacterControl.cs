@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityStandardAssets.Characters.ThirdPerson.PunDemos;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {

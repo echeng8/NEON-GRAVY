@@ -8,16 +8,31 @@ using UnityEngine.Animations;
 
 /// <summary>
 /// Handles shooting: input, aiming, cooldown, instantiate projectile
+/// Handles damage and getting hit. 
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    /// <summary>
+    /// Implementation References
+    /// </summary>
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootPointPivot, shootingPosition;
-    [SerializeField] private float coolDown;
 
+    /// <summary>
+    /// Gameplay Values 
+    /// </summary>
+    [SerializeField] private float coolDown;
+    
+    [SerializeField] public bool debugControlled; 
+    
+    private float cdTimeLeft = 0;
 
     private void Update()
     {
+        if (!debugControlled)
+            return; 
+        
+        //Look at Camera and shooting
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayLength;
@@ -25,19 +40,36 @@ public class PlayerController : MonoBehaviour
         if (groundPlane.Raycast(cameraRay, out rayLength))
         {
             Vector3 pointTolook = cameraRay.GetPoint(rayLength);
-            
+
             shootPointPivot.LookAt(new Vector3(pointTolook.x, shootingPosition.position.y, pointTolook.z));
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        //Shooting
+        cdTimeLeft -= Time.deltaTime;
+        if (Input.GetButtonDown("Fire1") && cdTimeLeft <= 0)
         {
-            Instantiate(projectile, shootingPosition.position,   Quaternion.LookRotation(shootPointPivot.forward));
+            Shoot();
+            cdTimeLeft = coolDown;
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Damage"))
+        {
+            //placeholder code for indicating damage
+            GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+            this.Invoke(() => GetComponentInChildren<SkinnedMeshRenderer>().enabled = true, 1f); 
         }
     }
 
-
-    private void OnDrawGizmos()
+    /// <summary>
+/// this also spends one bullet
+/// </summary>
+    void Shoot()
     {
-        //Gizmos.DrawSphere();
+        Instantiate(projectile, shootingPosition.position,   Quaternion.LookRotation(shootPointPivot.forward));
     }
+
 }

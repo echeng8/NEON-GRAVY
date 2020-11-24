@@ -377,6 +377,8 @@
           <e p="Launcher.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
           <e p="Projectile.cs" t="Include" />
+          <e p="ThirdPersonCharacter.cs" t="Include" />
+          <e p="ThirdPersonUserControl.cs" t="Include" />
           <e p="Utility.cs" t="Include" />
         </e>
         <e p="Standard Assets" t="Include">
@@ -384,8 +386,6 @@
             <e p="ThirdPersonCharacter" t="Include">
               <e p="Scripts" t="Include">
                 <e p="AICharacterControl.cs" t="Include" />
-                <e p="ThirdPersonCharacter.cs" t="Include" />
-                <e p="ThirdPersonUserControl.cs" t="Include" />
               </e>
               <e p="ThirdPersonCharacterGuidelines.txt" t="Include" />
             </e>
