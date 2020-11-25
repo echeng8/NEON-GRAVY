@@ -32,15 +32,15 @@ public class PlayerController : MonoBehaviourPun
     {
         if (localPlayerInstance == null)
         {
-            bool isRoomObject = photonView.Owner != null &&
-                                photonView.Owner.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber;
-
-            if (!PhotonNetwork.IsConnected || !isRoomObject)
+            if (!PhotonNetwork.IsConnected || photonView.AmOwner)
             {
                 SetLocalPlayer();
             }
-            else
-                Destroy(gameObject); // this is the offline character for offline testing. 
+        }
+
+        if (PhotonNetwork.IsConnected && photonView.Owner == null)
+        {
+            Destroy(gameObject); // this is the offline character for offline testing. 
         }
     }
 
