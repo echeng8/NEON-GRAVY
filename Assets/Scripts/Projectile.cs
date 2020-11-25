@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : MonoBehaviourPun
 {
     [SerializeField] float speed;
     [SerializeField] private float duration; 
@@ -18,14 +19,16 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        this.Invoke(() => Destroy(gameObject), duration);
+        if(photonView.IsMine)
+            this.Invoke(() => PhotonNetwork.Destroy(gameObject), duration);
     }
 
     private void Update()
     {
         var transform1 = transform;
         _rigidbody.MovePosition(transform1.position + transform1.forward * (speed * Time.deltaTime));
+        print(speed + "   " + transform.position + "    "+ transform1.forward * (speed * Time.deltaTime) );
     }
-    
-    
+
+
 }
