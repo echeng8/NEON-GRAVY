@@ -27,7 +27,7 @@ public class Projectile : MonoBehaviourPun
     {
         var transform1 = transform;
         _rigidbody.MovePosition(transform1.position + transform1.forward * (speed * Time.deltaTime));
-        print(speed + "   " + transform.position + "    "+ transform1.forward * (speed * Time.deltaTime) );
+        //print(speed + "   " + transform.position + "    "+ transform1.forward * (speed * Time.deltaTime) );
     }
 
 
