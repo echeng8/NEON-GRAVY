@@ -308,7 +308,7 @@ MonoBehaviour:
   shootPointPivot: {fileID: 1978707797}
   shootingPosition: {fileID: 7293678871425508918}
   coolDown: 0.5
-  debugControlled: 0
+  debugControlled: 1
 --- !u!1 &3818766585230528293
 GameObject:
   m_ObjectHideFlags: 0
@@ -2592,7 +2592,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 621e901dcf5ebaf46bce29d18f67194c, type: 2}
+  - {fileID: 2100000, guid: c852af001dae0064e9acaa832f1dadb7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

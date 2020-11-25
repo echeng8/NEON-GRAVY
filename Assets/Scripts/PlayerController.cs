@@ -10,11 +10,13 @@ using UnityEngine.Animations;
 /// Handles shooting: input, aiming, cooldown, instantiate projectile
 /// Handles damage and getting hit. 
 /// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
     /// <summary>
     /// Implementation References
     /// </summary>
+    public static PlayerController localPlayerInstance;
+    public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootPointPivot, shootingPosition;
 
@@ -22,15 +24,33 @@ public class PlayerController : MonoBehaviour
     /// Gameplay Values 
     /// </summary>
     [SerializeField] private float coolDown;
-    
     [SerializeField] public bool debugControlled; 
     
-    private float cdTimeLeft = 0;
+    private float _cdTimeLeft = 0;
+
+    private void Awake()
+    {
+        if (localPlayerInstance == null)
+        {
+            bool isRoomObject = photonView.Owner != null &&
+                                photonView.Owner.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber;
+
+            if (!PhotonNetwork.IsConnected || !isRoomObject)
+            {
+                SetLocalPlayer();
+            }
+            else
+                Destroy(gameObject); // this is the offline character for offline testing. 
+        }
+    }
 
     private void Update()
     {
         if (!debugControlled)
             return; 
+        if (PhotonNetwork.IsConnected && !photonView.IsMine)
+            return; 
+        
         
         //Look at Camera and shooting
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -45,17 +65,18 @@ public class PlayerController : MonoBehaviour
         }
 
         //Shooting
-        cdTimeLeft -= Time.deltaTime;
-        if (Input.GetButtonDown("Fire1") && cdTimeLeft <= 0)
+        _cdTimeLeft -= Time.deltaTime;
+        if (Input.GetButtonDown("Fire1") && _cdTimeLeft <= 0)
         {
             Shoot();
-            cdTimeLeft = coolDown;
+            _cdTimeLeft = coolDown;
         }
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.CompareTag("Damage"))
         {
             //placeholder code for indicating damage
@@ -65,11 +86,28 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-/// this also spends one bullet
-/// </summary>
+    /// 
+    /// </summary>
     void Shoot()
     {
-        Instantiate(projectile, shootingPosition.position,   Quaternion.LookRotation(shootPointPivot.forward));
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Instantiate(projectile.name,shootingPosition.position,Quaternion.LookRotation(shootPointPivot.forward));
+        }
+        else
+        {
+            Instantiate(projectile, shootingPosition.position,   Quaternion.LookRotation(shootPointPivot.forward));
+        }
+    }
+
+    /// <summary>
+    /// set itself as LocalPlayerInstance
+    /// invokes OnLocalPlayerSet event
+    /// </summary>
+    void SetLocalPlayer()
+    {
+        localPlayerInstance = this;
+        OnLocalPlayerSet.Invoke(gameObject);
     }
 
 }

@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     {
         if(PhotonNetwork.IsConnected)
             PhotonNetwork.Instantiate("Player", Vector3.zero + Vector3.up * 2, Quaternion.identity);
+        
+        
+        
     }
     
 }

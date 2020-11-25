@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 public static class Utility
 {
     public static void Invoke(this MonoBehaviour mb, Action f, float delay)
@@ -16,3 +16,5 @@ public static class Utility
         f();
     }
 }
+
+[System.Serializable] public class GameObjectEvent : UnityEvent<GameObject> {}

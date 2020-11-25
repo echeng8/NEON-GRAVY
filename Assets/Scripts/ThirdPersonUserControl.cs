@@ -47,10 +47,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
+            
+            //multiplayer disabling/enabling logic + offline testing
             bool controlled = GetComponent<PlayerController>().debugControlled; 
             
             if (PhotonNetwork.IsConnected && !photonView.IsMine || !controlled )
                 return; 
+            
             
             // read inputs
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
