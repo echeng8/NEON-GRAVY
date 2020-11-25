@@ -10,7 +10,7 @@ using UnityEngine.Animations;
 /// Handles shooting: input, aiming, cooldown, instantiate projectile
 /// Handles damage and getting hit. 
 /// </summary>
-public class PlayerController : MonoBehaviourPun
+public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     /// <summary>
     /// Implementation References
@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootPointPivot, shootingPosition;
 
+    private Vector3 _lookAtPosition; 
+    
     /// <summary>
     /// Gameplay Values 
     /// </summary>
@@ -48,11 +50,14 @@ public class PlayerController : MonoBehaviourPun
     {
         if (!debugControlled)
             return; 
+        
+        //shootPointPivot.LookAt(_lookAtPosition);
+        
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
             return; 
         
         
-        //Look at Camera and shooting
+        //set look at position from camera pos
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayLength;
@@ -61,14 +66,15 @@ public class PlayerController : MonoBehaviourPun
         {
             Vector3 pointTolook = cameraRay.GetPoint(rayLength);
 
-            shootPointPivot.LookAt(new Vector3(pointTolook.x, shootingPosition.position.y, pointTolook.z));
+            _lookAtPosition = new Vector3(pointTolook.x, shootingPosition.position.y, pointTolook.z);
+            shootPointPivot.LookAt(_lookAtPosition);
         }
 
         //Shooting
         _cdTimeLeft -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && _cdTimeLeft <= 0)
         {
-            Shoot();
+            photonView.RPC("RPC_Shoot", RpcTarget.AllViaServer);
             _cdTimeLeft = coolDown;
         }
 
@@ -85,19 +91,29 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    void Shoot()
+    #region  PUN Callbacks
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (PhotonNetwork.IsConnected)
+        return;
+        if (stream.IsWriting)
         {
-            PhotonNetwork.Instantiate(projectile.name,shootingPosition.position,Quaternion.LookRotation(shootPointPivot.forward));
+            stream.SendNext(_lookAtPosition);
         }
-        else
+        else if (stream.IsReading)
         {
-            Instantiate(projectile, shootingPosition.position,   Quaternion.LookRotation(shootPointPivot.forward));
+            _lookAtPosition = (Vector3)stream.ReceiveNext();
         }
+    }
+    #endregion
+
+    /// <summary>
+    /// shoots the bullet 
+    /// </summary>
+    [PunRPC]
+    void RPC_Shoot()
+    {
+        Instantiate(projectile, shootingPosition.position,   Quaternion.LookRotation(shootPointPivot.forward));
     }
 
     /// <summary>

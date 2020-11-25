@@ -19,8 +19,7 @@ public class Projectile : MonoBehaviourPun
 
     private void Start()
     {
-        if(photonView.IsMine)
-            this.Invoke(() => PhotonNetwork.Destroy(gameObject), duration);
+        this.Invoke(() => Destroy(gameObject), duration);
     }
 
     private void Update()
