@@ -19,15 +19,9 @@ public class Projectile : MonoBehaviourPun
 
     private void Start()
     {
-        print($"{gameObject.name} start {transform.position}");
         this.Invoke(() => Destroy(gameObject), duration);
     }
-
-    private void OnDestroy()
-    {
-        print($"{gameObject.name} end {transform.position}");
-    }
-
+    
     private void FixedUpdate()
     {
         var transform1 = transform;

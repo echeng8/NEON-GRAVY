@@ -2,35 +2,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events; 
 using UnityEngine.Animations;
 
 /// <summary>
 /// Handles shooting: input, aiming, cooldown, instantiate projectile
 /// Handles damage and getting hit. 
 /// </summary>
+
+public class PlayerStateEvent : UnityEvent<PlayerController.State>
+{
+}
+
 public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     /// Gameplay Values 
     [SerializeField] private float shootCoolDown;
-
+    
     /// <summary>
     /// force added on impulse when player is hit 
     /// </summary>
     [SerializeField] private float maxHitForce;
     /// <summary>
     /// The number of hits a player can take until they are at axHitForce.
-    /// The force for any given hit is calculated as hits / hitsToMaxHitForce * maxHitForce
+    /// The force for any given hit is calculated as hits / maxHits * maxHitForce
     /// The force will not exceed max hit force. 
     /// </summary>
-    [SerializeField] private int hitsToMaxHitForce; 
+    [SerializeField] private int maxHits;
+    [SerializeField] private float paralyzedSeconds; 
     
     [SerializeField] public bool debugControlled; 
 
     
     
     #region Implementation References
+    
     public static PlayerController localPlayerInstance;
     public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
     [SerializeField] private GameObject projectile;
@@ -41,6 +50,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private int _timesHit = 0; 
     
+    public enum State {Normal, Paralyzed}
+
+    public State currentState = State.Normal;
+    public PlayerStateEvent OnPlayerStateChange = new PlayerStateEvent();
     #endregion
     
 
@@ -50,6 +63,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     
     private void Awake()
     {
+        
         if (localPlayerInstance == null)
         {
             if (!PhotonNetwork.IsConnected || photonView.AmOwner)
@@ -101,6 +115,18 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             
             _cdTimeLeft = shootCoolDown;
         }
+        
+        //DEBUG controls
+        if (Input.GetButtonDown("Cancel"))
+        {
+            transform.position = Vector3.zero;
+            _timesHit = 0;
+        }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            RPC_BeHit(transform.forward);
+        }
 
     }
 
@@ -111,7 +137,14 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         
         if (other.CompareTag("Damage"))
         {
-            photonView.RPC("RPC_BeHit",RpcTarget.All, other.transform.forward);
+            if (PhotonNetwork.IsConnected)
+            {
+                photonView.RPC("RPC_BeHit",RpcTarget.All, other.transform.forward);
+            }
+            else
+            {
+                RPC_BeHit(other.transform.forward);
+            }
         }
     }
     #endregion
@@ -160,25 +193,38 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void RPC_BeHit(Vector3 hitDirection)
     {
-        DisablePlayerMesh(0.05f);
+        //DisablePlayerMesh(0.05f);
         _timesHit++; 
-        //ApplyHitForce(hitDirection);
+        ApplyHitForce(hitDirection);
     }
+    
     #endregion
 
     #region Private Methods
 
     /// <summary>
-    /// applies impulse force on the player towards hit direction 
+    /// applies impulse force on the player towards hit direction
+    /// based on hits
     /// </summary>
     /// <param name="hitDirection"></param>
     private void ApplyHitForce(Vector3 hitDirection)
     {
-        int hits = _timesHit <= hitsToMaxHitForce ? _timesHit : hitsToMaxHitForce;
-        float hitForce = (float)hits / hitsToMaxHitForce;
+        //state change 
+        ChangeState(State.Paralyzed);
+        this.Invoke(() => ChangeState(State.Normal), paralyzedSeconds);
+
+        int hits = _timesHit <= maxHits ? _timesHit : maxHits;
+        float hitForce = ((float)hits / maxHits) * maxHitForce;
+        
         Vector3 hitDirSameY = new Vector3(hitDirection.x, 0, hitDirection.z);
-        Vector3 forceDirection = (hitDirSameY).normalized * hitForce; 
-        GetComponent<Rigidbody>().AddForce(hitDirection, ForceMode.Impulse);
+        Vector3 forceDirection = (hitDirSameY).normalized * hitForce;
+        print("pre add velocty" + forceDirection);
+        
+        forceDirection += GetComponent<Rigidbody>().velocity;
+        
+        print(GetComponent<Animator>().enabled);
+        print(forceDirection);
+        GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
     }
     
     private void DisablePlayerMesh(float duration)
@@ -196,6 +242,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     {
         localPlayerInstance = this;
         OnLocalPlayerSet.Invoke(gameObject);
+    }
+
+    void ChangeState(PlayerController.State state)
+    {
+        currentState = state; 
+        OnPlayerStateChange.Invoke(state);
     }
     #endregion
 

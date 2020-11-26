@@ -40,6 +40,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
+			
+			//listen to events
+			GetComponent<PlayerController>().OnPlayerStateChange.AddListener(respondToPlayerState);
 		}
 
 
@@ -221,5 +224,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Animator.applyRootMotion = false;
 			}
 		}
+		
+		#region Custom Scripts
+
+		void respondToPlayerState(PlayerController.State state)
+		{
+			GetComponent<Animator>().enabled = state != PlayerController.State.Paralyzed;
+		}
+		#endregion
 	}
 }

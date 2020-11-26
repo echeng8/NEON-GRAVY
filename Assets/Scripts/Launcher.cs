@@ -20,6 +20,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
         PhotonNetwork.CreateRoom(null, new RoomOptions());
     }
+    
+    public override void OnJoinedRoom()
+    {
+        print($"My current room name is {PhotonNetwork.CurrentRoom.Name}");
+    }
+
 
     public override void OnCreatedRoom()
     {
@@ -27,6 +33,10 @@ public class Launcher : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel(1);
     }
 
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        print(roomList);
+    }
 
     // Start is called before the first frame update
     void Start()
