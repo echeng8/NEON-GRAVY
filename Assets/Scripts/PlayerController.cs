@@ -49,15 +49,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private void Update()
     {
         if (!debugControlled)
-            return; 
-        
-        //shootPointPivot.LookAt(_lookAtPosition);
-        
+            return;
+
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
             return; 
         
         
-        //set look at position from camera pos
+        //set look at position from mouse camera position 
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayLength;
@@ -70,11 +68,19 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             shootPointPivot.LookAt(_lookAtPosition);
         }
 
-        //Shooting
+        //Shooting Input Detection 
         _cdTimeLeft -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && _cdTimeLeft <= 0)
         {
-            photonView.RPC("RPC_Shoot", RpcTarget.AllViaServer);
+            if (PhotonNetwork.IsConnected)
+            {
+                photonView.RPC("RPC_Shoot", RpcTarget.AllViaServer,shootingPosition.position,   shootPointPivot.forward);
+            }
+            else
+            {
+                Shoot(shootingPosition.position, shootPointPivot.forward);
+            }
+            
             _cdTimeLeft = coolDown;
         }
 
@@ -108,12 +114,24 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     #endregion
 
     /// <summary>
-    /// shoots the bullet 
+    /// calls Shoot
+    /// todo optimize by using a single byte for radians rotation on y axis? 
     /// </summary>
     [PunRPC]
-    void RPC_Shoot()
+    void RPC_Shoot(Vector3 position, Vector3 direction)
     {
-        Instantiate(projectile, shootingPosition.position,   Quaternion.LookRotation(shootPointPivot.forward));
+        Shoot(position, direction);
+    }
+    
+    /// <summary>
+    /// Shoots projectile by instantiation. 
+    /// Offline/Local Shoot. called by RPC
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="dir"></param>
+    void Shoot(Vector3 pos, Vector3 dir)
+    {
+        Instantiate(projectile, pos, Quaternion.LookRotation(dir));
     }
 
     /// <summary>

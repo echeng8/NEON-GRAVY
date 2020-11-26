@@ -19,15 +19,19 @@ public class Projectile : MonoBehaviourPun
 
     private void Start()
     {
+        print($"{gameObject.name} start {transform.position}");
         this.Invoke(() => Destroy(gameObject), duration);
     }
 
-    private void Update()
+    private void OnDestroy()
+    {
+        print($"{gameObject.name} end {transform.position}");
+    }
+
+    private void FixedUpdate()
     {
         var transform1 = transform;
         _rigidbody.MovePosition(transform1.position + transform1.forward * (speed * Time.deltaTime));
         //print(speed + "   " + transform.position + "    "+ transform1.forward * (speed * Time.deltaTime) );
     }
-
-
 }
