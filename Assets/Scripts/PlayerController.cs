@@ -12,6 +12,24 @@ using UnityEngine.Animations;
 /// </summary>
 public class PlayerController : MonoBehaviourPun, IPunObservable
 {
+    /// Gameplay Values 
+    [SerializeField] private float shootCoolDown;
+
+    /// <summary>
+    /// force added on impulse when player is hit 
+    /// </summary>
+    [SerializeField] private float maxHitForce;
+    /// <summary>
+    /// The number of hits a player can take until they are at axHitForce.
+    /// The force for any given hit is calculated as hits / hitsToMaxHitForce * maxHitForce
+    /// The force will not exceed max hit force. 
+    /// </summary>
+    [SerializeField] private int hitsToMaxHitForce; 
+    
+    [SerializeField] public bool debugControlled; 
+
+    
+    
     #region Implementation References
     public static PlayerController localPlayerInstance;
     public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
@@ -20,14 +38,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     
     private Vector3 _lookAtPosition; 
     private float _cdTimeLeft = 0;
+
+    private int _timesHit = 0; 
+    
     #endregion
     
-    /// <summary>
-    /// Gameplay Values 
-    /// </summary>
-    [SerializeField] private float coolDown;
-    [SerializeField] public bool debugControlled; 
-    
+
 
     #region Unity Callbacks
     
@@ -83,19 +99,19 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 Shoot(shootingPosition.position, shootPointPivot.forward);
             }
             
-            _cdTimeLeft = coolDown;
+            _cdTimeLeft = shootCoolDown;
         }
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (PhotonNetwork.IsConnected && !photonView.IsMine) //following code is only for the local client  
+            return; 
         
         if (other.CompareTag("Damage"))
         {
-            //placeholder code for indicating damage
-            GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
-            this.Invoke(() => GetComponentInChildren<SkinnedMeshRenderer>().enabled = true, 1f); 
+            photonView.RPC("RPC_BeHit",RpcTarget.All, other.transform.forward);
         }
     }
     #endregion
@@ -140,10 +156,38 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     {
         Instantiate(projectile, pos, Quaternion.LookRotation(dir));
     }
-    
+
+    [PunRPC]
+    void RPC_BeHit(Vector3 hitDirection)
+    {
+        DisablePlayerMesh(0.05f);
+        _timesHit++; 
+        //ApplyHitForce(hitDirection);
+    }
     #endregion
 
     #region Private Methods
+
+    /// <summary>
+    /// applies impulse force on the player towards hit direction 
+    /// </summary>
+    /// <param name="hitDirection"></param>
+    private void ApplyHitForce(Vector3 hitDirection)
+    {
+        int hits = _timesHit <= hitsToMaxHitForce ? _timesHit : hitsToMaxHitForce;
+        float hitForce = (float)hits / hitsToMaxHitForce;
+        Vector3 hitDirSameY = new Vector3(hitDirection.x, 0, hitDirection.z);
+        Vector3 forceDirection = (hitDirSameY).normalized * hitForce; 
+        GetComponent<Rigidbody>().AddForce(hitDirection, ForceMode.Impulse);
+    }
+    
+    private void DisablePlayerMesh(float duration)
+    {
+        GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+        this.Invoke(() => GetComponentInChildren<SkinnedMeshRenderer>().enabled = true, duration);
+    }
+    
+    
     /// <summary>
     /// set itself as LocalPlayerInstance
     /// invokes OnLocalPlayerSet event
