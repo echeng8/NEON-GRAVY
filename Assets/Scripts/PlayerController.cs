@@ -224,7 +224,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         
         print(GetComponent<Animator>().enabled);
         print(forceDirection);
-        GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
+        
+        if(photonView.IsMine)
+            GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
     }
     
     private void DisablePlayerMesh(float duration)
