@@ -12,15 +12,15 @@ using UnityEngine.Animations;
 /// </summary>
 public class PlayerController : MonoBehaviourPun, IPunObservable
 {
-    /// <summary>
-    /// Implementation References
-    /// </summary>
+    #region Implementation References
     public static PlayerController localPlayerInstance;
     public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootPointPivot, shootingPosition;
-
+    
     private Vector3 _lookAtPosition; 
+    private float _cdTimeLeft = 0;
+    #endregion
     
     /// <summary>
     /// Gameplay Values 
@@ -28,8 +28,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [SerializeField] private float coolDown;
     [SerializeField] public bool debugControlled; 
     
-    private float _cdTimeLeft = 0;
 
+    #region Unity Callbacks
+    
+    
     private void Awake()
     {
         if (localPlayerInstance == null)
@@ -96,7 +98,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             this.Invoke(() => GetComponentInChildren<SkinnedMeshRenderer>().enabled = true, 1f); 
         }
     }
-
+    #endregion
+    
+    
     #region  PUN Callbacks
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -112,6 +116,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         }
     }
     #endregion
+
+
+    #region RPC
 
     /// <summary>
     /// calls Shoot
@@ -133,7 +140,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     {
         Instantiate(projectile, pos, Quaternion.LookRotation(dir));
     }
+    
+    #endregion
 
+    #region Private Methods
     /// <summary>
     /// set itself as LocalPlayerInstance
     /// invokes OnLocalPlayerSet event
@@ -143,5 +153,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         localPlayerInstance = this;
         OnLocalPlayerSet.Invoke(gameObject);
     }
+    #endregion
 
 }
