@@ -18,3 +18,4 @@ public static class Utility
 }
 
 [System.Serializable] public class GameObjectEvent : UnityEvent<GameObject> {}
+[System.Serializable] public class BoolEvent : UnityEvent<bool> {}

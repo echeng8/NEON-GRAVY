@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine.Utility;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEditor;
@@ -13,9 +14,6 @@ using UnityEngine.Animations;
 /// Handles damage and getting hit. 
 /// </summary>
 
-public class PlayerStateEvent : UnityEvent<PlayerController.State>
-{
-}
 
 public class PlayerController : MonoBehaviourPun, IPunObservable
 {
@@ -49,12 +47,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private Vector3 _lookAtPosition; 
     private float _cdTimeLeft = 0;
 
-    private int _timesHit = 0; 
-    
-    public enum State {Normal, Paralyzed}
+    private int _timesHit = 0;
 
-    public State currentState = State.Normal;
-    public PlayerStateEvent OnPlayerStateChange = new PlayerStateEvent();
+    public bool gravity = true;
+    public BoolEvent OnGravityChange = new BoolEvent();
+    
     #endregion
     
     #region Unity Callbacks
@@ -127,7 +124,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         if (Input.GetButtonDown("Fire2"))
         {
-            RPC_BeHit(transform.forward);
+            if(PhotonNetwork.IsConnected)
+                photonView.RPC("RPC_SetGravity",RpcTarget.All, !gravity);
+            else
+            {
+                RPC_SetGravity(!gravity);
+            }
         }
 
     }
@@ -195,9 +197,19 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void RPC_BeHit(Vector3 hitDirection)
     {
-        //DisablePlayerMesh(0.05f);
         _timesHit++; 
         ApplyHitForce(hitDirection);
+    }
+    
+    /// <summary>
+    /// sets gravity. if gravity is off, player is a physics object in space with previous velocity
+    /// </summary>
+    /// <param name="on"></param>
+    [PunRPC]
+    private void RPC_SetGravity(bool on)
+    {
+        gravity = on; 
+        OnGravityChange.Invoke(on);
     }
     
     #endregion
@@ -207,21 +219,16 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     /// <summary>
     /// applies impulse force on the player towards hit direction
     /// based on hits
+    /// todo make hitforce dependent on gravity setting 
     /// </summary>
     /// <param name="hitDirection"></param>
     private void ApplyHitForce(Vector3 hitDirection)
     {
-        //state change 
-        ChangeState(State.Paralyzed);
-        this.Invoke(() => ChangeState(State.Normal), paralyzedSeconds);
-
-        int hits = _timesHit <= maxHits ? _timesHit : maxHits;
-        float hitForce = ((float)hits / maxHits) * maxHitForce;
+        float hitForce = maxHitForce;
         
         Vector3 hitDirSameY = new Vector3(hitDirection.x, 0, hitDirection.z);
         Vector3 forceDirection = (hitDirSameY).normalized * hitForce;
-        print("pre add velocty" + forceDirection);
-        
+
         forceDirection += GetComponent<Rigidbody>().velocity;
         
         if(photonView.IsMine || !PhotonNetwork.IsConnected)
@@ -244,12 +251,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         localPlayerInstance = this;
         OnLocalPlayerSet.Invoke(gameObject);
     }
-
-    void ChangeState(PlayerController.State state)
-    {
-        currentState = state; 
-        OnPlayerStateChange.Invoke(state);
-    }
+    
     #endregion
 
 }

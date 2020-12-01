@@ -42,7 +42,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 			
 			//listen to events
-			GetComponent<PlayerController>().OnPlayerStateChange.AddListener(respondToPlayerState);
+			GetComponent<PlayerController>().OnGravityChange.AddListener(respondToGravity);
 		}
 
 
@@ -158,7 +158,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void HandleAirborneMovement()
 		{
-			// apply extra gravity from multiplier:
+			if (!GetComponent<Animator>().enabled)
+				return; 
+			
 			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
 			m_Rigidbody.AddForce(extraGravityForce);
 
@@ -227,9 +229,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		
 		#region Custom Scripts
 
-		void respondToPlayerState(PlayerController.State state)
+		void respondToGravity(bool gravityOn)
 		{
-			GetComponent<Animator>().enabled = state != PlayerController.State.Paralyzed;
+			GetComponent<Animator>().enabled = gravityOn;
 		}
 		#endregion
 	}
