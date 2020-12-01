@@ -42,9 +42,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     
     public static PlayerController localPlayerInstance;
     public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
+    
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootPointPivot, shootingPosition;
-    
+
     private Vector3 _lookAtPosition; 
     private float _cdTimeLeft = 0;
 
@@ -56,8 +57,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public PlayerStateEvent OnPlayerStateChange = new PlayerStateEvent();
     #endregion
     
-
-
     #region Unity Callbacks
     
     
@@ -80,6 +79,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
+        
+        
         if (!debugControlled)
             return;
 
@@ -89,14 +90,15 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         
         //set look at position from mouse camera position 
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+        Plane groundPlane = new Plane(Vector3.up, shootingPosition.position); 
         float rayLength;
-
+        
         if (groundPlane.Raycast(cameraRay, out rayLength))
         {
             Vector3 pointTolook = cameraRay.GetPoint(rayLength);
 
             _lookAtPosition = new Vector3(pointTolook.x, shootingPosition.position.y, pointTolook.z);
+            Debug.DrawRay(_lookAtPosition, (_lookAtPosition - transform.position).normalized * 2f);
             shootPointPivot.LookAt(_lookAtPosition);
         }
 
@@ -222,10 +224,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         
         forceDirection += GetComponent<Rigidbody>().velocity;
         
-        print(GetComponent<Animator>().enabled);
-        print(forceDirection);
-        
-        if(photonView.IsMine)
+        if(photonView.IsMine || !PhotonNetwork.IsConnected)
             GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
     }
     

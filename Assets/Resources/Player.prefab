@@ -575,10 +575,9 @@ GameObject:
   - component: {fileID: 898129209291207219}
   - component: {fileID: 8338279151484734297}
   - component: {fileID: 7423241816855295017}
-  - component: {fileID: -7534375151668766052}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -702,7 +701,6 @@ MonoBehaviour:
   - {fileID: 898129209291207219}
   - {fileID: 8338279151484734297}
   - {fileID: 7423241816855295017}
-  - {fileID: -7534375151668766052}
   - {fileID: 4926659754991069527}
   viewIdField: 0
   InstantiationId: 0
@@ -780,22 +778,6 @@ MonoBehaviour:
   shootPointPivot: {fileID: 7423241816200104911}
   shootingPosition: {fileID: 161282208203047596}
   currentState: 0
---- !u!114 &-7534375151668766052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051251168168012507}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1 &6342038966880785367
 GameObject:
   m_ObjectHideFlags: 0
