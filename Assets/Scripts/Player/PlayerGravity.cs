@@ -19,7 +19,14 @@ public class PlayerGravity : MonoBehaviourPun
     private bool gravity = true;
     public BoolEvent OnGravityChange = new BoolEvent();
     private int _timesHit = 0;
+    
+    //implementation
+    private Rigidbody rb;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     /// <summary>
     /// its update but it only calls when you're the local player OR set so in inspector
@@ -39,6 +46,9 @@ public class PlayerGravity : MonoBehaviourPun
                 RPC_SetGravity(!gravity);
             }
         }
+        
+        if(!gravity)
+            rb.velocity = new Vector3(rb.velocity.x,Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
     }
     
     private void OnTriggerEnter(Collider other)
