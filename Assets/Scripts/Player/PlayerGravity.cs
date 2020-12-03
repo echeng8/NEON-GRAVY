@@ -49,7 +49,8 @@ public class PlayerGravity : MonoBehaviourPun
         //handle damage
         if (other.CompareTag("Damage"))
         {
-            if (!gravity)
+            //todo polish
+            if (!gravity && PhotonNetwork.LocalPlayer.ActorNumber != other.GetComponent<Projectile>().shooterActorNum)
             {
                 OpRPC_BeHit(other.transform.forward);
             }
