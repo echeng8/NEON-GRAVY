@@ -81,24 +81,27 @@ public class PlayerShoot : MonoBehaviourPun
     /// todo optimize by using a single byte for radians rotation on y axis? 
     /// </summary>
     [PunRPC]
-    void RPC_Shoot(Vector3 position, Vector3 direction)
+    void RPC_Shoot(Vector3 position, Vector3 direction, PhotonMessageInfo info)
     {
-        Shoot(position, direction);
+        Shoot(position, direction, info.Sender.ActorNumber);
     }
-    
+
     /// <summary>
     /// Shoots projectile by instantiation.
     /// set actorNum on projectile 
     /// Offline/Local Shoot. called by RPC
     /// </summary>
-    /// <param name="pos"></param>
+    /// <param name="pos">the position of the bullet when it spawns</param>
     /// <param name="dir"></param>
-    void Shoot(Vector3 pos, Vector3 dir)
+    /// <param name="senderActorNum"></param>
+    void Shoot(Vector3 pos, Vector3 dir, int senderActorNum = -1)
     {
         GameObject p = Instantiate(projectile, pos, Quaternion.LookRotation(dir));
-        
-        if(PhotonNetwork.IsConnected)
-            p.GetComponent<Projectile>().shooterActorNum = PhotonNetwork.LocalPlayer.ActorNumber;
+
+        if (PhotonNetwork.IsConnected)
+        {
+            p.GetComponent<Projectile>().shooterActorNum = senderActorNum;
+        }
     }
 
     #endregion
