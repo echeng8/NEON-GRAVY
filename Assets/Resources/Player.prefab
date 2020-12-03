@@ -569,13 +569,15 @@ GameObject:
   - component: {fileID: 6051251168175327645}
   - component: {fileID: 6051251168162803339}
   - component: {fileID: 6051251168173089499}
-  - component: {fileID: 6051251168179290557}
   - component: {fileID: 6051251168179331481}
   - component: {fileID: 719885462788168250}
+  - component: {fileID: 1286212366869082494}
+  - component: {fileID: 8289285586904830002}
   - component: {fileID: 898129209291207219}
-  - component: {fileID: 8338279151484734297}
+  - component: {fileID: 6051251168179290557}
   - component: {fileID: 7423241816855295017}
   - component: {fileID: -5546343269976252249}
+  - component: {fileID: 8771859865254495249}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -648,18 +650,6 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &6051251168179290557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051251168168012507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6051251168179331481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,12 +689,44 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
+  - {fileID: 1286212366869082494}
+  - {fileID: 8289285586904830002}
   - {fileID: 898129209291207219}
-  - {fileID: 8338279151484734297}
   - {fileID: 4926659754991069527}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1286212366869082494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051251168168012507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 0
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+--- !u!114 &8289285586904830002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051251168168012507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 1
 --- !u!114 &898129209291207219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,7 +763,7 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!114 &8338279151484734297
+--- !u!114 &6051251168179290557
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -750,12 +772,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6051251168168012507}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
 --- !u!114 &7423241816855295017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,7 +788,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootCoolDown: 1
-  debugControlled: 1
   projectile: {fileID: 7196295089048091762, guid: 3e0b285d3dcf92b42832ed5f8d3c1867,
     type: 3}
   shootPointPivot: {fileID: 7423241816200104911}
@@ -786,11 +804,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adf7ff75a59c61438c78511a135da6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitForce: 100
+  hitForce: 10
   gravity: 1
   OnGravityChange:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8771859865254495249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051251168168012507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8428fefc0bd75f43b318938897f4c5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugControlled: 1
 --- !u!1 &6342038966880785367
 GameObject:
   m_ObjectHideFlags: 0

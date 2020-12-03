@@ -8,13 +8,13 @@ public class PlayerCamera : MonoBehaviour
 {
     private void Awake()
     {
-        if (PlayerController.localPlayerInstance == null)
+        if (PlayerUserInput.localPlayerInstance == null)
         {
-            PlayerController.OnLocalPlayerSet.AddListener(FollowPlayer);
+            PlayerUserInput.OnLocalPlayerSet.AddListener(FollowPlayer);
         }
         else
         {
-            FollowPlayer(PlayerController.localPlayerInstance.gameObject);
+            FollowPlayer(PlayerUserInput.localPlayerInstance.gameObject);
         }
     }
 

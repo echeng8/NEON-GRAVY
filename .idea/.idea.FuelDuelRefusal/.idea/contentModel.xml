@@ -13,13 +13,16 @@
           <e p="ConsoleToGUI.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="Launcher.cs" t="Include" />
-          <e p="PlayerCamera.cs" t="Include" />
-          <e p="PlayerController.cs" t="Include" />
-          <e p="PlayerGravity.cs" t="Include" />
+          <e p="Player" t="Include">
+            <e p="PlayerCamera.cs" t="Include" />
+            <e p="PlayerGravity.cs" t="Include" />
+            <e p="PlayerShoot.cs" t="Include" />
+            <e p="PlayerUserInput.cs" t="Include" />
+            <e p="ThirdPersonCharacter.cs" t="Include" />
+            <e p="ThirdPersonUserControl.cs" t="Include" />
+          </e>
           <e p="Projectile.cs" t="Include" />
           <e p="TextureResize.cs" t="Include" />
-          <e p="ThirdPersonCharacter.cs" t="Include" />
-          <e p="ThirdPersonUserControl.cs" t="Include" />
           <e p="Utility.cs" t="Include" />
         </e>
         <e p="Standard Assets" t="Include">

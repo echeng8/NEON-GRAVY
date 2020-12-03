@@ -19,11 +19,7 @@ public class PlayerGravity : MonoBehaviourPun
     private bool gravity = true;
     public BoolEvent OnGravityChange = new BoolEvent();
     private int _timesHit = 0;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     /// <summary>
     /// its update but it only calls when you're the local player OR set so in inspector
@@ -41,7 +37,6 @@ public class PlayerGravity : MonoBehaviourPun
             else
             {
                 RPC_SetGravity(!gravity);
-                ApplyHitForce(transform.forward);
             }
         }
     }

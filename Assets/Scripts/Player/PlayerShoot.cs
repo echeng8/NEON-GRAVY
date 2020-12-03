@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using Cinemachine.Utility;
 using Photon.Pun;
 using Photon.Realtime;
@@ -11,24 +10,15 @@ using UnityEngine.Events;
 using UnityEngine.Animations;
 
 /// <summary>
-/// Handles player identification AND shooting: input, aiming, cooldown, instantiate projectile
+/// Handles player shooting: input, aiming, cooldown, instantiate projectile
 /// </summary>
-public class PlayerController : MonoBehaviourPun
+public class PlayerShoot : MonoBehaviourPun
 {
     /// Gameplay Values 
     [SerializeField] private float shootCoolDown;
     
-    /// <summary>
-    /// The number of hits a player can take until they are at axHitForce.
-    /// The force for any given hit is calculated as hits / maxHits * maxHitForce
-    /// The force will not exceed max hit force. 
-    /// </summary>
-    [SerializeField] public bool debugControlled;
-    
     #region Implementation References
     
-    public static PlayerController localPlayerInstance;
-    public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
     
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootPointPivot, shootingPosition;
@@ -41,30 +31,10 @@ public class PlayerController : MonoBehaviourPun
     
     #region Unity Callbacks
 
-    private void Awake()
-    {
-        if (localPlayerInstance == null)
-        {
-            if (!PhotonNetwork.IsConnected || photonView.AmOwner)
-            {
-                SetLocalPlayer();
-            }
-        }
 
-        if (PhotonNetwork.IsConnected && photonView.Owner == null)
-        {
-            Destroy(gameObject); // this is the offline character for offline testing. 
-        }
-    }
 
-    private void Update()
+    private void ControlledUpdate()
     {
-        if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
-            return;
-        
-        gameObject.SendMessage("ControlledUpdate");
-        gameObject.SendMessage("ControlledFixedUpdate");
-        
         //set look at position from mouse camera position 
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, shootingPosition.position); 
@@ -94,15 +64,7 @@ public class PlayerController : MonoBehaviourPun
             
             _cdTimeLeft = shootCoolDown;
         }
-        
-        //DEBUG controls
-        if (Input.GetButtonDown("Cancel"))
-        {
-            transform.position = Vector3.zero;
-        }
-
     }
-    
     #endregion
     
     
@@ -151,16 +113,6 @@ public class PlayerController : MonoBehaviourPun
         this.Invoke(() => GetComponentInChildren<SkinnedMeshRenderer>().enabled = true, duration);
     }
     
-    
-    /// <summary>
-    /// set itself as LocalPlayerInstance
-    /// invokes OnLocalPlayerSet event
-    /// </summary>
-    void SetLocalPlayer()
-    {
-        localPlayerInstance = this;
-        OnLocalPlayerSet.Invoke(gameObject);
-    }
     
     #endregion
 
