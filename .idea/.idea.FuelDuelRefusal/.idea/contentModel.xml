@@ -14,6 +14,7 @@
           <e p="GameManager.cs" t="Include" />
           <e p="Launcher.cs" t="Include" />
           <e p="Player" t="Include">
+            <e p="PlayerAppearance.cs" t="Include" />
             <e p="PlayerCamera.cs" t="Include" />
             <e p="PlayerGravity.cs" t="Include" />
             <e p="PlayerShoot.cs" t="Include" />

@@ -27,7 +27,7 @@ public class PlayerGravity : MonoBehaviourPun
     /// </summary>
     void ControlledUpdate()
     {
-        //disables gravity 
+        //disables gravity on input 
         if (Input.GetButtonDown("Fire2"))
         {
             if (PhotonNetwork.IsConnected)

@@ -5,7 +5,7 @@ using Photon.Pun;
 
 /// <summary>
 /// The high level player script.
-/// Handles enabling movement and determining the local player 
+/// Handles enabling input signal transfer and determining the local player 
 /// </summary>
 public class PlayerUserInput : MonoBehaviourPun
 {    
