@@ -42,7 +42,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 			
 			//listen to events
-			GetComponent<PlayerController>().OnGravityChange.AddListener(respondToGravity);
+			GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
 		}
 
 

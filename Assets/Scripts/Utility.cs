@@ -9,7 +9,7 @@ public static class Utility
     {
         mb.StartCoroutine(InvokeRoutine(f, delay));
     }
- 
+
     private static IEnumerator InvokeRoutine(System.Action f, float delay)
     {
         yield return new WaitForSeconds(delay);

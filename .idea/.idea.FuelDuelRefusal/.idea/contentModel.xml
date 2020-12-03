@@ -15,6 +15,7 @@
           <e p="Launcher.cs" t="Include" />
           <e p="PlayerCamera.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
+          <e p="PlayerGravity.cs" t="Include" />
           <e p="Projectile.cs" t="Include" />
           <e p="TextureResize.cs" t="Include" />
           <e p="ThirdPersonCharacter.cs" t="Include" />

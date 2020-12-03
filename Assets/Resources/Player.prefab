@@ -575,6 +575,7 @@ GameObject:
   - component: {fileID: 898129209291207219}
   - component: {fileID: 8338279151484734297}
   - component: {fileID: 7423241816855295017}
+  - component: {fileID: -5546343269976252249}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -700,7 +701,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 898129209291207219}
   - {fileID: 8338279151484734297}
-  - {fileID: 7423241816855295017}
   - {fileID: 4926659754991069527}
   viewIdField: 0
   InstantiationId: 0
@@ -769,14 +769,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootCoolDown: 1
-  maxHitForce: 5
-  maxHits: 1
-  paralyzedSeconds: 0.5
   debugControlled: 1
   projectile: {fileID: 7196295089048091762, guid: 3e0b285d3dcf92b42832ed5f8d3c1867,
     type: 3}
   shootPointPivot: {fileID: 7423241816200104911}
   shootingPosition: {fileID: 161282208203047596}
+--- !u!114 &-5546343269976252249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051251168168012507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adf7ff75a59c61438c78511a135da6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitForce: 100
   gravity: 1
   OnGravityChange:
     m_PersistentCalls:

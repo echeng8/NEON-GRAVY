@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using Cinemachine.Utility;
 using Photon.Pun;
 using Photon.Realtime;
@@ -10,31 +11,19 @@ using UnityEngine.Events;
 using UnityEngine.Animations;
 
 /// <summary>
-/// Handles shooting: input, aiming, cooldown, instantiate projectile
-/// Handles damage and getting hit. 
+/// Handles player identification AND shooting: input, aiming, cooldown, instantiate projectile
 /// </summary>
-
-
-public class PlayerController : MonoBehaviourPun, IPunObservable
+public class PlayerController : MonoBehaviourPun
 {
     /// Gameplay Values 
     [SerializeField] private float shootCoolDown;
     
     /// <summary>
-    /// force added on impulse when player is hit 
-    /// </summary>
-    [SerializeField] private float maxHitForce;
-    /// <summary>
     /// The number of hits a player can take until they are at axHitForce.
     /// The force for any given hit is calculated as hits / maxHits * maxHitForce
     /// The force will not exceed max hit force. 
     /// </summary>
-    [SerializeField] private int maxHits;
-    [SerializeField] private float paralyzedSeconds; 
-    
-    [SerializeField] public bool debugControlled; 
-
-    
+    [SerializeField] public bool debugControlled;
     
     #region Implementation References
     
@@ -46,20 +35,14 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private Vector3 _lookAtPosition; 
     private float _cdTimeLeft = 0;
-
-    private int _timesHit = 0;
-
-    public bool gravity = true;
-    public BoolEvent OnGravityChange = new BoolEvent();
     
+
     #endregion
     
     #region Unity Callbacks
-    
-    
+
     private void Awake()
     {
-        
         if (localPlayerInstance == null)
         {
             if (!PhotonNetwork.IsConnected || photonView.AmOwner)
@@ -76,14 +59,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        
-        
-        if (!debugControlled)
+        if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
             return;
-
-        if (PhotonNetwork.IsConnected && !photonView.IsMine)
-            return; 
         
+        gameObject.SendMessage("ControlledUpdate");
+        gameObject.SendMessage("ControlledFixedUpdate");
         
         //set look at position from mouse camera position 
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -119,59 +99,20 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (Input.GetButtonDown("Cancel"))
         {
             transform.position = Vector3.zero;
-            _timesHit = 0;
-        }
-
-        if (Input.GetButtonDown("Fire2"))
-        {
-            if(PhotonNetwork.IsConnected)
-                photonView.RPC("RPC_SetGravity",RpcTarget.All, !gravity);
-            else
-            {
-                RPC_SetGravity(!gravity);
-            }
         }
 
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (PhotonNetwork.IsConnected && !photonView.IsMine) //following code is only for the local client  
-            return; 
-        
-        if (other.CompareTag("Damage"))
-        {
-            if (PhotonNetwork.IsConnected)
-            {
-                photonView.RPC("RPC_BeHit",RpcTarget.All, other.transform.forward);
-            }
-            else
-            {
-                RPC_BeHit(other.transform.forward);
-            }
-        }
-    }
+    
     #endregion
     
     
     #region  PUN Callbacks
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        return;
-        if (stream.IsWriting)
-        {
-            stream.SendNext(_lookAtPosition);
-        }
-        else if (stream.IsReading)
-        {
-            _lookAtPosition = (Vector3)stream.ReceiveNext();
-        }
-    }
+
     #endregion
 
 
-    #region RPC
+    #region RPC and Associated Private Methods
 
     /// <summary>
     /// calls Shoot
@@ -184,56 +125,25 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     }
     
     /// <summary>
-    /// Shoots projectile by instantiation. 
+    /// Shoots projectile by instantiation.
+    /// set actorNum on projectile 
     /// Offline/Local Shoot. called by RPC
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="dir"></param>
     void Shoot(Vector3 pos, Vector3 dir)
     {
-        Instantiate(projectile, pos, Quaternion.LookRotation(dir));
+        GameObject p = Instantiate(projectile, pos, Quaternion.LookRotation(dir));
+        
+        if(PhotonNetwork.IsConnected)
+            p.GetComponent<Projectile>().shooterActorNum = PhotonNetwork.LocalPlayer.ActorNumber;
     }
 
-    [PunRPC]
-    void RPC_BeHit(Vector3 hitDirection)
-    {
-        _timesHit++; 
-        ApplyHitForce(hitDirection);
-    }
-    
-    /// <summary>
-    /// sets gravity. if gravity is off, player is a physics object in space with previous velocity
-    /// </summary>
-    /// <param name="on"></param>
-    [PunRPC]
-    private void RPC_SetGravity(bool on)
-    {
-        gravity = on; 
-        OnGravityChange.Invoke(on);
-    }
-    
     #endregion
 
     #region Private Methods
 
-    /// <summary>
-    /// applies impulse force on the player towards hit direction
-    /// based on hits
-    /// todo make hitforce dependent on gravity setting 
-    /// </summary>
-    /// <param name="hitDirection"></param>
-    private void ApplyHitForce(Vector3 hitDirection)
-    {
-        float hitForce = maxHitForce;
-        
-        Vector3 hitDirSameY = new Vector3(hitDirection.x, 0, hitDirection.z);
-        Vector3 forceDirection = (hitDirSameY).normalized * hitForce;
 
-        forceDirection += GetComponent<Rigidbody>().velocity;
-        
-        if(photonView.IsMine || !PhotonNetwork.IsConnected)
-            GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
-    }
     
     private void DisablePlayerMesh(float duration)
     {
