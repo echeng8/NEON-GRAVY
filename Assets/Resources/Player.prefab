@@ -109,7 +109,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &7680882312649663931
 BoxCollider:
@@ -122,8 +122,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.39044133, y: 1.5741453, z: 0.61544013}
-  m_Center: {x: 0.0071713775, y: 0.8249185, z: 0.009412289}
+  m_Size: {x: 0.33, y: 1.5661709, z: 0.33}
+  m_Center: {x: 0, y: 0.83191454, z: 0}
 --- !u!114 &6051251168179331481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +144,8 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 1.25
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.3
+  raycastOffset: 0.05
+  coyoteTime: 0.15
 --- !u!114 &719885462788168250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,13 +225,13 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Turn
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Crouch
   - Type: 4
     SynchronizeType: 0
     Name: OnGround
   - Type: 1
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Jump
   - Type: 1
     SynchronizeType: 0

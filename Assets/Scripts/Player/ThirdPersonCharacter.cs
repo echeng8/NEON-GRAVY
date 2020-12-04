@@ -1,4 +1,7 @@
+
+using System;
 using UnityEngine;
+// ReSharper disable All
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -32,6 +35,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		bool m_Crouching;
 
+		public float raycastOffset; 
 		/// <summary>
 		/// coyote time in seconds
 		/// </summary>
@@ -50,6 +54,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_BoxCollider = GetComponent<BoxCollider>(); 
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 			
 			//listen to events
@@ -103,18 +108,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			{
 				m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
 			}
-
-			// calculate which leg is behind, so as to leave that leg trailing in the jump animation
-			// (This code is reliant on the specific run cycle offset in our animations,
-			// and assumes one leg passes the other at the normalized clip times of 0.0 and 0.5)
-			float runCycle =
-				Mathf.Repeat(
-					m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
-			float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
-			if (m_IsGrounded)
-			{
-				m_Animator.SetFloat("JumpLeg", jumpLeg);
-			}
+			//
+			// // calculate which leg is behind, so as to leave that leg trailing in the jump animation
+			// // (This code is reliant on the specific run cycle offset in our animations,
+			// // and assumes one leg passes the other at the normalized clip times of 0.0 and 0.5)
+			// float runCycle =
+			// 	Mathf.Repeat(
+			// 		m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
+			// float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
+			// if (m_IsGrounded)
+			// {
+			// 	m_Animator.SetFloat("JumpLeg", jumpLeg);
+			// }
 
 			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
 			// which affects the movement speed because of the root motion.
@@ -169,29 +174,51 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void CheckGroundStatus()
 		{
 			RaycastHit hitInfo = new RaycastHit(); //maybe optimization here? 
-#if UNITY_EDITOR
-			// helper to visualise the ground check ray in the scene view
-			Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance));
-#endif
+
 			// 0.1f is a small offset to start the ray from inside the character
 			// it is also good to note that the transform position in the sample assets is at the base of the character
 
+			Vector3 extents = m_BoxCollider.bounds.extents;
+			Vector3 originPoint = transform.position + (Vector3.up * 0.25f);
+			Vector3[] rayCastPoints = new Vector3[4];
 			
-			for (int i = 0; i < 3; i++)
+			
+			rayCastPoints[0] = originPoint + new Vector3(extents.x, 0, extents.z) * (1 + raycastOffset);
+			rayCastPoints[1] = originPoint + new Vector3(-extents.x, 0, -extents.z) * (1 + raycastOffset);
+			rayCastPoints[2] = originPoint + new Vector3(extents.x, 0, -extents.z) * (1 + raycastOffset);
+			rayCastPoints[3] = originPoint + new Vector3(-extents.x, 0, extents.z) * (1 + raycastOffset);
+
+			foreach (Vector3 raycastPoint in rayCastPoints)
 			{
-				Vector3 originPoint = transform.position + (Vector3.up * 0.1f);
-				Physics.Raycast(originPoint, Vector3.down, out hitInfo,
-					m_GroundCheckDistance); //todo make three raycasts 
+				
+				if (Physics.Raycast(raycastPoint, -transform.up, out hitInfo, m_GroundCheckDistance))
+				{
+					break;
+				}
 			}
-			
+
+
+#if UNITY_EDITOR
+			// helper to visualise the ground check ray in the scene viewp
+			foreach (Vector3 raycastPoint in rayCastPoints)
+           {	
+	           print(raycastPoint);
+	           Debug.DrawLine(raycastPoint, raycastPoint + (Vector3.down * m_GroundCheckDistance));
+           }
+           Debug.DrawLine(hitInfo.point, hitInfo.point + (Vector3.down * 50), Color.blue);
+
+#endif
+
 			if (hitInfo.collider != null)
 			{
+				//print("on ground");
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.applyRootMotion = true;
 			}
 			else
 			{
+				//print("not on gorund");
 				m_IsGrounded = false;
 				m_GroundNormal = Vector3.up;
 				m_Animator.applyRootMotion = false;
