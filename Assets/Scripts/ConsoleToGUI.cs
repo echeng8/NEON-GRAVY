@@ -50,7 +50,6 @@ public class ConsoleToGUI : MonoBehaviour
             string r = Random.Range(1000, 9999).ToString();
             filename = d + "/log-" + r + ".txt";
         }
-
         try
         {
             System.IO.File.AppendAllText(filename, logString + "\n");

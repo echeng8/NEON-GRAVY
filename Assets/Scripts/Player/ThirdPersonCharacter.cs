@@ -201,8 +201,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 #if UNITY_EDITOR
 			// helper to visualise the ground check ray in the scene viewp
 			foreach (Vector3 raycastPoint in rayCastPoints)
-           {	
-	           print(raycastPoint);
+           {
 	           Debug.DrawLine(raycastPoint, raycastPoint + (Vector3.down * m_GroundCheckDistance));
            }
            Debug.DrawLine(hitInfo.point, hitInfo.point + (Vector3.down * 50), Color.blue);

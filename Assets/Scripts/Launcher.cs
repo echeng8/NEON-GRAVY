@@ -4,21 +4,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-
+using Random = UnityEngine.Random;
+using UnityEngine.Events; 
 public class Launcher : MonoBehaviourPunCallbacks
 {
     private static string gameVersion = "0";
+    public UnityEvent OnConnectedSuccess = new UnityEvent();
+    
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+    }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        Connect();
+    }
+
+    #region  Photon PUN Callbacks
+
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+        OnConnectedSuccess.Invoke();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.IsOpen = true;
+        roomOptions.IsVisible = true;
 
-        // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-        PhotonNetwork.CreateRoom(null, new RoomOptions());
+        int roomID = (int)(Random.value * 10); 
+        PhotonNetwork.CreateRoom($"TestRoom-{roomID}",roomOptions);
     }
     
     public override void OnJoinedRoom()
@@ -32,17 +52,28 @@ public class Launcher : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient)
             PhotonNetwork.LoadLevel(1);
     }
-
+    
+    /// <summary>
+    /// currently prints rooms
+    /// </summary>
+    /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        print(roomList);
+        print("EXISTING ROOMS");
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            print(roomInfo.Name);
+        }
+        print("END ROOM LIST");
+        
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Connect();
-    }
+    #endregion
+
+    
+    
+
+
 
     /// <summary>
     /// Start the connection process.
@@ -62,6 +93,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             // #Critical, we must first and foremost connect to Photon Online Server.
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = gameVersion;
+            
         }
     }
 }
