@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!136 &345126192
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570337273093559943}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0027553267
+  m_Height: 0.0044305376
+  m_Direction: 1
+  m_Center: {x: -0.000051344745, y: -6.7455563e-10, z: -0.00046903826}
 --- !u!1 &4182059835045918052
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,13 +152,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MovingTurnSpeed: 1080
   m_StationaryTurnSpeed: 360
-  m_JumpPower: 6
   m_GravityMultiplier: 2
   m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1.25
   m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.3
-  raycastOffset: 0.05
+  m_GroundCheckDistance: 0.05
+  groundCheckRaycastSpread: 0.05
+  groundCheckRaycastHeightOffset: 0.05
   coyoteTime: 0.15
 --- !u!114 &719885462788168250
 MonoBehaviour:
@@ -527,6 +541,12 @@ Transform:
 --- !u!137 &8264256468730658245 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5283702896890890727, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4315559717298009122}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1570337273093559943 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3326198444363899557, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
     type: 3}
   m_PrefabInstance: {fileID: 4315559717298009122}
   m_PrefabAsset: {fileID: 0}

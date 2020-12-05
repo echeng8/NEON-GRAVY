@@ -7,7 +7,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 {
 	
 	/// <summary>
-	/// Handles movement 
+	/// Handles backend movement, colliders, and animators
+	/// responds to gravity change
 	/// </summary>
 	[RequireComponent(typeof(Rigidbody))]
 	[RequireComponent(typeof(Animator))]
@@ -15,13 +16,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 	{
 		[SerializeField] float m_MovingTurnSpeed = 360;
 		[SerializeField] float m_StationaryTurnSpeed = 180;
-		[SerializeField] float m_JumpPower = 12f;
 		[Range(1f, 4f)][SerializeField] float m_GravityMultiplier = 2f;
 		[SerializeField] float m_RunCycleLegOffset = 0.2f; //specific to the character in sample assets, will need to be modified to work with others
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
-
+		[SerializeField] private float groundCheckRaycastSpread;
+		[SerializeField] private float groundCheckRaycastHeightOffset;
+		
 		Rigidbody m_Rigidbody;
 		private BoxCollider m_BoxCollider; 
 		Animator m_Animator;
@@ -34,8 +36,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		
 
 		bool m_Crouching;
-
-		public float raycastOffset; 
+		
 		/// <summary>
 		/// coyote time in seconds
 		/// </summary>
@@ -62,9 +63,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		}
 
 
-		public void Move(Vector3 move, bool crouch, bool jump)
+		public void Move(Vector3 move)
 		{
-
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
 			// direction.
@@ -108,21 +108,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			{
 				m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
 			}
-			//
-			// // calculate which leg is behind, so as to leave that leg trailing in the jump animation
-			// // (This code is reliant on the specific run cycle offset in our animations,
-			// // and assumes one leg passes the other at the normalized clip times of 0.0 and 0.5)
-			// float runCycle =
-			// 	Mathf.Repeat(
-			// 		m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
-			// float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
-			// if (m_IsGrounded)
-			// {
-			// 	m_Animator.SetFloat("JumpLeg", jumpLeg);
-			// }
-
-			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
-			// which affects the movement speed because of the root motion.
+			
 			if (m_IsGrounded && move.magnitude > 0)
 			{
 				m_Animator.speed = m_AnimSpeedMultiplier;
@@ -137,13 +123,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void HandleAirborneMovement()
 		{
-			if (!GetComponent<Animator>().enabled)
+			if (!m_Animator.enabled) // don't apply gravity if animator is down 
 				return; 
 			
 			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
 			m_Rigidbody.AddForce(extraGravityForce);
-
-			m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
+			
 		}
 
 		
@@ -173,20 +158,24 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void CheckGroundStatus()
 		{
+			if (!m_Animator.enabled) // don't check for ground if animator is down (assume antigrav mode)  
+				return; 
+			
+			
 			RaycastHit hitInfo = new RaycastHit(); //maybe optimization here? 
 
 			// 0.1f is a small offset to start the ray from inside the character
 			// it is also good to note that the transform position in the sample assets is at the base of the character
 
 			Vector3 extents = m_BoxCollider.bounds.extents;
-			Vector3 originPoint = transform.position + (Vector3.up * 0.25f);
+			Vector3 originPoint = transform.position + (Vector3.up * groundCheckRaycastHeightOffset);
 			Vector3[] rayCastPoints = new Vector3[4];
 			
 			
-			rayCastPoints[0] = originPoint + new Vector3(extents.x, 0, extents.z) * (1 + raycastOffset);
-			rayCastPoints[1] = originPoint + new Vector3(-extents.x, 0, -extents.z) * (1 + raycastOffset);
-			rayCastPoints[2] = originPoint + new Vector3(extents.x, 0, -extents.z) * (1 + raycastOffset);
-			rayCastPoints[3] = originPoint + new Vector3(-extents.x, 0, extents.z) * (1 + raycastOffset);
+			rayCastPoints[0] = originPoint + new Vector3(extents.x, 0, extents.z) * (1 + groundCheckRaycastSpread);
+			rayCastPoints[1] = originPoint + new Vector3(-extents.x, 0, -extents.z) * (1 + groundCheckRaycastSpread);
+			rayCastPoints[2] = originPoint + new Vector3(extents.x, 0, -extents.z) * (1 + groundCheckRaycastSpread);
+			rayCastPoints[3] = originPoint + new Vector3(-extents.x, 0, extents.z) * (1 + groundCheckRaycastSpread);
 
 			foreach (Vector3 raycastPoint in rayCastPoints)
 			{
@@ -210,14 +199,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			if (hitInfo.collider != null)
 			{
-				//print("on ground");
+				//delete velocity if you were falling 
+				if (!m_IsGrounded)
+					m_Rigidbody.velocity = Vector3.zero; 
+				
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.applyRootMotion = true;
 			}
 			else
 			{
-				//print("not on gorund");
 				m_IsGrounded = false;
 				m_GroundNormal = Vector3.up;
 				m_Animator.applyRootMotion = false;
@@ -228,7 +219,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void respondToGravity(bool gravityOn)
 		{
-			GetComponent<Animator>().enabled = gravityOn;
+			m_Animator.enabled = gravityOn;
+			m_BoxCollider.isTrigger = !gravityOn; 
 		}
 		#endregion
 	}

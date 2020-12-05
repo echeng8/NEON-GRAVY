@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun; 
 
 /// <summary>
-/// Handles player gravity user toggling and gravity damage on attacked 
+/// Handles player gravity user toggling and gravity damage on attacked
 /// </summary>
 public class PlayerGravity : MonoBehaviourPun
 {
