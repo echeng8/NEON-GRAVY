@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adf7ff75a59c61438c78511a135da6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitForce: 10
+  hitForce: 11
   gravity: 1
   OnGravityChange:
     m_PersistentCalls:

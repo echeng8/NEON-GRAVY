@@ -49,6 +49,9 @@ public class PlayerGravity : MonoBehaviourPun
         
         if(!gravity)
             rb.velocity = new Vector3(rb.velocity.x,Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
+        
+        
+        print($"{rb.velocity} magnitude {rb.velocity.magnitude}");
     }
     
     private void OnTriggerEnter(Collider other)
