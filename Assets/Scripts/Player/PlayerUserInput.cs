@@ -67,5 +67,6 @@ public class PlayerUserInput : MonoBehaviourPun
     {
         localPlayerInstance = this;
         OnLocalPlayerSet.Invoke(gameObject);
+        gameObject.name = "Local Player"; 
     }
 }

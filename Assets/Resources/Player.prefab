@@ -245,7 +245,7 @@ MonoBehaviour:
     SynchronizeType: 0
     Name: OnGround
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Jump
   - Type: 1
     SynchronizeType: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adf7ff75a59c61438c78511a135da6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitForce: 11
+  hitForce: 5
   gravity: 1
   OnGravityChange:
     m_PersistentCalls:

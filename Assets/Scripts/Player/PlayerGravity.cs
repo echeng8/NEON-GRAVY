@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun; 
+using Photon.Pun;
+using UnityEngine.Animations;
 
 /// <summary>
 /// Handles player gravity user toggling and gravity damage on attacked
@@ -49,9 +50,14 @@ public class PlayerGravity : MonoBehaviourPun
         
         if(!gravity)
             rb.velocity = new Vector3(rb.velocity.x,Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
+
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
+        }
+     
         
-        
-        print($"{rb.velocity} magnitude {rb.velocity.magnitude}");
     }
     
     private void OnTriggerEnter(Collider other)
@@ -134,7 +140,8 @@ public class PlayerGravity : MonoBehaviourPun
         Vector3 forceDirection = (hitDirSameY).normalized * hitForce;
 
         forceDirection += GetComponent<Rigidbody>().velocity;
-        
+
+        print($"Applied {forceDirection} force on player.");
         if(photonView.IsMine || !PhotonNetwork.IsConnected)
             GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
     }
