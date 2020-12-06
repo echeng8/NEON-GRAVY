@@ -72,7 +72,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     
     
-
+#region Public Methods 
 
 
     /// <summary>
@@ -96,4 +96,10 @@ public class Launcher : MonoBehaviourPunCallbacks
             
         }
     }
+
+    public void SetLocalPlayerDisplayName(String name)
+    {
+        PhotonNetwork.NickName = name; 
+    }
+    #endregion
 }

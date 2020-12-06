@@ -142,7 +142,6 @@ public class PlayerGravity : MonoBehaviourPun
         forceDirection += GetComponent<Rigidbody>().velocity;
 
         print($"Applied {forceDirection} force on player.");
-        if(photonView.IsMine || !PhotonNetwork.IsConnected)
-            GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
     }
 }
