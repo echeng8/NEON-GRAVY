@@ -11,7 +11,7 @@ public class ConsoleToGUI : MonoBehaviour
 
     string myLog = "*begin log";
     string filename = "";
-    bool doShow = true;
+    bool doShow = false;
     int kChars = 700;
 
     void OnEnable()
@@ -26,7 +26,7 @@ public class ConsoleToGUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Tilde))
         {
             doShow = !doShow;
         }

@@ -7,9 +7,9 @@ using UnityEngine;
 using TMPro; 
 
 /// <summary>
-/// Handles player appearance: color switching on gravity change
+/// Handles player appearance: color switching on gravity change, usernames 
 /// </summary>
-public class PlayerAppearance : MonoBehaviour
+public class PlayerAppearance : MonoBehaviourPun
 {
     public Renderer head;
     public Renderer cube;
@@ -20,7 +20,7 @@ public class PlayerAppearance : MonoBehaviour
     {
         GetComponent<PlayerGravity>().OnGravityChange.AddListener(ChangeColor);
         if(PhotonNetwork.IsConnected)
-            nameTag.GetComponent<TextMeshPro>().text = PhotonNetwork.NickName; 
+            nameTag.GetComponent<TextMeshPro>().text = photonView.Owner.NickName; 
     }
 
     //todo draft code
