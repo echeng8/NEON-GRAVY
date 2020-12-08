@@ -4,38 +4,76 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Animations;
+using UnityEngine.Events;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 /// <summary>
-/// Handles player gravity user toggling and gravity damage on attacked
+/// Handles player gravity user toggling AND damage handling
+/// todo separate damage recording and death functionality into other script 
 /// </summary>
 public class PlayerGravity : MonoBehaviourPun
 {
-    
+
+    #region Gameplay Fields
+
     /// <summary>
     /// force added on impulse when player is hit 
     /// </summary>
     [SerializeField] private float hitForce;
-/// <summary>
-/// Seconds the player is invulnerable after being hit. 
-/// </summary>
-    [SerializeField] private float hitInvulSec; 
-    [SerializeField]
-    
+
+    /// <summary>
+    /// Seconds the player is invulnerable after being hit. 
+    /// </summary>
+    [SerializeField] private float hitInvulSec;
+
+    /// <summary>
+    /// The lowest Y value that a player can have before they 'die'.
+    /// </summary>
+    [SerializeField] private float dieYValue; 
+
+    #endregion
+
+    #region Implementation Fields
+
     private bool gravity = true;
-    
+
     /// <summary>
     /// cannot be hit, even if grav off
     /// </summary>
-    private bool hitInvulnerable = false; 
+    private bool hitInvulnerable = false;
+
+    //unity events
     public BoolEvent OnGravityChange = new BoolEvent();
+
+    /// <summary>
+    /// Triggers when the player recalls.
+    /// Passes the player's actor number and the actor number of their last attacker if available, otherwise -1
+    /// </summary>
+    public IntEvent OnFall = new IntEvent();
+    
+    /// <summary>
+    /// The last person to hit this player, by ActorNum.
+    /// -1 when none. 
+    /// </summary>
+    private int lastAttacker = -1;
+
     private int _timesHit = 0;
     
-    //implementation
     private Rigidbody rb;
+    
+    #endregion
 
-    private void Awake()
+    #region Unity Callbacks 
+
+    
+private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        GetComponent<ThirdPersonCharacter>().OnLand.AddListener(resetLastAttacker);
     }
 
     /// <summary>
@@ -49,7 +87,7 @@ public class PlayerGravity : MonoBehaviourPun
         {
             if (PhotonNetwork.IsConnected)
             {
-                photonView.RPC("RPC_SetGravity",RpcTarget.All, !gravity);
+                photonView.RPC("RPC_SetGravity", RpcTarget.All, !gravity);
             }
             else
             {
@@ -58,11 +96,18 @@ public class PlayerGravity : MonoBehaviourPun
         }
 
         //clamp velocity.y to negative or 0 
-        if(!gravity)
-            rb.velocity = new Vector3(rb.velocity.x,Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
-
+        if (!gravity)
+            rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
 
         
+        //Checking to see if below die point
+        if (transform.position.y < dieYValue)
+        {
+            OnFall.Invoke(lastAttacker);
+            Recall();
+        }
+
+
         //Debug Stuff 
         if (Input.GetKeyDown(KeyCode.V))
         {
@@ -73,27 +118,34 @@ public class PlayerGravity : MonoBehaviourPun
         {
             OpRPC_BeHit(transform.forward);
         }
+        
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Recall(); 
+        }
+
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (PhotonNetwork.IsConnected && !photonView.IsMine) //following code is only for the local client  
-            return; 
-        
+            return;
+
         //handle damage
         if (other.CompareTag("Damage"))
         {
             //todo polish
-            bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum; 
+            bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum;
             if (!gravity && !hitInvulnerable && !isMyBullet)
             {
-                OpRPC_BeHit(other.transform.forward);
+                OpRPC_BeHit(other.transform.forward, other.GetComponent<Projectile>().shooterActorNum);
             }
+
             else
             {
                 return; //todo gravity device takes damage 
             }
-            
+
         }
     }
 
@@ -102,40 +154,47 @@ public class PlayerGravity : MonoBehaviourPun
         //!!!this will call gravity change twice if something else was edited
         OnGravityChange.Invoke(gravity);
     }
+    #endregion
+
+    #region RPC and related Methods 
 
     /// <summary>
     /// Op for 'optional' if online
     /// Calls RPC_BeHit with photonview if online, directly if otherwise 
     /// </summary>
     /// <param name="hitDirection"></param>
-    void OpRPC_BeHit(Vector3 hitDirection)
+    void OpRPC_BeHit(Vector3 hitDirection, int attackerNum = -1)
     {
         if (PhotonNetwork.IsConnected)
         {
-            photonView.RPC("RPC_BeHit",RpcTarget.All, hitDirection);
+            photonView.RPC("RPC_BeHit", RpcTarget.All, hitDirection, attackerNum);
         }
         else
         {
-            RPC_BeHit(hitDirection);
+            RPC_BeHit(hitDirection, attackerNum);
         }
     }
-    
+
     [PunRPC]
-    void RPC_BeHit(Vector3 hitDirection)
+    void RPC_BeHit(Vector3 hitDirection, int attackerNum = -1)
     {
-        //todo invoke event to broadcast attacker and hit status to some central server 
+        if (attackerNum != -1)
+        {
+            lastAttacker = attackerNum;
+        }
+
         _timesHit++;
-        
+
         //process hit invulnerability 
         hitInvulnerable = true;
         this.Invoke(() => hitInvulnerable = false, hitInvulSec);
-        
+
         if (photonView.IsMine || !PhotonNetwork.IsConnected)
         {
             ApplyHitForce(hitDirection);
         }
     }
-    
+
     /// <summary>
     /// sets gravity. if gravity is off, player is a physics object in space with previous velocity
     /// </summary>
@@ -143,10 +202,13 @@ public class PlayerGravity : MonoBehaviourPun
     [PunRPC]
     private void RPC_SetGravity(bool on)
     {
-        gravity = on; 
+        gravity = on;
         OnGravityChange.Invoke(on);
     }
-    
+
+    #endregion
+
+    #region Private Methods
     /// <summary>
     /// applies impulse force on the player towards hit direction
     /// based on hits
@@ -156,7 +218,7 @@ public class PlayerGravity : MonoBehaviourPun
     private void ApplyHitForce(Vector3 hitDirection)
     {
         float hitForce = this.hitForce;
-        
+
         Vector3 hitDirSameY = new Vector3(hitDirection.x, 0, hitDirection.z);
         Vector3 forceDirection = (hitDirSameY).normalized * hitForce;
 
@@ -165,4 +227,20 @@ public class PlayerGravity : MonoBehaviourPun
         print($"Applied {forceDirection} force on player.");
         GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
     }
+
+    private void resetLastAttacker()
+    {
+        lastAttacker = -1; 
+    }
+
+    private void Recall()
+    {
+        transform.position = Vector3.zero;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+    
+
+    #endregion
+
+
 }

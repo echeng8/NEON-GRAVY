@@ -1,6 +1,8 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Events;
+
 // ReSharper disable All
 
 namespace UnityStandardAssets.Characters.ThirdPerson
@@ -24,8 +26,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] private float groundCheckRaycastSpread;
 		[SerializeField] private float groundCheckRaycastHeightOffset;
 		
+		/// <summary>
+		/// Invoked whenever the player touches the ground with Grav-On 
+		/// </summary>
+		public UnityEvent OnLand = new UnityEvent();
+		
 		Rigidbody m_Rigidbody;
-		private BoxCollider m_BoxCollider; 
+		private BoxCollider m_BoxCollider;
+		/// <summary>
+		/// the collide that is only on when the grav is off for hitting into walls 
+		/// </summary>
+		
+		[SerializeField] private Collider m_gravOffCollider; 
 		Animator m_Animator;
 		bool m_IsGrounded;
 		float m_OrigGroundCheckDistance;
@@ -172,6 +184,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			Vector3[] rayCastPoints = new Vector3[4];
 			
 			
+			//todo decouple this from the boxcollider during run time (calculate and store these points on startup) 
 			rayCastPoints[0] = originPoint + new Vector3(extents.x, 0, extents.z) * (1 + groundCheckRaycastSpread);
 			rayCastPoints[1] = originPoint + new Vector3(-extents.x, 0, -extents.z) * (1 + groundCheckRaycastSpread);
 			rayCastPoints[2] = originPoint + new Vector3(extents.x, 0, -extents.z) * (1 + groundCheckRaycastSpread);
@@ -199,9 +212,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			if (hitInfo.collider != null)
 			{
+				//The body of this if statement runs on the frame that you land  
 				//delete velocity if you were falling 
 				if (!m_IsGrounded)
+				{
 					m_Rigidbody.velocity = Vector3.zero; 
+					OnLand.Invoke();
+				}
+					
 				
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
@@ -220,7 +238,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void respondToGravity(bool gravityOn)
 		{
 			m_Animator.enabled = gravityOn;
-			m_BoxCollider.isTrigger = !gravityOn; 
+			m_BoxCollider.isTrigger = !gravityOn;
+			m_gravOffCollider.enabled = !gravityOn;
 		}
 		#endregion
 	}

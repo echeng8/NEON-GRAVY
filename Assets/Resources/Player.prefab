@@ -9,11 +9,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 1570337273093559943}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.0027553267
-  m_Height: 0.0044305376
-  m_Direction: 1
-  m_Center: {x: -0.000051344745, y: -6.7455563e-10, z: -0.00046903826}
+  m_Enabled: 0
+  m_Radius: 0.0020625726
+  m_Height: 0.004487131
+  m_Direction: 2
+  m_Center: {x: 0.000019810203, y: 0.000207254, z: 0.00022853012}
 --- !u!1 &2698071929456616702
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +273,7 @@ Transform:
   m_GameObject: {fileID: 6051251168168012507}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.57, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0614, y: 1, z: 1}
   m_Children:
   - {fileID: 4353093870653084617}
   - {fileID: 7423241816200104911}
@@ -350,6 +350,10 @@ MonoBehaviour:
   m_GroundCheckDistance: 0.05
   groundCheckRaycastSpread: 0.05
   groundCheckRaycastHeightOffset: 0.05
+  OnLand:
+    m_PersistentCalls:
+      m_Calls: []
+  m_gravOffCollider: {fileID: 345126192}
   coyoteTime: 0.15
 --- !u!114 &719885462788168250
 MonoBehaviour:
@@ -501,9 +505,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitForce: 5
-  hitInvulSec: 0.25
-  gravity: 1
+  hitInvulSec: 0.2
+  dieYValue: -69
   OnGravityChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFall:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &8771859865254495249
@@ -706,6 +713,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8551308946244067399, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.066
+      objectReference: {fileID: 0}
+    - target: {fileID: -8551308946244067399, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.016
+      objectReference: {fileID: 0}
+    - target: {fileID: -8551308946244067399, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -5399029573308338344, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
         type: 3}

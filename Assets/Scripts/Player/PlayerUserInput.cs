@@ -51,12 +51,6 @@ public class PlayerUserInput : MonoBehaviourPun
         gameObject.SendMessage("ControlledUpdate");
         gameObject.SendMessage("ControlledFixedUpdate");
         
-        //DEBUG controls
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            transform.position = Vector3.zero;
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
-        }
     }
     
     /// <summary>
