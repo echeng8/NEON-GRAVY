@@ -61,3 +61,13 @@ crashlytics-build.properties
 #some things i added
 **/.idea/workspace.xml 
 **/.idea/tasks.xml
+
+# Jetbrain Rider Cache
+.idea/
+Assets/Plugins/Editor/JetBrains*
+
+
+
+# Visual Studio Code
+.vscode/
+
