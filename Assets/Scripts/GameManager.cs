@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
     private void RPC_ReportFall(int deadActorNumber, int killerActorNumber)
     {
         Player deadPlayer = PhotonNetwork.CurrentRoom.GetPlayer(deadActorNumber);
