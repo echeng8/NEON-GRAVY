@@ -29,8 +29,18 @@ public class PlayerGravity : MonoBehaviourPun
     /// <summary>
     /// The lowest Y value that a player can have before they 'die'.
     /// </summary>
-    [SerializeField] private float dieYValue; 
+    [SerializeField] private float dieYValue;
 
+    /// <summary>
+    /// The times you must be hit before you go Grav Off by force. 
+    /// </summary>
+    [SerializeField] private float gravDurability;
+
+    /// <summary>
+    /// The time in seconds when your gravity is off after being hit gravDurabilty times. 
+    /// </summary>
+    [SerializeField] private float gravBrokenTime;
+    
     #endregion
 
     #region Implementation Fields
@@ -83,7 +93,7 @@ private void Awake()
     void ControlledUpdate()
     {
         //disables gravity on input 
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && _timesHit < gravDurability)
         {
             if (PhotonNetwork.IsConnected)
             {
@@ -113,11 +123,6 @@ private void Awake()
         {
             print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
         }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            OpRPC_BeHit(transform.forward);
-        }
         
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -136,11 +141,21 @@ private void Awake()
         {
             //todo polish
             bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum;
-            if (!gravity && !hitInvulnerable && !isMyBullet)
+            if (!hitInvulnerable && !isMyBullet)
             {
-                OpRPC_BeHit(other.transform.forward, other.GetComponent<Projectile>().shooterActorNum);
-            }
+                OpRPC_RecordHit(other.GetComponent<Projectile>().shooterActorNum);
 
+                if (gravity)
+                {
+                    ProcessDurabilityDamage();//process durability (assume timeshit incremented by rpc report hit) 
+                }
+                else
+                {
+                    Vector3 hitDirection = other.transform.forward;
+                    ApplyHitForce(hitDirection);
+                }
+            }
+            
             else
             {
                 return; //todo gravity device takes damage 
@@ -155,44 +170,48 @@ private void Awake()
         OnGravityChange.Invoke(gravity);
     }
     #endregion
-
+    
     #region RPC and related Methods 
 
     /// <summary>
     /// Op for 'optional' if online
-    /// Calls RPC_BeHit with photonview if online, directly if otherwise 
+    /// Calls RPC_RecordHit with photonview if online, directly if otherwise
+    /// RPC_RecordHit does three things:
+    /// 1) tells other clients who hit them
+    /// 2) increments timesHit for durability tracking
+    /// 3) processes hit invulernability 
     /// </summary>
-    /// <param name="hitDirection"></param>
-    void OpRPC_BeHit(Vector3 hitDirection, int attackerNum = -1)
+    /// <param name="attackerNum"></param>
+    void OpRPC_RecordHit(int attackerNum = -1)
     {
         if (PhotonNetwork.IsConnected)
         {
-            photonView.RPC("RPC_BeHit", RpcTarget.All, hitDirection, attackerNum);
+            photonView.RPC("RPC_RecordHit", RpcTarget.All, attackerNum);
         }
         else
         {
-            RPC_BeHit(hitDirection, attackerNum);
+            RPC_RecordHit(attackerNum);
         }
     }
 
     [PunRPC]
-    void RPC_BeHit(Vector3 hitDirection, int attackerNum = -1)
+    void RPC_RecordHit(int attackerNum = -1)
     {
         if (attackerNum != -1)
         {
             lastAttacker = attackerNum;
         }
-
-        _timesHit++;
-
-        //process hit invulnerability 
-        hitInvulnerable = true;
-        this.Invoke(() => hitInvulnerable = false, hitInvulSec);
-
-        if (photonView.IsMine || !PhotonNetwork.IsConnected)
+        
+        if(gravity)
+            _timesHit++;
+        else
         {
-            ApplyHitForce(hitDirection);
+            //process hit invulnerability 
+            hitInvulnerable = true;
+            this.Invoke(() => hitInvulnerable = false, hitInvulSec);
         }
+
+
     }
 
     /// <summary>
@@ -206,13 +225,34 @@ private void Awake()
         OnGravityChange.Invoke(on);
     }
 
+    /// <summary>
+    /// Handles recovery after the player has had their gravity broken. 
+    /// </summary>
+    [PunRPC]
+    private void RPC_RecoverGravity()
+    {
+        //todo onrecover 
+        _timesHit = 0; 
+    }
+    
+
+    #endregion
+
+    #region Public Methods
+
+    public bool GetGravity()
+    {
+        return gravity; 
+    }
+    
+
     #endregion
 
     #region Private Methods
+    
     /// <summary>
     /// applies impulse force on the player towards hit direction
     /// based on hits
-    /// todo make hitforce dependent on gravity setting 
     /// </summary>
     /// <param name="hitDirection"></param>
     private void ApplyHitForce(Vector3 hitDirection)
@@ -223,8 +263,7 @@ private void Awake()
         Vector3 forceDirection = (hitDirSameY).normalized * hitForce;
 
         forceDirection += GetComponent<Rigidbody>().velocity;
-
-        print($"Applied {forceDirection} force on player.");
+        
         GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
     }
 
@@ -238,8 +277,20 @@ private void Awake()
         transform.position = Vector3.zero;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
-    
 
+    /// <summary>
+    /// Handles the durability break. Disables gravity and re-enables it when ready.
+    /// Calls RPC_SetGravity and RPC_RecoverGravity
+    /// </summary>
+    private void ProcessDurabilityDamage()
+    {
+        if (_timesHit >= gravDurability)
+        {
+            photonView.RPC("RPC_SetGravity", RpcTarget.All, false);
+            this.Invoke(() => photonView.RPC("RPC_RecoverGravity", RpcTarget.All), gravBrokenTime);
+        }
+    }
+    
     #endregion
 
 

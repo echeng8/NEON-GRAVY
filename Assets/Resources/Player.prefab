@@ -507,6 +507,8 @@ MonoBehaviour:
   hitForce: 5
   hitInvulSec: 0.2
   dieYValue: -69
+  gravDurability: 3
+  gravBrokenTime: 2
   OnGravityChange:
     m_PersistentCalls:
       m_Calls: []

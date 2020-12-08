@@ -30,9 +30,12 @@ public class PlayerUserInput : MonoBehaviourPun
             }
         }
 
-        if (PhotonNetwork.IsConnected && photonView.Owner == null)
+        if (PhotonNetwork.IsConnected)
         {
-            Destroy(gameObject); // this is the offline character for offline testing. 
+            if (photonView.Owner == null)
+                Destroy(gameObject); // this is the offline character for offline testing. 
+            else 
+                photonView.Owner.TagObject = gameObject; 
         }
     }
     

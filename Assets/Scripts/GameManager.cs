@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+
+    public TextMeshProUGUI killFeed; 
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            print("I died");
+            SetKillFeed("I died");
         }
     }
 
@@ -33,15 +37,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void RPC_ReportFall(int deadActorNumber, int killerActorNumber)
     {
         Player deadPlayer = PhotonNetwork.CurrentRoom.GetPlayer(deadActorNumber);
-        if (killerActorNumber == -1)
+        Player killer = PhotonNetwork.CurrentRoom.GetPlayer(killerActorNumber);
+        
+        if (killerActorNumber == -1 || killer == null)
         {
-            print($"{deadPlayer.NickName} has fallen.");
+            SetKillFeed($"{deadPlayer.NickName} has fallen.");
         }
         else
         {
-            Player killer = PhotonNetwork.CurrentRoom.GetPlayer(killerActorNumber);
-            print($"{deadPlayer.NickName} was killed by {killer.NickName}");
+            SetKillFeed($"{deadPlayer.NickName} was killed by {killer.NickName}");
         }
+    }
+
+    void SetKillFeed(string s)
+    {
+        killFeed.text = s; 
     }
     
 }
