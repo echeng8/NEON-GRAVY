@@ -15,9 +15,18 @@ public class PlayerGravity : MonoBehaviourPun
     /// force added on impulse when player is hit 
     /// </summary>
     [SerializeField] private float hitForce;
-    
+/// <summary>
+/// Seconds the player is invulnerable after being hit. 
+/// </summary>
+    [SerializeField] private float hitInvulSec; 
     [SerializeField]
+    
     private bool gravity = true;
+    
+    /// <summary>
+    /// cannot be hit, even if grav off
+    /// </summary>
+    private bool hitInvulnerable = false; 
     public BoolEvent OnGravityChange = new BoolEvent();
     private int _timesHit = 0;
     
@@ -47,17 +56,23 @@ public class PlayerGravity : MonoBehaviourPun
                 RPC_SetGravity(!gravity);
             }
         }
-        
+
+        //clamp velocity.y to negative or 0 
         if(!gravity)
             rb.velocity = new Vector3(rb.velocity.x,Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
 
 
+        
+        //Debug Stuff 
         if (Input.GetKeyDown(KeyCode.V))
         {
             print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
         }
-     
-        
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            OpRPC_BeHit(transform.forward);
+        }
     }
     
     private void OnTriggerEnter(Collider other)
@@ -69,7 +84,8 @@ public class PlayerGravity : MonoBehaviourPun
         if (other.CompareTag("Damage"))
         {
             //todo polish
-            if (!gravity && PhotonNetwork.LocalPlayer.ActorNumber != other.GetComponent<Projectile>().shooterActorNum)
+            bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum; 
+            if (!gravity && !hitInvulnerable && !isMyBullet)
             {
                 OpRPC_BeHit(other.transform.forward);
             }
@@ -109,6 +125,11 @@ public class PlayerGravity : MonoBehaviourPun
     {
         //todo invoke event to broadcast attacker and hit status to some central server 
         _timesHit++;
+        
+        //process hit invulnerability 
+        hitInvulnerable = true;
+        this.Invoke(() => hitInvulnerable = false, hitInvulSec);
+        
         if (photonView.IsMine || !PhotonNetwork.IsConnected)
         {
             ApplyHitForce(hitDirection);

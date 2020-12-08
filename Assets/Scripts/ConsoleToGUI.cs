@@ -26,7 +26,7 @@ public class ConsoleToGUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tilde))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             doShow = !doShow;
         }

@@ -501,6 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitForce: 5
+  hitInvulSec: 0.25
   gravity: 1
   OnGravityChange:
     m_PersistentCalls:
