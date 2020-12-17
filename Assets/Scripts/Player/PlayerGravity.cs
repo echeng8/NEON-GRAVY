@@ -34,7 +34,7 @@ public class PlayerGravity : MonoBehaviourPun
     /// <summary>
     /// The times you must be hit before you go Grav Off by force. 
     /// </summary>
-    [SerializeField] private float gravDurability;
+    [SerializeField] private int gravDurability;
 
     /// <summary>
     /// The time in seconds when your gravity is off after being hit gravDurabilty times. 
@@ -67,7 +67,7 @@ public class PlayerGravity : MonoBehaviourPun
     /// </summary>
     private int lastAttacker = -1;
 
-    private int _timesHit = 0;
+    private int currentDurability = 0;
     
     private Rigidbody rb;
     
@@ -79,6 +79,7 @@ public class PlayerGravity : MonoBehaviourPun
 private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        currentDurability = gravDurability; 
     }
 
     private void Start()
@@ -93,7 +94,7 @@ private void Awake()
     void ControlledUpdate()
     {
         //disables gravity on input 
-        if (Input.GetButtonDown("Fire2") && _timesHit < gravDurability)
+        if (Input.GetButtonDown("Fire2") && currentDurability > 0)
         {
             if (PhotonNetwork.IsConnected)
             {
@@ -141,10 +142,11 @@ private void Awake()
         {
             //todo polish
             bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum;
+            
             if (!hitInvulnerable && !isMyBullet)
             {
-                OpRPC_RecordHit(other.GetComponent<Projectile>().shooterActorNum);
-
+                photonView.RPC("RPC_RecordHit", RpcTarget.All, other.GetComponent<Projectile>().shooterActorNum);
+                
                 if (gravity)
                 {
                     ProcessDurabilityDamage();//process durability (assume timeshit incremented by rpc report hit) 
@@ -174,26 +176,12 @@ private void Awake()
     #region RPC and related Methods 
 
     /// <summary>
-    /// Op for 'optional' if online
-    /// Calls RPC_RecordHit with photonview if online, directly if otherwise
     /// RPC_RecordHit does three things:
     /// 1) tells other clients who hit them
     /// 2) increments timesHit for durability tracking
     /// 3) processes hit invulernability 
     /// </summary>
-    /// <param name="attackerNum"></param>
-    void OpRPC_RecordHit(int attackerNum = -1)
-    {
-        if (PhotonNetwork.IsConnected)
-        {
-            photonView.RPC("RPC_RecordHit", RpcTarget.All, attackerNum);
-        }
-        else
-        {
-            RPC_RecordHit(attackerNum);
-        }
-    }
-
+    /// <param name="attackerNum"></param>b
     [PunRPC]
     void RPC_RecordHit(int attackerNum = -1)
     {
@@ -203,7 +191,7 @@ private void Awake()
         }
         
         if(gravity)
-            _timesHit++;
+            currentDurability--;
         else
         {
             //process hit invulnerability 
@@ -232,7 +220,7 @@ private void Awake()
     private void RPC_RecoverGravity()
     {
         //todo onrecover 
-        _timesHit = 0; 
+        currentDurability = gravDurability; 
     }
     
 
@@ -284,7 +272,7 @@ private void Awake()
     /// </summary>
     private void ProcessDurabilityDamage()
     {
-        if (_timesHit >= gravDurability)
+        if (currentDurability <= 0)
         {
             photonView.RPC("RPC_SetGravity", RpcTarget.All, false);
             this.Invoke(() => photonView.RPC("RPC_RecoverGravity", RpcTarget.All), gravBrokenTime);
