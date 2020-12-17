@@ -42,12 +42,13 @@ public static class Utility
     /// </summary>
     /// <param name="intervalTime"> in seconds, only 3 decimal places/param>
     /// <returns></returns>
-    // public static float getSinLerpT(float intervalTimeSeconds)
-    // {
-    //     int intervalTimeMS = (int)(intervalTimeSeconds * 1000); 
-    //     
-    //     float x = (2 * Mathf.PI / intervalTimeMS) % intervalTimeSeconds - (Mathf.PI / 2) 
-    // }
+    public static float getSinLerpT(float intervalTimeSeconds)
+    {
+        int intervalTimeMS = (int)(intervalTimeSeconds * 1000);
+
+        float x = (2 * Mathf.PI / intervalTimeMS) * (universalTimeMS() % intervalTimeMS) - (Mathf.PI / 2f);
+        return 0.5f * Mathf.Sin(x) + 0.5f; 
+    }
 }
 
 [System.Serializable] public class GameObjectEvent : UnityEvent<GameObject> {}
