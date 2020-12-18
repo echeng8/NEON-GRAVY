@@ -51,7 +51,7 @@ public class PlayerShoot : MonoBehaviourPun
 
         //Shooting Input Detection 
         _cdTimeLeft -= Time.deltaTime;
-        if (Input.GetButtonDown("Fire1") && _cdTimeLeft <= 0)
+        if (Input.GetButton("Fire1") && _cdTimeLeft <= 0)
         {
             if (PhotonNetwork.IsConnected)
             {

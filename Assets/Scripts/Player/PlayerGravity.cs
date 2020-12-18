@@ -151,7 +151,7 @@ private void Awake()
                 
                 if (gravity)
                 {
-                    ProcessDurabilityDamage();//process durability (assume timeshit incremented by rpc report hit) 
+                    ProcessDurabilityDamage();//process durability 
                 }
                 else
                 {
