@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Body UV
+    second: {fileID: 2100000, guid: 870cc73e53a51724d8189c866d64d9f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Head Material
     second: {fileID: 2100000, guid: be18c51e9e1101d4d8b8b09c1739995b, type: 2}
   materials:
