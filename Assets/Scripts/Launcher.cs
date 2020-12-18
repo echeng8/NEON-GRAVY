@@ -100,6 +100,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void SetLocalPlayerDisplayName(String name)
     {
         PhotonNetwork.NickName = name; 
+        PlayerPrefs.SetString("Name", name);
     }
     #endregion
 }

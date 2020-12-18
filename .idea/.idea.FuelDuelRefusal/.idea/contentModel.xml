@@ -13,6 +13,7 @@
           <e p="ConsoleToGUI.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="Launcher.cs" t="Include" />
+          <e p="NameInput.cs" t="Include" />
           <e p="Player" t="Include">
             <e p="CameraFacing.cs" t="Include" />
             <e p="PlayerAppearance.cs" t="Include" />
