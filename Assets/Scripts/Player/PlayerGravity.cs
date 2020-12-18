@@ -47,7 +47,7 @@ public class PlayerGravity : MonoBehaviourPun
     #region Implementation Fields
 
     private bool gravity = true;
-
+    
     /// <summary>
     /// cannot be hit, even if grav off
     /// </summary>
