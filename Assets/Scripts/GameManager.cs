@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviourPunCallbacks
 {
 
@@ -19,6 +20,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         
         PlayerUserInput.localPlayerInstance.GetComponent<PlayerGravity>().OnFall.AddListener(OpRPC_ReportFall);
+    }
+
+    private void Update()
+    {
+        //application stuff
+        if (Input.GetButtonDown("Cancel"))
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void OpRPC_ReportFall(int lastAttacker)

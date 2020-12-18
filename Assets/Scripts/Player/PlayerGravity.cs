@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 using UnityEngine.Animations;
 using UnityEngine.Events;
 using UnityStandardAssets.Characters.ThirdPerson;
@@ -68,7 +69,7 @@ public class PlayerGravity : MonoBehaviourPun
     private int lastAttacker = -1;
 
     private int currentDurability = 0;
-    
+    public TextMeshPro durabilityDisplay; 
     private Rigidbody rb;
     
     #endregion
@@ -195,6 +196,7 @@ private void Awake()
         if (gravity)
         {
             currentDurability -= damageEndured; //todo decrement get durability from the projectile that hit u 
+            durabilityDisplay.text = currentDurability.ToString(); 
         }
         else
         {

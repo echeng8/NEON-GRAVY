@@ -26,7 +26,6 @@ public class ConsoleToGUI : MonoBehaviour
 
     void Update()
     {
-        print(Utility.getSinLerpT(2));
         if (Input.GetKeyDown(KeyCode.C))
         {
             doShow = !doShow;
