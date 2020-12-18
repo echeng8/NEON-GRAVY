@@ -15,7 +15,7 @@ using UnityEngine.Animations;
 public class PlayerShoot : MonoBehaviourPun
 {
     /// Gameplay Values 
-    [SerializeField] private float shootCoolDown;
+    [SerializeField] private float shootCoolDown; //todo move value to projectile later 
     
     #region Implementation References
     

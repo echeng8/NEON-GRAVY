@@ -189,9 +189,11 @@ private void Awake()
         {
             lastAttacker = attackerNum;
         }
-        
-        if(gravity)
-            currentDurability--;
+
+        if (gravity)
+        {
+            currentDurability--; //todo decrement get durability from the projectile that hit u 
+        }
         else
         {
             //process hit invulnerability 

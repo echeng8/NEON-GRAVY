@@ -472,7 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e9b115bca8bc54598e87578ede81d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootCoolDown: 0.5
+  shootCoolDown: 0.1
   projectile: {fileID: 7196295089048091762, guid: 3e0b285d3dcf92b42832ed5f8d3c1867,
     type: 3}
   shootPointPivot: {fileID: 7423241816200104911}

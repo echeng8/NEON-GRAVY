@@ -36,6 +36,19 @@ public static class Utility
         var uTime = System.DateTime.UtcNow;
         return uTime.Second * 1000 + uTime.Millisecond; 
     }
+    
+    /// <summary>
+    /// Returns the universal time in seconds
+    /// todo optimize, might be laggy if called every frame 
+    /// </summary>
+    /// <param name="???"></param>
+    /// <param name="???"></param>
+    /// <returns></returns>
+    public static float universalTimeS()
+    {
+        return universalTimeMS() / 1000f; 
+    }
+
 
     /// <summary>
     /// Returns the lerp t value based on universalTimeMS with a given intervalTime. 
