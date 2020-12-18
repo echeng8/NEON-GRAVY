@@ -6,8 +6,15 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    #region Gameplay Values
     [SerializeField] float speed;
     [SerializeField] private float duration;
+
+    public int gravOffDamage, gravOnDamage; // durability damage when the bullet is shot grav on or grav off 
+    
+    #endregion
+
+    #region  Implementation Values
 
     public int shooterActorNum = -1; 
     
@@ -15,7 +22,11 @@ public class Projectile : MonoBehaviour
     private bool shotWithGravOff;
     public bool ShotWithGravOff => shotWithGravOff;
 
+    #endregion
 
+    #region  Unity Callbacks
+
+    
     // Update is called once per frame
     private void Awake()
     {
@@ -41,8 +52,21 @@ public class Projectile : MonoBehaviour
         var transform1 = transform;
         _rigidbody.MovePosition(transform1.position + transform1.forward * (speed * Time.deltaTime));
     }
-    
-    
+
+    #endregion
+
+    #region  Public Functions
+
+    public int getDamage()
+    {
+        return shotWithGravOff ? gravOffDamage : gravOnDamage; 
+    }
+
+
+    #endregion
+
+    #region  Private Functions
+
     /// <summary>
     /// returns true if the shooter of the projectile is grav off, false otherwise 
     /// </summary>
@@ -55,4 +79,8 @@ public class Projectile : MonoBehaviour
         GameObject shooterGameObject = (GameObject)PhotonNetwork.CurrentRoom.GetPlayer(shooterActorNum).TagObject;
         return !shooterGameObject.GetComponent<PlayerGravity>().GetGravity();
     } 
+
+    #endregion
+    
+
 }

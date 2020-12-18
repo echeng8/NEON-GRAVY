@@ -129,7 +129,6 @@ private void Awake()
         {
             Recall(); 
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -145,7 +144,10 @@ private void Awake()
             
             if (!hitInvulnerable && !isMyBullet)
             {
-                photonView.RPC("RPC_RecordHit", RpcTarget.All, other.GetComponent<Projectile>().shooterActorNum);
+                
+                //todo move to projectileProfiles format 
+                int damageEndured = other.GetComponent<Projectile>().getDamage(); 
+                photonView.RPC("RPC_RecordHit", RpcTarget.All, damageEndured, other.GetComponent<Projectile>().shooterActorNum);
                 
                 if (gravity)
                 {
@@ -183,23 +185,23 @@ private void Awake()
     /// </summary>
     /// <param name="attackerNum"></param>b
     [PunRPC]
-    void RPC_RecordHit(int attackerNum = -1)
+    void RPC_RecordHit(int damageEndured, int attackerNum = -1)
     {
         if (attackerNum != -1)
         {
             lastAttacker = attackerNum;
         }
-        
-        if(gravity)
-            currentDurability--;
+
+        if (gravity)
+        {
+            currentDurability -= damageEndured; //todo decrement get durability from the projectile that hit u 
+        }
         else
         {
             //process hit invulnerability 
             hitInvulnerable = true;
             this.Invoke(() => hitInvulnerable = false, hitInvulSec);
         }
-
-
     }
 
     /// <summary>

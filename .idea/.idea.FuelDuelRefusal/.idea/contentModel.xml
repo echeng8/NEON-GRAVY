@@ -24,6 +24,7 @@
             <e p="ThirdPersonUserControl.cs" t="Include" />
           </e>
           <e p="Projectile.cs" t="Include" />
+          <e p="SetAnimTime.cs" t="Include" />
           <e p="TextureResize.cs" t="Include" />
           <e p="Utility.cs" t="Include" />
         </e>

@@ -37,7 +37,4 @@ public class PlayerAppearance : MonoBehaviourPun
             cube.materials[0].SetColor("_BaseColor",Color.red);
         }
     }
-
-
-
 }
