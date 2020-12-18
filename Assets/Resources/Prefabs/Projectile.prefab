@@ -126,6 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   duration: 3
-  gravOffDamage: 1
-  gravOnDamage: 2
+  gravOffDamage: 2
+  gravOnDamage: 1
   shooterActorNum: -1
