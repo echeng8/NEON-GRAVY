@@ -21,7 +21,7 @@ public class Projectile : MonoBehaviour
     private Rigidbody _rigidbody;
     private bool shotWithGravOff;
     public bool ShotWithGravOff => shotWithGravOff;
-    
+
     #endregion
 
     #region  Unity Callbacks
@@ -52,6 +52,16 @@ public class Projectile : MonoBehaviour
         var transform1 = transform;
         _rigidbody.MovePosition(transform1.position + transform1.forward * (speed * Time.deltaTime));
     }
+
+    #endregion
+
+    #region  Public Functions
+
+    public int getDamage()
+    {
+        return shotWithGravOff ? gravOffDamage : gravOnDamage; 
+    }
+
 
     #endregion
 

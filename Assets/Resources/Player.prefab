@@ -472,7 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e9b115bca8bc54598e87578ede81d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootCoolDown: 0.1
+  shootCoolDown: 0.5
   projectile: {fileID: 7196295089048091762, guid: 3e0b285d3dcf92b42832ed5f8d3c1867,
     type: 3}
   shootPointPivot: {fileID: 7423241816200104911}
@@ -736,6 +736,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3251792917602393498, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
         type: 3}
       propertyPath: m_Name
@@ -746,6 +751,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: be18c51e9e1101d4d8b8b09c1739995b, type: 2}
+    - target: {fileID: 5283702896890890727, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 41ec5565d4aa4c14aa1fbc7e24a3d6e6, type: 3}
