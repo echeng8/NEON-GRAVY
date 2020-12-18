@@ -28,13 +28,13 @@ public class PlayerAppearance : MonoBehaviourPun
     {
         if (gravityOn)
         {
-            head.materials[0].SetColor("_Color",Color.white);
-            cube.materials[0].SetColor("_Color", Color.white);
+            head.materials[0].SetColor("_BaseColor",Color.white);
+            cube.materials[0].SetColor("_BaseColor", Color.white);
         }
         else
         {
-            head.materials[0].SetColor("_Color",Color.red);
-            cube.materials[0].SetColor("_Color",Color.red);
+            head.materials[0].SetColor("_BaseColor",Color.red);
+            cube.materials[0].SetColor("_BaseColor",Color.red);
         }
     }
 
