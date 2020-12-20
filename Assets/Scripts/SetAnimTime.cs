@@ -8,12 +8,13 @@ public class SetAnimTime : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        an = GetComponent<Animator>(); 
+        an = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        an.SetFloat("UnTime", Utility.universalTimeS());
+        an.SetFloat("UnTime", Utility.universalTimeS()/60);
+        print(Utility.universalTimeS());
     }
 }
