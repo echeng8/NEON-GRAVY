@@ -6,22 +6,22 @@ using UnityEngine;
 public class PlatformAttach : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject Player;
+    //public GameObject gameObject;
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == Player && other.gameObject.GetComponent<PlayerGravity>().GetGravity())
+        if (other.gameObject == GameObject.Find("Local Player") && other.gameObject.GetComponent<PlayerGravity>().GetGravity())
         {
-            Player.transform.parent = transform;
+            GameObject.Find("Local Player").transform.parent = transform;
             print("I is on platform");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == Player)
+        if (other.gameObject == GameObject.Find("Local Player"))
         {
-            Player.transform.parent = null;
+            GameObject.Find("Local Player").transform.parent = null;
             print("I is off");
         }
     }
