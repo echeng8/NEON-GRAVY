@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
@@ -81,6 +82,9 @@ private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         currentDurability = gravDurability; 
+        
+        //placeholder, durabiilty text not final todo refactor 
+        durabilityDisplay.text = gravDurability.ToString(); 
     }
 
     private void Start()
@@ -113,9 +117,13 @@ private void Awake()
 
         
         //Checking to see if below die point
-        if (transform.position.y < dieYValue)
+        if (transform.position.y < dieYValue) //death 
         {
             OnFall.Invoke(lastAttacker);
+            if (PhotonNetwork.IsConnected)
+            {
+                photonView.RPC("RPC_SetDurability", RpcTarget.All, gravDurability);
+            }
             Recall();
         }
 
@@ -148,24 +156,14 @@ private void Awake()
                 
                 //todo move to projectileProfiles format 
                 int damageEndured = other.GetComponent<Projectile>().getDamage(); 
-                photonView.RPC("RPC_RecordHit", RpcTarget.All, damageEndured, other.GetComponent<Projectile>().shooterActorNum);
+                photonView.RPC("RPC_ProcessHit", RpcTarget.All, damageEndured, other.GetComponent<Projectile>().shooterActorNum);
                 
-                if (gravity)
+                if (!gravity)
                 {
-                    ProcessDurabilityDamage();//process durability 
-                }
-                else
-                {
-                    Vector3 hitDirection = other.transform.forward;
+                    Vector3 hitDirection = other.transform.forward; //todo get force from projectile 
                     ApplyHitForce(hitDirection);
                 }
             }
-            
-            else
-            {
-                return; //todo gravity device takes damage 
-            }
-
         }
     }
 
@@ -179,24 +177,28 @@ private void Awake()
     #region RPC and related Methods 
 
     /// <summary>
-    /// RPC_RecordHit does three things:
+    /// RPC_RecordHit does three thing 
     /// 1) tells other clients who hit them
-    /// 2) increments timesHit for durability tracking
-    /// 3) processes hit invulernability 
+    /// 2) handles durability damage locally and updates peers 
+    /// 3) processes hit invulernability
     /// </summary>
     /// <param name="attackerNum"></param>b
     [PunRPC]
-    void RPC_RecordHit(int damageEndured, int attackerNum = -1)
+    void RPC_ProcessHit(int damageEndured, int attackerNum = -1)
     {
         if (attackerNum != -1)
         {
             lastAttacker = attackerNum;
+            
         }
 
         if (gravity)
         {
-            currentDurability -= damageEndured; //todo decrement get durability from the projectile that hit u 
-            durabilityDisplay.text = currentDurability.ToString(); 
+            if (photonView.IsMine)
+            {
+                photonView.RPC("RPC_SetDurability", RpcTarget.All, currentDurability - damageEndured);
+                ProcessDurabilityDamage();
+            }
         }
         else
         {
@@ -217,6 +219,16 @@ private void Awake()
         OnGravityChange.Invoke(on);
     }
 
+    [PunRPC]
+    private void RPC_SetDurability(int d)
+    {
+        currentDurability = d;
+        
+        //placeholder , durability display not final 
+        durabilityDisplay.text = currentDurability.ToString();
+        
+    }
+    
     /// <summary>
     /// Handles recovery after the player has had their gravity broken. 
     /// </summary>
@@ -264,6 +276,10 @@ private void Awake()
         lastAttacker = -1; 
     }
 
+    /// <summary>
+    /// dying and debug teleport to back
+    /// clears velocity 
+    /// </summary>
     private void Recall()
     {
         transform.position = Vector3.zero;
