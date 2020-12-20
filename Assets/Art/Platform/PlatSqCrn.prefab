@@ -14,23 +14,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: e9c7232fac297914b841d5aaf83cd0cd, type: 3}
---- !u!1818360608 &7535682493274270222
-PositionConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8676788465448906498}
-  m_Enabled: 1
-  m_Weight: 1
-  m_TranslationAtRest: {x: -35.03, y: -0.171, z: 10.14}
-  m_TranslationOffset: {x: 0, y: 0, z: 0}
-  m_AffectTranslationX: 0
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 0
-  m_IsContraintActive: 1
-  m_IsLocked: 1
-  m_Sources: []
 --- !u!1001 &8406897734472487507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,7 +79,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e9c7232fac297914b841d5aaf83cd0cd,
         type: 3}
       propertyPath: m_Name
-      value: SqPlatCrn Clsn
+      value: PlatSqCrn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9c7232fac297914b841d5aaf83cd0cd, type: 3}
