@@ -71,3 +71,4 @@ Assets/Plugins/Editor/JetBrains*
 # Visual Studio Code
 .vscode/
 
+Assets/Thirdparty/Cinemachine/CinemachineExamples.unitypackage.meta
