@@ -6,11 +6,17 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+/// <summary>
+/// handles deaths and scoreboard and kills tracking  
+/// </summary>
 public class GameManager : MonoBehaviourPunCallbacks
 {
 
-    public TextMeshProUGUI killFeed; 
-    
+    public TextMeshProUGUI killFeed;
+
+    #region Unity Callbacks 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,10 +37,21 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+
+    #endregion
+
     public override void OnLeftRoom()
     {
         SceneManager.LoadScene(0);
     }
+
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Hashtable playerProps = new Hashtable {{"kills", 0}};
+        newPlayer.SetCustomProperties(playerProps); 
+    }
+
 
     private void OpRPC_ReportFall(int lastAttacker)
     {
@@ -59,8 +76,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             SetKillFeed($"{deadPlayer.NickName} has fallen.");
         }
         else
-        {
+        { // process kill 
             SetKillFeed($"{deadPlayer.NickName} was killed by {killer.NickName}");
+            
         }
     }
 
