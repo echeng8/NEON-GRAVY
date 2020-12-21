@@ -19,7 +19,7 @@ public class SetAnimTime : MonoBehaviour
     void Update()
     {
         an.SetFloat("UnTime", (Utility.universalTimeS() % animTime)/animTime);
-        print(animTime);
+        //print(animTime); i commented this out to see other print statements im making, feel free to uncomment -ec 
         //print(Utility.universalTimeS());
     }
 }
