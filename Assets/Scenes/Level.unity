@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4956,18 +4956,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1302750687}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &252784310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252784308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c60c8f0ec5690d4488523f7fdccdfd37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &252784311
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4981,6 +4969,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 2.9345827, z: 4}
   m_Center: {x: 0, y: 1.3172913, z: 0}
+--- !u!1 &324355793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6051251168168012507, guid: 348c23148fed4204f94ef7f9dccb2a4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7423241817101813711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &324355794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324355793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c60c8f0ec5690d4488523f7fdccdfd37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &367803665
 GameObject:
   m_ObjectHideFlags: 0
@@ -10295,6 +10301,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqMoving
       objectReference: {fileID: 0}
+    - target: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
+        type: 3}
+      propertyPath: m_TagString
+      value: Platform
+      objectReference: {fileID: 0}
     - target: {fileID: 5577217490000549865, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10512,6 +10523,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSqMoving (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
+        type: 3}
+      propertyPath: m_TagString
+      value: Platform
       objectReference: {fileID: 0}
     - target: {fileID: 5577217490000549865, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
         type: 3}
@@ -10822,18 +10838,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 932984554}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1877417990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877417983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c60c8f0ec5690d4488523f7fdccdfd37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1877417991
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11123,12 +11127,12 @@ PrefabInstance:
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30.015274
+      value: -30.015356
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -29.765713
+      value: -29.765633
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
@@ -11168,7 +11172,7 @@ PrefabInstance:
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30.015274
+      value: -30.015356
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
@@ -11178,7 +11182,7 @@ PrefabInstance:
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -29.765713
+      value: -29.765633
       objectReference: {fileID: 0}
     - target: {fileID: 4756165062065630627, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}

@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlatformAttach : MonoBehaviour
 {
-    // Start is called before the first frame update
-    //public GameObject gameObject;
+    //Start is called before the first frame update
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == GameObject.Find("Local Player") && other.gameObject.GetComponent<PlayerGravity>().GetGravity())
+        if (other.transform.tag == "Platform" && gameObject.GetComponent<PlayerGravity>().GetGravity())
         {
-            GameObject.Find("Local Player").transform.parent = transform;
+            transform.parent = other.transform;
             print("I is on platform");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == GameObject.Find("Local Player"))
+        if (other.transform == transform.parent)
         {
-            GameObject.Find("Local Player").transform.parent = null;
+            transform.parent = null;
             print("I is off");
         }
     }
