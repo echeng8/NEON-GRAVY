@@ -26,6 +26,7 @@ public class PlatformAttach : MonoBehaviour
             {
                  return;
             } 
+
             rb.MovePosition(rb.position + tpc.standPlatform.transform.position - previousPosition);
         }
         if (tpc.standPlatform != null && tpc.standPlatform.CompareTag("Platform"))
