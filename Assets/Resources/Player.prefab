@@ -439,16 +439,16 @@ GameObject:
   - component: {fileID: 6051251168162803339}
   - component: {fileID: 7680882312649663931}
   - component: {fileID: 6051251168179331481}
+  - component: {fileID: 8969866866632954313}
+  - component: {fileID: 5894183942693016767}
   - component: {fileID: 719885462788168250}
-  - component: {fileID: 1286212366869082494}
-  - component: {fileID: 8289285586904830002}
   - component: {fileID: 898129209291207219}
   - component: {fileID: 6051251168179290557}
   - component: {fileID: 7423241816855295017}
   - component: {fileID: -8979177202457268418}
   - component: {fileID: -5546343269976252249}
   - component: {fileID: 8771859865254495249}
-  - component: {fileID: 5277219076848463872}
+  - component: {fileID: 5241548347328579800}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -547,6 +547,56 @@ MonoBehaviour:
       m_Calls: []
   m_gravOffCollider: {fileID: 345126192}
   coyoteTime: 0.15
+  standPlatform: {fileID: 0}
+--- !u!114 &8969866866632954313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051251168168012507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &5894183942693016767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051251168168012507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 2
+    InterpolateOption: 2
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!114 &719885462788168250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,47 +613,16 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   observableSearch: 2
-  Synchronization: 3
+  Synchronization: 2
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 1286212366869082494}
-  - {fileID: 8289285586904830002}
+  - {fileID: 8969866866632954313}
+  - {fileID: 5894183942693016767}
   - {fileID: 898129209291207219}
   - {fileID: 4926659754991069527}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &1286212366869082494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051251168168012507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 0
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
---- !u!114 &8289285586904830002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051251168168012507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 1
 --- !u!114 &898129209291207219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,7 +740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugControlled: 1
---- !u!114 &5277219076848463872
+--- !u!114 &5241548347328579800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -57,7 +57,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// time player has been off ground since last time 
 		/// </summary>
-		private float timeOffGround; 
+		private float timeOffGround;
+		
+		/// <summary>
+		/// the platform the player is standing on
+		/// </summary>
+		public GameObject standPlatform;
 		
 		
 		void Start()
@@ -170,10 +175,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void CheckGroundStatus()
 		{
-			if (!m_Animator.enabled) // don't check for ground if animator is down (assume antigrav mode)  
-				return; 
-			
-			
+
 			RaycastHit hitInfo = new RaycastHit(); //maybe optimization here? 
 
 			// 0.1f is a small offset to start the ray from inside the character
@@ -212,6 +214,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			if (hitInfo.collider != null)
 			{
+				standPlatform = hitInfo.collider.gameObject; //todo remove redunancy
+				if (!m_Animator.enabled) // don't check for ground if animator is down (assume antigrav mode)  
+					return;
+
 				//The body of this if statement runs on the frame that you land  
 				//delete velocity if you were falling 
 				if (!m_IsGrounded)
@@ -219,14 +225,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 					m_Rigidbody.velocity = Vector3.zero; 
 					OnLand.Invoke();
 				}
-					
 				
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.applyRootMotion = true;
 			}
 			else
-			{
+			{ 
+				standPlatform = null;
+				if (!m_Animator.enabled) // don't check for ground if animator is down (assume antigrav mode)  
+					return;
+
 				m_IsGrounded = false;
 				m_GroundNormal = Vector3.up;
 				m_Animator.applyRootMotion = false;

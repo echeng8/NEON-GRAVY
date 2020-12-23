@@ -3,26 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 public class PlatformAttach : MonoBehaviour
 {
     //Start is called before the first frame update
-
-    private void OnTriggerStay(Collider other)
+    private ThirdPersonCharacter tpc;
+    private Vector3 previousPosition;
+    private Rigidbody rb;
+    private PlayerGravity pg;
+    private void Awake()
     {
-        if (other.transform.tag == "Platform" && gameObject.GetComponent<PlayerGravity>().GetGravity())
-        {
-            transform.parent = other.transform;
-            print("I is on platform");
-        }
+        tpc = GetComponent<ThirdPersonCharacter>();
+        rb = GetComponent<Rigidbody>();
+        pg = gameObject.GetComponent<PlayerGravity>();
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform == transform.parent)
+    private void ControlledFixedUpdate(){
+        if (tpc.standPlatform != null && tpc.standPlatform.CompareTag("Platform") && pg.GetGravity())
         {
-            transform.parent = null;
-            print("I is off");
+            if (previousPosition == Vector3.zero)
+            {
+                 return;
+            } 
+            rb.MovePosition(rb.position + tpc.standPlatform.transform.position - previousPosition);
+        }
+        if (tpc.standPlatform != null && tpc.standPlatform.CompareTag("Platform"))
+        {
+            previousPosition = tpc.standPlatform.transform.position;
+        }
+        else
+        {
+            previousPosition = Vector3.zero;
         }
     }
 }
