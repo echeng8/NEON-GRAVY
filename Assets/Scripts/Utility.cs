@@ -25,7 +25,7 @@ public static class Utility
     }
 
     /// <summary>
-    /// Returns the time in milliseconds since the start of the hour in UTC timezone.
+    /// Returns the time in milliseconds since the start of the hour in UTC timezone. Deprecated 
     /// todo optimize, might be laggy if called every frame 
     /// </summary>
     /// <param name="???"></param>

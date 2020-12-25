@@ -30,7 +30,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		/// Invoked whenever the player touches the ground with Grav-On 
 		/// </summary>
 		public UnityEvent OnLand = new UnityEvent();
-		
+
 		Rigidbody m_Rigidbody;
 		private BoxCollider m_BoxCollider;
 		/// <summary>
