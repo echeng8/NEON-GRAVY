@@ -15,10 +15,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
 
     public TextMeshProUGUI killFeed;
-
-
+    public TextMeshProUGUI leaderBoardDisplay;
+    
     public List<Player> leaderBoard; 
     private Player[] playerList;
+    
 
     #region Unity Callbacks 
 
@@ -31,6 +32,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         
         PlayerUserInput.localPlayerInstance.GetComponent<PlayerGravity>().OnFall.AddListener(OpRPC_ReportFall);
+        
+        playerList = PhotonNetwork.PlayerList; 
+        
+        //init local player properties 
+        Hashtable playerProps = new Hashtable {{"kills", 0}};
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps); 
     }
 
     private void Update()
@@ -47,18 +54,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        playerList = PhotonNetwork.PlayerList; 
+        playerList = PhotonNetwork.PlayerList; //refresh player name list
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        playerList = PhotonNetwork.PlayerList; 
-        
-        //init player properties 
-        Hashtable playerProps = new Hashtable {{"kills", 0}};
-        newPlayer.SetCustomProperties(playerProps); 
+        playerList = PhotonNetwork.PlayerList;
     }
-
     
     public override void OnLeftRoom()
     {
@@ -77,7 +79,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (changedProps.ContainsKey("kills"))
+        {
+            updateLeaderboard();
+        }
+    }
+
     /// <summary>
     /// only on host client 
     /// </summary>
@@ -100,13 +109,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 //add 1 to player kills
                 int currentPlayerKills = (int)killer.CustomProperties["kills"];
-                currentPlayerKills++; 
+                currentPlayerKills++;
+                print("current kills " + currentPlayerKills);
                 killer.SetCustomProperties(new Hashtable() {{"kills", currentPlayerKills}}); 
+                print("custom properties kills " + killer.CustomProperties["kills"]);
             }
 
-            
             SetKillFeed($"{deadPlayer.NickName} was killed by {killer.NickName}");
-            updateLeaderboard();
         }
     }
 
@@ -114,17 +123,25 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         leaderBoard = playerList.ToList(); 
         leaderBoard.Sort(comparePlayerKills);
-        
-        
+
+        string lbString = "KILLEREST KILLERS\n"; 
         foreach (Player p in leaderBoard)
         {
-            print(p.NickName + p.CustomProperties["kills"]);
+            lbString += $"{p.NickName} {p.CustomProperties["kills"]}\n";
         }
+
+        leaderBoardDisplay.text = lbString;
     }
 
+    /// <summary>
+    /// descending order 
+    /// </summary>
+    /// <param name="p1"></param>
+    /// <param name="p2"></param>
+    /// <returns></returns>
     int comparePlayerKills(Player p1, Player p2)
     {
-        return (int)p1.CustomProperties["kills"] - (int)p2.CustomProperties["kills"]; 
+        return (int)p2.CustomProperties["kills"] - (int)p1.CustomProperties["kills"]; 
     }
 
     void SetKillFeed(string s)
