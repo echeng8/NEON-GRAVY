@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
+using UnityEngine.Events;
 
 public class PlatformAttach : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class PlatformAttach : MonoBehaviour
             if (previousPosition == Vector3.zero)
             {
                  return;
-            } 
+            }
 
             rb.MovePosition(rb.position + tpc.standPlatform.transform.position - previousPosition);
         }
