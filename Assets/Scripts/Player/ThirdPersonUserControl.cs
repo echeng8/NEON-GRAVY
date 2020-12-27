@@ -19,7 +19,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Vector3 m_Move = Vector3.zero;
 
 
-        private void Start()
+        private void Awake()
         {
             // get the transform of the main camera
             if (Camera.main != null)

@@ -37,12 +37,14 @@ public class Projectile : MonoBehaviour
     {
         this.Invoke(() => Destroy(gameObject), duration);
         shotWithGravOff = isShooterGravOff();
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && PlayerUserInput.localPlayerInstance.gameObject != other.gameObject)
         {
+            print("i kille dmyself");
             Destroy(gameObject);
         }
     }
@@ -60,6 +62,7 @@ public class Projectile : MonoBehaviour
     public int getDamage()
     {
         return shotWithGravOff ? gravOffDamage : gravOnDamage; 
+        
     }
 
 

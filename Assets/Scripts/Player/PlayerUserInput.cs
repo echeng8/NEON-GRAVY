@@ -51,7 +51,7 @@ public class PlayerUserInput : MonoBehaviourPun
         if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
             return;
         
-        gameObject.SendMessage("ControlledUpdate");
+        gameObject.SendMessage("ControlledUpdate",null, SendMessageOptions.DontRequireReceiver);
         
     }
 
@@ -60,7 +60,7 @@ public class PlayerUserInput : MonoBehaviourPun
         if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
             return;
         
-        gameObject.SendMessage("ControlledFixedUpdate");
+        gameObject.SendMessage("ControlledFixedUpdate", null, SendMessageOptions.DontRequireReceiver);
     }
 
     void LateUpdate()
@@ -68,7 +68,7 @@ public class PlayerUserInput : MonoBehaviourPun
         if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
             return;
         
-        gameObject.SendMessage("ControlledLateUpdate");
+        gameObject.SendMessage("ControlledLateUpdate", null, SendMessageOptions.DontRequireReceiver);
     }
 
     /// <summary>

@@ -564,7 +564,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   observableSearch: 2
-  Synchronization: 1
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 898129209291207219}
@@ -599,7 +599,7 @@ MonoBehaviour:
     SynchronizeType: 0
     Name: Crouch
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: OnGround
   - Type: 1
     SynchronizeType: 1
