@@ -52,10 +52,25 @@ public class PlayerUserInput : MonoBehaviourPun
             return;
         
         gameObject.SendMessage("ControlledUpdate");
-        gameObject.SendMessage("ControlledFixedUpdate");
         
     }
-    
+
+    void FixedUpdate()
+    {
+        if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
+            return;
+        
+        gameObject.SendMessage("ControlledFixedUpdate");
+    }
+
+    void LateUpdate()
+    {
+        if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
+            return;
+        
+        gameObject.SendMessage("ControlledLateUpdate");
+    }
+
     /// <summary>
     /// set itself as LocalPlayerInstance
     /// invokes OnLocalPlayerSet event

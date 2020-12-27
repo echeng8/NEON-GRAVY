@@ -15,7 +15,6 @@
           <e p="Launcher.cs" t="Include" />
           <e p="NameInput.cs" t="Include" />
           <e p="ParticleAttract.cs" t="Include" />
-          <e p="PlatformAttach.cs" t="Include" />
           <e p="Player" t="Include">
             <e p="CameraFacing.cs" t="Include" />
             <e p="PlayerAppearance.cs" t="Include" />
@@ -26,6 +25,7 @@
             <e p="ThirdPersonCharacter.cs" t="Include" />
             <e p="ThirdPersonUserControl.cs" t="Include" />
           </e>
+          <e p="PlayerPlatformAttach.cs" t="Include" />
           <e p="Projectile.cs" t="Include" />
           <e p="SetAnimTime.cs" t="Include" />
           <e p="TextureResize.cs" t="Include" />
