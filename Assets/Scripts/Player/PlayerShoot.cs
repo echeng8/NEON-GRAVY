@@ -37,16 +37,17 @@ public class PlayerShoot : MonoBehaviourPun
     {
         //set look at position from mouse camera position 
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, shootingPosition.position); 
+        Plane groundPlane = new Plane(Vector3.up, shootPointPivot.position); 
         float rayLength;
         
+        Debug.DrawRay(shootingPosition.position, Vector3.up * 3, Color.yellow);
         if (groundPlane.Raycast(cameraRay, out rayLength))
         {
+            
             Vector3 pointTolook = cameraRay.GetPoint(rayLength);
-
-            _lookAtPosition = new Vector3(pointTolook.x, shootingPosition.position.y, pointTolook.z);
-            Debug.DrawRay(_lookAtPosition, (_lookAtPosition - transform.position).normalized * 2f);
-            shootPointPivot.LookAt(_lookAtPosition);
+            
+            Debug.DrawRay(pointTolook, (pointTolook - shootPointPivot.position).normalized * 2f);
+            shootPointPivot.LookAt(pointTolook);
         }
 
         //Shooting Input Detection 

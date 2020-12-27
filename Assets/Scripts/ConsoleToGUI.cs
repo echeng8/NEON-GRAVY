@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class ConsoleToGUI : MonoBehaviour
@@ -30,6 +31,7 @@ public class ConsoleToGUI : MonoBehaviour
         {
             doShow = !doShow;
         }
+        print(Utility.universalTimeMS());
     }
 
     public void Log(string logString, string stackTrace, LogType type)
