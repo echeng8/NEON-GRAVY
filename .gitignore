@@ -72,3 +72,4 @@ Assets/Plugins/Editor/JetBrains*
 .vscode/
 
 Assets/Thirdparty/Cinemachine/CinemachineExamples.unitypackage.meta
+Assets/Thirdparty/Cinemachine/Timeline/LegacyTimelineAPI.unitypackage.meta
