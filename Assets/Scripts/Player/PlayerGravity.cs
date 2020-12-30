@@ -24,6 +24,11 @@ public class PlayerGravity : MonoBehaviourPun
     [SerializeField] private float hitForce;
 
     /// <summary>
+    /// hits do not exceed this velocity regardless of force
+    /// </summary>
+    [SerializeField] private float maxVelocity; 
+
+    /// <summary>
     /// Seconds the player is invulnerable after being hit. 
     /// </summary>
     [SerializeField] private float hitInvulSec;
@@ -42,6 +47,7 @@ public class PlayerGravity : MonoBehaviourPun
     /// The time in seconds when your gravity is off after being hit gravDurabilty times. 
     /// </summary>
     [SerializeField] private float gravBrokenTime;
+    
     
     #endregion
 
@@ -69,7 +75,26 @@ public class PlayerGravity : MonoBehaviourPun
     /// </summary>
     private int lastAttacker = -1;
 
-    private int currentDurability = 0;
+    /// <summary>
+    /// underlying value of CurrentDurabillity property 
+    /// </summary>
+    private int _currentDurability = 0;
+
+    /// <summary>
+    /// set: limits to zero or greater, calls RPC with each set 
+    /// 
+    /// </summary>
+    public int CurrentDurability
+    {
+        get => _currentDurability;
+        set
+        {
+            _currentDurability = Mathf.Clamp(value, 0, int.MaxValue);
+            durabilityDisplay.text = _currentDurability.ToString(); 
+        }
+    }
+
+
     public TextMeshPro durabilityDisplay; 
     private Rigidbody rb;
     
@@ -81,7 +106,7 @@ public class PlayerGravity : MonoBehaviourPun
 private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        currentDurability = gravDurability; 
+        CurrentDurability = gravDurability; 
         
         //placeholder, durabiilty text not final todo refactor 
         durabilityDisplay.text = gravDurability.ToString(); 
@@ -99,7 +124,7 @@ private void Awake()
     void ControlledUpdate()
     {
         //disables gravity on input 
-        if (Input.GetButtonDown("Fire2") && currentDurability > 0)
+        if (Input.GetButtonDown("Fire2") && CurrentDurability > 0)
         {
             if (PhotonNetwork.IsConnected)
             {
@@ -167,6 +192,7 @@ private void Awake()
         }
     }
 
+    //to trigger gravity changes in debug 
     private void OnValidate()
     {
         //!!!this will call gravity change twice if something else was edited
@@ -196,7 +222,7 @@ private void Awake()
         {
             if (photonView.IsMine)
             {
-                photonView.RPC("RPC_SetDurability", RpcTarget.All, currentDurability - damageEndured);
+                photonView.RPC("RPC_SetDurability", RpcTarget.All, CurrentDurability - damageEndured);
                 ProcessDurabilityDamage();
             }
         }
@@ -222,11 +248,7 @@ private void Awake()
     [PunRPC]
     private void RPC_SetDurability(int d)
     {
-        currentDurability = d;
-        
-        //placeholder , durability display not final 
-        durabilityDisplay.text = currentDurability.ToString();
-        
+        CurrentDurability = d; 
     }
     
     /// <summary>
@@ -236,7 +258,7 @@ private void Awake()
     private void RPC_RecoverGravity()
     {
         //todo onrecover 
-        currentDurability = gravDurability; 
+        CurrentDurability = gravDurability;
     }
     
 
@@ -268,7 +290,8 @@ private void Awake()
 
         forceDirection += GetComponent<Rigidbody>().velocity;
         
-        GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
+        rb.AddForce(forceDirection, ForceMode.Impulse);
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
     }
 
     private void resetLastAttacker()
@@ -292,7 +315,7 @@ private void Awake()
     /// </summary>
     private void ProcessDurabilityDamage()
     {
-        if (currentDurability <= 0)
+        if (_currentDurability <= 0)
         {
             photonView.RPC("RPC_SetGravity", RpcTarget.All, false);
             this.Invoke(() => photonView.RPC("RPC_RecoverGravity", RpcTarget.All), gravBrokenTime);

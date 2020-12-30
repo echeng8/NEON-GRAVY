@@ -16,7 +16,11 @@ public class PlayerShoot : MonoBehaviourPun
 {
     /// Gameplay Values 
     [SerializeField] private float shootCoolDown; //todo move value to projectile later 
-    
+
+    /// <summary>
+    /// the forward distance from the spawning position that the projectile is spawned in 
+    /// </summary>
+    [SerializeField] private float forwardProjectileOffset; 
     #region Implementation References
     
     
@@ -54,13 +58,16 @@ public class PlayerShoot : MonoBehaviourPun
         _cdTimeLeft -= Time.deltaTime;
         if (Input.GetButton("Fire1") && _cdTimeLeft <= 0)
         {
+            Vector3 projSpawn = shootingPosition.position;
+            projSpawn += shootingPosition.forward * forwardProjectileOffset; 
+            
             if (PhotonNetwork.IsConnected)
             {
-                photonView.RPC("RPC_Shoot", RpcTarget.AllViaServer,shootingPosition.position,   shootPointPivot.forward);
+                photonView.RPC("RPC_Shoot", RpcTarget.AllViaServer, projSpawn,   shootPointPivot.forward);
             }
             else
             {
-                Shoot(shootingPosition.position, shootPointPivot.forward);
+                Shoot(projSpawn, shootPointPivot.forward);
             }
             
             _cdTimeLeft = shootCoolDown;
