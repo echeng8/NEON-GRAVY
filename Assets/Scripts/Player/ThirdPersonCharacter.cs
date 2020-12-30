@@ -65,7 +65,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		public GameObject standPlatform;
 		
 		
-		void Start()
+		void Awake()
 		{
 			m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
@@ -74,6 +74,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
+		}
+
+		private void Start()
+		{
 			
 			//listen to events
 			GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);

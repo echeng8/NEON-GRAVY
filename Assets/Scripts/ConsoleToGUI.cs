@@ -31,7 +31,7 @@ public class ConsoleToGUI : MonoBehaviour
         {
             doShow = !doShow;
         }
-        print(Utility.universalTimeMS());
+        
     }
 
     public void Log(string logString, string stackTrace, LogType type)
