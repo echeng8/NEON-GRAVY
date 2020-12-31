@@ -37,10 +37,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		Rigidbody m_Rigidbody;
 		private BoxCollider m_BoxCollider;
+
 		/// <summary>
-		/// the collide that is only on when the grav is off for hitting into walls 
+		/// the collider that is only on when the grav is off for hitting into walls 
 		/// </summary>
-		
+		private PlayerGravity pg; 
 		[SerializeField] private Collider m_gravOffCollider; 
 		Animator m_Animator;
 		bool m_IsGrounded;
@@ -73,7 +74,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		{
 			m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
-			m_BoxCollider = GetComponent<BoxCollider>(); 
+			m_BoxCollider = GetComponent<BoxCollider>();
+			pg = GetComponent<PlayerGravity>(); 
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 
@@ -223,15 +225,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (hitInfo.collider != null)
 			{
 				standPlatform = hitInfo.collider.gameObject; //todo remove redunancy
-				if (!m_Animator.enabled) // don't check for ground if animator is down (assume antigrav mode)  
+				
+				if (!pg.GetGravity())
 					return;
 
-				//The body of this if statement runs on the frame that you land  
+				//if this is the frame that you just landed in 
 				//delete velocity if you were falling 
 				if (!m_IsGrounded)
 				{
 					m_Rigidbody.velocity = Vector3.zero; 
+					CallOnLandPlatform(standPlatform);
 					OnLand.Invoke();
+					
 				}
 				
 				m_GroundNormal = hitInfo.normal;
@@ -239,9 +244,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Animator.applyRootMotion = true;
 			}
 			else
-			{ 
-				standPlatform = null;
-				if (!m_Animator.enabled) // don't check for ground if animator is down (assume antigrav mode)  
+			{
+				if (standPlatform != null)
+				{
+					CallOnLeavePlatform(standPlatform);
+					standPlatform = null;
+				}
+				if (!pg.GetGravity())
 					return;
 
 				m_IsGrounded = false;
@@ -258,6 +267,33 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_BoxCollider.isTrigger = !gravityOn;
 			m_gravOffCollider.enabled = !gravityOn;
 		}
+
+		/// <summary>
+		/// calls on land platform functions on all componets implementing IPlatformPlayerCallbcks 
+		/// </summary>
+		/// <param name="platform"></param>
+		void CallOnLandPlatform(GameObject platform)
+		{
+			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
+			foreach (IPlatformPlayerCallbacks p in plat)
+			{
+				p.OnLocalPlayerLand();
+			}
+		}
+		
+		/// <summary>
+		/// calls on leave platform functions on all components implementing IPlatformPlayerCallbacks 
+		/// </summary>
+		/// <param name="platform"></param>
+		void CallOnLeavePlatform(GameObject platform)
+		{
+			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
+			foreach (IPlatformPlayerCallbacks p in plat)
+			{
+				p.OnLocalPlayerLeave();
+			}
+		}
 		#endregion
+		
 	}
 }
