@@ -551,7 +551,6 @@ MonoBehaviour:
   m_MovingTurnSpeed: 1260
   m_StationaryTurnSpeed: 540
   m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1.25
   m_AnimSpeedMultiplier: 1.25
   m_GroundCheckDistance: 0.05
@@ -585,6 +584,7 @@ MonoBehaviour:
   - {fileID: 898129209291207219}
   - {fileID: 1117184841452431495}
   - {fileID: -701184294584743466}
+  - {fileID: 7423241816855295017}
   - {fileID: 4926659754991069527}
   viewIdField: 0
   InstantiationId: 0
@@ -704,6 +704,7 @@ MonoBehaviour:
     type: 3}
   shootPointPivot: {fileID: 7423241816200104911}
   shootingPosition: {fileID: 161282208203047596}
+  timeToCharge: 1
 --- !u!114 &-8979177202457268418
 MonoBehaviour:
   m_ObjectHideFlags: 0

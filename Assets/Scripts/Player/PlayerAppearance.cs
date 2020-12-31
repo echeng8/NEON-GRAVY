@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
-using TMPro; 
 
 /// <summary>
 /// Handles player appearance: color switching on gravity change, usernames 

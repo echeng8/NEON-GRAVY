@@ -28,12 +28,12 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
     [SerializeField] private Transform shootPointPivot, shootingPosition;
 
     private Vector3 _lookAtPosition; 
-    private float _cdTimeLeft = 0;
+    //private float _cdTimeLeft = 0;
     
-
+    [SerializeField] private float timeToCharge;
     #endregion
 
-    private float timeToCharge;
+
     
     
     #region Implementation Values
@@ -66,27 +66,17 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
         //Shooting Input Detection 
         if (Input.GetButton("Fire1")) //charging
         {
-            SYNC_timeHeld += Time.deltaTime; 
+            SYNC_timeHeld += Time.deltaTime;
 
         }
 
         if (Input.GetButtonUp("Fire1")) //firing 
         {
-            SYNC_timeHeld = 0; 
-            
-            //set spawn positin to projSpawn 
-            Vector3 projSpawn = shootingPosition.position;
-            projSpawn += shootingPosition.forward * forwardProjectileOffset; 
-                        
-            if (PhotonNetwork.IsConnected)
+            if (SYNC_timeHeld >= timeToCharge)
             {
-                photonView.RPC("RPC_Shoot", RpcTarget.AllViaServer, projSpawn,   shootPointPivot.forward);
+                Fire();
             }
-            else
-            {
-                Shoot(projSpawn, shootPointPivot.forward);
-            }
-
+            SYNC_timeHeld = 0;
         }
     }
     #endregion
@@ -114,38 +104,40 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
     #region RPC and Associated Private Methods
 
     /// <summary>
-    /// calls Shoot
+    /// shoots
     /// todo optimize by using a single byte for radians rotation on y axis? 
     /// </summary>
     [PunRPC]
-    void RPC_Shoot(Vector3 position, Vector3 direction, PhotonMessageInfo info)
+    void RPC_SpawnProj(Vector3 position, Vector3 direction, PhotonMessageInfo info = new PhotonMessageInfo())
     {
-        Shoot(position, direction, info.Sender.ActorNumber);
+        GameObject p = Instantiate(projectile, position, Quaternion.LookRotation(direction));
+        p.GetComponent<Projectile>().shooterActorNum = PhotonNetwork.IsConnected ? info.Sender.ActorNumber : -1;
     }
-
-    /// <summary>
-    /// Shoots projectile by instantiation.
-    /// set actorNum on projectile 
-    /// Offline/Local Shoot. called by RPC
-    /// </summary>
-    /// <param name="pos">the position of the bullet when it spawns</param>
-    /// <param name="dir"></param>
-    /// <param name="senderActorNum"></param>
-    void Shoot(Vector3 pos, Vector3 dir, int senderActorNum = -1)
-    {
-        GameObject p = Instantiate(projectile, pos, Quaternion.LookRotation(dir));
-
-        if (PhotonNetwork.IsConnected)
-        {
-            p.GetComponent<Projectile>().shooterActorNum = senderActorNum;
-        }
-    }
+    
 
     #endregion
 
     #region Private Methods
 
 
+    /// <summary>
+    /// determines shoot position and shoots via network or offline 
+    /// </summary>
+    void Fire()
+    {
+        //set spawn position to projSpawn 
+        Vector3 projSpawn = shootingPosition.position;
+        projSpawn += shootingPosition.forward * forwardProjectileOffset; 
+                        
+        if (PhotonNetwork.IsConnected)
+        {
+            photonView.RPC("RPC_SpawnProj", RpcTarget.AllViaServer, projSpawn,   shootPointPivot.forward);
+        }
+        else
+        {
+            RPC_SpawnProj(projSpawn, shootPointPivot.forward);
+        }
+    }
     
     private void DisablePlayerMesh(float duration)
     {
