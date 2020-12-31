@@ -12,7 +12,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     private static string gameVersion = "0";
     public UnityEvent OnConnectedSuccess = new UnityEvent();
     
-    
     //test
     private double t; 
     private void Awake()
@@ -31,6 +30,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
         OnConnectedSuccess.Invoke();
         
         
@@ -42,7 +45,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.IsOpen = true;
         roomOptions.IsVisible = true;
 
         int roomID = (int)(Random.value * 10); 

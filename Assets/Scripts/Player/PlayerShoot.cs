@@ -12,7 +12,7 @@ using UnityEngine.Animations;
 /// <summary>
 /// Handles player shooting: input, aiming, cooldown, instantiate projectile
 /// </summary>
-public class PlayerShoot : MonoBehaviourPun
+public class PlayerShoot : MonoBehaviourPun, IPunObservable
 {
     /// Gameplay Values 
     [SerializeField] private float shootCoolDown; //todo move value to projectile later 
@@ -31,6 +31,15 @@ public class PlayerShoot : MonoBehaviourPun
     private float _cdTimeLeft = 0;
     
 
+    #endregion
+
+    private float timeToCharge;
+    
+    
+    #region Implementation Values
+
+    private float SYNC_timeHeld; 
+    
     #endregion
     
     #region Unity Callbacks
@@ -55,12 +64,20 @@ public class PlayerShoot : MonoBehaviourPun
         }
 
         //Shooting Input Detection 
-        _cdTimeLeft -= Time.deltaTime;
-        if (Input.GetButton("Fire1") && _cdTimeLeft <= 0)
+        if (Input.GetButton("Fire1")) //charging
         {
+            SYNC_timeHeld += Time.deltaTime; 
+
+        }
+
+        if (Input.GetButtonUp("Fire1")) //firing 
+        {
+            SYNC_timeHeld = 0; 
+            
+            //set spawn positin to projSpawn 
             Vector3 projSpawn = shootingPosition.position;
             projSpawn += shootingPosition.forward * forwardProjectileOffset; 
-            
+                        
             if (PhotonNetwork.IsConnected)
             {
                 photonView.RPC("RPC_Shoot", RpcTarget.AllViaServer, projSpawn,   shootPointPivot.forward);
@@ -69,8 +86,7 @@ public class PlayerShoot : MonoBehaviourPun
             {
                 Shoot(projSpawn, shootPointPivot.forward);
             }
-            
-            _cdTimeLeft = shootCoolDown;
+
         }
     }
     #endregion
@@ -78,6 +94,19 @@ public class PlayerShoot : MonoBehaviourPun
     
     #region  PUN Callbacks
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(SYNC_timeHeld);
+        }
+
+        if (stream.IsReading)
+        {
+            SYNC_timeHeld = (float)stream.ReceiveNext();
+            print(SYNC_timeHeld); 
+        }
+    }
 
     #endregion
 
