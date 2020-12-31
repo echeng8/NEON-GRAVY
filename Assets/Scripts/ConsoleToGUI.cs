@@ -1,4 +1,5 @@
 ﻿using System;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -14,7 +15,7 @@ public class ConsoleToGUI : MonoBehaviour
     string filename = "";
     bool doShow = false;
     int kChars = 700;
-
+    
     void OnEnable()
     {
         Application.logMessageReceived += Log;
@@ -31,7 +32,6 @@ public class ConsoleToGUI : MonoBehaviour
         {
             doShow = !doShow;
         }
-        
     }
 
     public void Log(string logString, string stackTrace, LogType type)

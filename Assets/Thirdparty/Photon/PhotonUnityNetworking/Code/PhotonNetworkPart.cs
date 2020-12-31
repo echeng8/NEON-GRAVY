@@ -271,7 +271,7 @@ namespace Photon.Pun
         /// <summary>
         /// Cleans up anything that was instantiated in-game (not loaded with the scene). Resets views that are not destroyed.
         /// </summary>
-        // TODO: This method name no longer matches is function. It also resets scene object's views.
+        // TODO: This method name no longer matches is function. It also resets room object's views.
         internal static void LocalCleanupAnythingInstantiated(bool destroyInstantiatedGameObjects)
         {
             //if (tempInstantiationData.Count > 0)
@@ -1069,7 +1069,7 @@ namespace Photon.Pun
         {
             if (view.OwnerActorNr != NetworkingClient.LocalPlayer.ActorNumber && !NetworkingClient.LocalPlayer.IsMasterClient)
             {
-                Debug.LogError("Cannot remove cached RPCs on a PhotonView thats not ours! " + view.Owner + " scene: " + view.IsSceneView);
+                Debug.LogError("Cannot remove cached RPCs on a PhotonView thats not ours! " + view.Owner + " scene: " + view.IsRoomView);
                 return;
             }
 

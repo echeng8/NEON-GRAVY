@@ -110,9 +110,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 //add 1 to player kills
                 int currentPlayerKills = (int)killer.CustomProperties["kills"];
                 currentPlayerKills++;
-                print("current kills " + currentPlayerKills);
-                killer.SetCustomProperties(new Hashtable() {{"kills", currentPlayerKills}}); 
-                print("custom properties kills " + killer.CustomProperties["kills"]);
+                killer.SetCustomProperties(new Hashtable() {{"kills", currentPlayerKills}});
             }
 
             SetKillFeed($"{deadPlayer.NickName} was killed by {killer.NickName}");

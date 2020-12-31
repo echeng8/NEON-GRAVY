@@ -1168,6 +1168,9 @@
             <summary>Global toggle to avoid callbacks from native plugins. Defaults to false, meaning: "callbacks enabled".</summary>
             <remarks>Callbacks from native code will fail on some platforms, which is why you can disable them.</remarks>
         </member>
+        <member name="F:ExitGames.Client.Photon.PhotonPeer.RemoveAppIdFromWebSocketPath">
+            <summary>Can be used to remove/hide the AppId from websocket connect paths.</summary>
+        </member>
         <member name="F:ExitGames.Client.Photon.PhotonPeer.ClientSdkId">
             <summary>A simplified identifier for client SDKs. Photon's APIs might modify this (as a dll can be used in more than one product). Helps debugging.</summary>
         </member>
@@ -1496,27 +1499,31 @@
              </remarks>
         </member>
         <member name="F:ExitGames.Client.Photon.PhotonPeer.TimePingInterval">
-            <summary>
-            Sets the milliseconds without reliable command before a ping command (reliable) will be sent (Default: 1000ms).
-            </summary>
-            <remarks>
-            The ping command is used to keep track of the connection in case the client does not send reliable commands
-            by itself.
-            A ping (or reliable commands) will update the RoundTripTime calculation.
-            </remarks>
-        </member>
-        <member name="F:ExitGames.Client.Photon.PhotonPeer.DisconnectTimeout">
              <summary>
-             Milliseconds before an individual command must be ACKed by server - after this a timeout-disconnect is triggered.
+             Sets the time between pings being sent automatically. They measure the roundtrip time and keep connections from closing. Default: 1000.
+             </summary>
+             <remarks>
+             For Photon's reliable UDP connections, pings are skipped if any reliable command was sent during the specified TimePingInterval.
+             Any reliable command is used to update the RoundTripTime and RoundTripTimeVariance.
+            
+             When using TCP and WebSockets, the ping is of interest to measure the roundtrip and to keep a connection open, should nothing else
+             With those two protocols, the ping is used to update the RoundTripTime and RoundTripTimeVariance.
+             </remarks>
+        </member>
+        <member name="P:ExitGames.Client.Photon.PhotonPeer.DisconnectTimeout">
+             <summary>
+             Time in milliseconds before any sent reliable command triggers a timeout disconnect, unless acknowledged by the receiver. Default: 10000.
              </summary>
              <remarks>
              DisconnectTimeout is not an exact value for a timeout. The exact timing of the timeout depends on the frequency
-             of Service() calls and commands that are sent with long roundtrip-times and variance are checked less often for
-             re-sending!
+             of Service() calls and the roundtrip time. Commands sent with long roundtrip-times and variance are checked less
+             often for re-sending.
             
              DisconnectTimeout and SentCountAllowance are competing settings: either might trigger a disconnect on the
              client first, depending on the values and Roundtrip Time.
-             Default: 10000 ms.
+             
+             Default: 10000 ms. Maximum setting: 65535.
+             Setting a negative value will apply the default timeout.
              </remarks>
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.ServerTimeInMilliSeconds">

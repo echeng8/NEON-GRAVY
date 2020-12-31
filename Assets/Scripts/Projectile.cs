@@ -44,7 +44,6 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag("Player") && PlayerUserInput.localPlayerInstance.gameObject != other.gameObject)
         {
-            print("i kille dmyself");
             Destroy(gameObject);
         }
     }

@@ -284,8 +284,22 @@ namespace Photon.Realtime
             }
         }
 
+        /// <summary>Define if the client who calls SetProperties should receive the properties update event or not. </summary>
         public bool BroadcastPropertiesChangeToAll { get; private set; }
+        /// <summary>Define if Join and Leave events should not be sent to clients in the room. </summary>
         public bool SuppressRoomEvents { get; private set; }
+        /// <summary>Extends SuppressRoomEvents: Define if Join and Leave events but also the actors' list and their respective properties should not be sent to clients. </summary>
+        public bool SuppressPlayerInfo { get; private set; }
+        /// <summary>Define if UserIds of the players are broadcast in the room. Useful for FindFriends and reserving slots for expected users.</summary>
+        public bool PublishUserId { get; private set; }
+        /// <summary>Define if actor or room properties with null values are removed on the server or kept.</summary>
+        public bool DeleteNullProperties { get; private set; }
+
+        #if SERVERSDK
+        /// <summary>Define if rooms should have unique UserId per actor and that UserIds are used instead of actor number in rejoin.</summary>
+        public bool CheckUserOnJoin { get; private set; }
+        #endif
+
 
         /// <summary>Creates a Room (representation) with given name and properties and the "listing options" as provided by parameters.</summary>
         /// <param name="roomName">Name of the room (can be null until it's actually created on server).</param>
@@ -314,6 +328,13 @@ namespace Photon.Realtime
         {
             this.BroadcastPropertiesChangeToAll = (roomFlags & (int)RoomOptionBit.BroadcastPropsChangeToAll) != 0;
             this.SuppressRoomEvents = (roomFlags & (int)RoomOptionBit.SuppressRoomEvents) != 0;
+            this.SuppressPlayerInfo = (roomFlags & (int)RoomOptionBit.SuppressPlayerInfo) != 0;
+            this.PublishUserId = (roomFlags & (int)RoomOptionBit.PublishUserId) != 0;
+            this.DeleteNullProperties = (roomFlags & (int)RoomOptionBit.DeleteNullProps) != 0;
+            #if SERVERSDK
+            this.CheckUserOnJoin = (roomFlags & (int)RoomOptionBit.CheckUserOnJoin) != 0;
+            #endif
+            this.autoCleanUp = (roomFlags & (int)RoomOptionBit.DeleteCacheOnLeave) != 0;
         }
 
         protected internal override void InternalCacheProperties(Hashtable propertiesToCache)

@@ -50,7 +50,7 @@ namespace Photon.Pun
 
         /// <summary>Limits the number of datagrams that are created in each LateUpdate.</summary>
         /// <remarks>Helps spreading out sending of messages minimally.</remarks>
-        public static int MaxDatagrams = 10;
+        public static int MaxDatagrams = 3;
 
         /// <summary>Signals that outgoing messages should be sent in the next LateUpdate call.</summary>
         /// <remarks>Up to MaxDatagrams are created to send queued messages.</remarks>
@@ -345,7 +345,7 @@ namespace Photon.Pun
                 }
             }
 
-            if (amMasterClient)
+            if (amMasterClient && reusableIntList.Count > 0)
             {
                 PhotonNetwork.OwnershipUpdate(reusableIntList.ToArray(), newPlayer.ActorNumber);
             }

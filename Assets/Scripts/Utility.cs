@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,45 +26,24 @@ public static class Utility
         trans.localRotation = Quaternion.identity;
         trans.localScale = new Vector3(1, 1, 1);
     }
-
-    /// <summary>
-    /// Returns the time in milliseconds since the start of the hour in UTC timezone. Deprecated 
-    /// todo optimize, might be laggy if called every frame 
-    /// </summary>
-    /// <param name="???"></param>
-    /// <param name="???"></param>
-    /// <returns></returns>
-    public static int universalTimeMS() 
-    {
-        var uTime = System.DateTime.UtcNow;
-        return uTime.Second * 1000 + uTime.Millisecond; 
-        
-    }
+    
     
     /// <summary>
     /// Returns the universal time in seconds
-    /// todo optimize, might be laggy if called every frame 
     /// </summary>
     /// <param name="???"></param>
     /// <param name="???"></param>
     /// <returns></returns>
-    public static float universalTimeS()
+    public static double UniversalTimeS()
     {
-        return universalTimeMS() / 1000f; 
-    }
-
-
-    /// <summary>
-    /// Returns the lerp t value based on universalTimeMS with a given intervalTime. 
-    /// </summary>
-    /// <param name="intervalTime"> in seconds, only 3 decimal places/param>
-    /// <returns></returns>
-    public static float getSinLerpT(float intervalTimeSeconds)
-    {
-        int intervalTimeMS = (int)(intervalTimeSeconds * 1000);
-
-        float x = (2 * Mathf.PI / intervalTimeMS) * (universalTimeMS() % intervalTimeMS) - (Mathf.PI / 2f);
-        return 0.5f * Mathf.Sin(x) + 0.5f; 
+        if (PhotonNetwork.IsConnected)
+        {
+            return PhotonNetwork.Time;
+        }
+        else
+        {
+            return Time.time; 
+        }
     }
 }
 

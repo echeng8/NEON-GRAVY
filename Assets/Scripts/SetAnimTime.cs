@@ -18,8 +18,6 @@ public class SetAnimTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        an.SetFloat("UnTime", (Utility.universalTimeS() % animTime)/animTime);
-        //print(animTime); i commented this out to see other print statements im making, feel free to uncomment -ec 
-        //print(Utility.universalTimeS());
+        an.SetFloat("UnTime", ((float)Utility.UniversalTimeS() % animTime)/animTime);
     }
 }

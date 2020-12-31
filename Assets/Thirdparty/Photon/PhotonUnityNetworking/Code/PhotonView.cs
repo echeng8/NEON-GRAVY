@@ -277,13 +277,19 @@ namespace Photon.Pun
         [FormerlySerializedAs("instantiationId")]
         public int InstantiationId; // if the view was instantiated with a GO, this GO has a instantiationID (first view's viewID)
 
-        /// <summary>True if the PhotonView was loaded with the scene (game object) or instantiated with InstantiateSceneObject.</summary>
+        [Obsolete("Renamed. Use IsRoomView instead")]
+        public bool IsSceneView
+        {
+            get { return this.IsRoomView; }
+        }
+        
+        /// <summary>True if the PhotonView was loaded with the scene (game object) or instantiated with InstantiateRoomObject.</summary>
         /// <remarks>
-        /// Scene objects are not owned by a particular player but belong to the scene. Thus they don't get destroyed when their
+        /// Room objects are not owned by a particular player but belong to the scene. Thus they don't get destroyed when their
         /// creator leaves the game and the current Master Client can control them (whoever that is).
         /// The ownerId is 0 (player IDs are 1 and up).
         /// </remarks>
-        public bool IsSceneView
+        public bool IsRoomView
         {
             get { return this.CreatorActorNr == 0; }
         }
@@ -391,7 +397,7 @@ namespace Photon.Pun
         {
             var prevController = controller;
 
-            // Scene objects (ownerId 0) must change controller
+            // Room objects (ownerId 0) must change controller
             if (owner == null || this.ownerActorNr == 0 || this.owner.IsInactive)
             {
                 var masterclient = PhotonNetwork.MasterClient;
@@ -889,7 +895,7 @@ namespace Photon.Pun
 
         public override string ToString()
         {
-            return string.Format("View {0}{3} on {1} {2}", this.ViewID, (this.gameObject != null) ? this.gameObject.name : "GO==null", (this.IsSceneView) ? "(scene)" : string.Empty, this.Prefix > 0 ? "lvl" + this.Prefix : "");
+            return string.Format("View {0}{3} on {1} {2}", this.ViewID, (this.gameObject != null) ? this.gameObject.name : "GO==null", (this.IsRoomView) ? "(scene)" : string.Empty, this.Prefix > 0 ? "lvl" + this.Prefix : "");
         }
     }
 }

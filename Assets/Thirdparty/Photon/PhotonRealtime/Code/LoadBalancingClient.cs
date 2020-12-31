@@ -171,7 +171,7 @@ namespace Photon.Realtime
         OperationNotAllowedInCurrentState,
         /// <summary>OnStatusChanged: The client disconnected from within the logic (the C# code).</summary>
         DisconnectByClientLogic,
-        
+
         /// <summary>The client called an operation too frequently and got disconnected due to hitting the OperationLimit. This triggers a client-side disconnect, too.</summary>
         /// <summary>To protect the server, some operations have a limit. When an OperationResponse fails with ErrorCode.OperationLimitReached, the client disconnects.</summary>
         DisconnectByOperationLimit,
@@ -209,10 +209,14 @@ namespace Photon.Realtime
         /// With this encryption mode for UDP, the connection gets setup with random sequence numbers and all further datagrams get encrypted almost entirely. On-demand message encryption (like in PayloadEncryption) is unavailable.
         /// </summary>
         DatagramEncryptionRandomSequence = 11,
+        ///// <summary>
+        ///// Same as above except that GCM mode is used to encrypt data.
+        ///// </summary>
+        //DatagramEncryptionGCMRandomSequence = 12,
         /// <summary>
-        /// Same as above except that GCM mode is used to encrypt data
+        /// Datagram Encryption with GCM.
         /// </summary>
-        DatagramEncryptionGCMRandomSequence = 12,
+        DatagramEncryptionGCM = 13,
     }
 
 
@@ -320,7 +324,7 @@ namespace Photon.Realtime
 
 
         ///<summary>Simplifies getting the token for connect/init requests, if this feature is enabled.</summary>
-        private string TokenForInit
+        private object TokenForInit
         {
             get
             {
@@ -333,7 +337,7 @@ namespace Photon.Realtime
         }
 
         /// <summary>Internally used cache for the server's token. Identifies a user/session and can be used to rejoin.</summary>
-        private string tokenCache;
+        private object tokenCache;
 
 
         /// <summary>True if this client uses a NameServer to get the Master Server address.</summary>
@@ -354,17 +358,17 @@ namespace Photon.Realtime
         [Obsolete("Set port overrides in ServerPortOverrides. Not used anymore!")]
         public bool UseAlternativeUdpPorts { get; set; }
 
-        
+
         /// <summary>Defines overrides for server ports. Used per server-type if > 0. Important: You must change these when the protocol changes!</summary>
         /// <remarks>
         /// Typical ports are listed in PhotonPortDefinition.
-        /// 
+        ///
         /// Instead of using the port provided from the servers, the specified port is used (independent of the protocol).
         /// If a value is 0 (default), the port is not being replaced.
         ///
         /// Different protocols have different typical ports per server-type.
         /// https://doc.photonengine.com/en-us/pun/current/reference/tcp-and-udp-port-numbers
-        /// 
+        ///
         /// In case of using the AuthMode AutOnceWss, the name server's protocol is wss, while udp or tcp will be used on the master server and game server.
         /// Set the ports accordingly per protocol and server.
         /// </remarks>
@@ -997,11 +1001,28 @@ namespace Photon.Realtime
 
             this.IsUsingNameServer = true;
 
+            if (this.State == ClientState.Authenticating)
+            {
+                if (this.LoadBalancingPeer.DebugOut >= DebugLevel.INFO)
+                {
+                    this.DebugReturn(DebugLevel.INFO, "ConnectToRegionMaster() will skip calling authenticate, as the current state is 'Authenticating'. Just wait for the result.");
+                }
+                return true;
+            }
+
             if (this.State == ClientState.ConnectedToNameServer)
             {
                 this.CloudRegion = region;
-                return this.CallAuthenticate();
+
+                bool authenticating = this.CallAuthenticate();
+                if (authenticating)
+                {
+                    this.State = ClientState.Authenticating;
+                }
+
+                return authenticating;
             }
+
 
             this.LoadBalancingPeer.Disconnect();
 
@@ -1040,6 +1061,7 @@ namespace Photon.Realtime
         [Conditional("UNITY_WEBGL")]
         private void CheckConnectSetupWebGl()
         {
+            #if UNITY_WEBGL
             if (this.LoadBalancingPeer.TransportProtocol != ConnectionProtocol.WebSocket && this.LoadBalancingPeer.TransportProtocol != ConnectionProtocol.WebSocketSecure)
             {
                 this.DebugReturn(DebugLevel.WARNING, "WebGL requires WebSockets. Switching TransportProtocol to WebSocketSecure.");
@@ -1047,11 +1069,13 @@ namespace Photon.Realtime
             }
 
             this.EnableProtocolFallback = false; // no fallback on WebGL
+            #endif
         }
 
-        [Conditional("UNITY_XBOXONE")]
+        [Conditional("UNITY_XBOXONE"), Conditional("UNITY_GAMECORE")]
         private void CheckConnectSetupXboxOne()
         {
+            #if UNITY_XBOXONE || UNITY_GAMECORE
             this.AuthMode = AuthModeOption.Auth;
             if (this.AuthValues == null)
             {
@@ -1075,6 +1099,7 @@ namespace Photon.Realtime
             }
 
             this.EnableProtocolFallback = false; // no fallback on Xbox One
+            #endif
         }
 
         /// <summary>
@@ -1167,7 +1192,7 @@ namespace Photon.Realtime
             if (!string.IsNullOrEmpty(this.GameServerAddress) && this.enterRoomParamsCache != null)
             {
                 this.lastJoinType = JoinType.JoinRoom;
-                this.enterRoomParamsCache.RejoinOnly = true;
+                this.enterRoomParamsCache.JoinMode = JoinMode.RejoinOnly;
                 return this.Connect(this.GameServerAddress, this.ProxyServerAddress, ServerConnection.GameServer);
             }
 
@@ -1256,7 +1281,7 @@ namespace Photon.Realtime
             {
                 this.DebugReturn(DebugLevel.ERROR, "Authenticate without Token is only allowed on Name Server. Current server: " + this.Server + " on: " + this.CurrentServerAddress + ". State: " + this.State);
             }
-            
+
             if (this.AuthMode == AuthModeOption.Auth)
             {
                 if (!this.CheckIfOpCanBeSent(OperationCode.Authenticate, this.Server, "Authenticate"))
@@ -1565,7 +1590,7 @@ namespace Photon.Realtime
                 createRoomParams = new EnterRoomParams();
             }
 
-            createRoomParams.CreateIfNotExists = true;
+            createRoomParams.JoinMode = JoinMode.CreateIfNotExists;
             this.enterRoomParamsCache = createRoomParams;
             this.enterRoomParamsCache.Lobby = opJoinRandomRoomParams.TypedLobby;
             this.enterRoomParamsCache.ExpectedUsers = opJoinRandomRoomParams.ExpectedUsers;
@@ -1677,7 +1702,7 @@ namespace Photon.Realtime
         public bool OpJoinOrCreateRoom(EnterRoomParams enterRoomParams)
         {
             bool onGameServer = this.Server == ServerConnection.GameServer;
-            enterRoomParams.CreateIfNotExists = true;
+            enterRoomParams.JoinMode = JoinMode.CreateIfNotExists;
             enterRoomParams.OnGameServer = onGameServer;
             if (!onGameServer)
             {
@@ -1750,7 +1775,7 @@ namespace Photon.Realtime
             bool sending = this.LoadBalancingPeer.OpJoinRoom(enterRoomParams);
             if (sending)
             {
-                this.lastJoinType = (enterRoomParams.CreateIfNotExists) ? JoinType.JoinOrCreateRoom : JoinType.JoinRoom;
+                this.lastJoinType = enterRoomParams.JoinMode == JoinMode.CreateIfNotExists ? JoinType.JoinOrCreateRoom : JoinType.JoinRoom;
                 this.State = ClientState.Joining;
             }
             return sending;
@@ -1782,7 +1807,7 @@ namespace Photon.Realtime
             this.enterRoomParamsCache = opParams;
             opParams.RoomName = roomName;
             opParams.OnGameServer = onGameServer;
-            opParams.RejoinOnly = true;
+            opParams.JoinMode = JoinMode.RejoinOnly;
 
             bool sending = this.LoadBalancingPeer.OpJoinRoom(opParams);
             if (sending)
@@ -1820,9 +1845,11 @@ namespace Photon.Realtime
         }
 
 
-        /// <summary>Gets a list of games matching a SQL-like where clause.</summary>
+        /// <summary>Gets a list of rooms matching the (non empty) SQL filter for the given SQL-typed lobby.</summary>
         /// <remarks>
-        /// Operation is only available for lobbies of type SqlLobby.
+        /// Operation is only available for lobbies of type SqlLobby and the filter can not be empty.
+        /// It will check those conditions and fail locally, returning false.
+        ///
         /// This is an async request which triggers a OnOperationResponse() call.
         /// </remarks>
         /// <see cref="https://doc.photonengine.com/en-us/realtime/current/reference/matchmaking-and-lobby#sql_lobby_type"/>
@@ -1835,6 +1862,17 @@ namespace Photon.Realtime
             {
                 return false;
             }
+            if (string.IsNullOrEmpty(sqlLobbyFilter))
+            {
+                this.DebugReturn(DebugLevel.ERROR, "Operation GetGameList requires a filter.");
+                return false;
+            }
+            if (typedLobby.Type != LobbyType.SqlLobby)
+            {
+                this.DebugReturn(DebugLevel.ERROR, "Operation GetGameList can only be used for lobbies of type SqlLobby.");
+                return false;
+            }
+
             return this.LoadBalancingPeer.OpGetGameList(typedLobby, sqlLobbyFilter);
         }
 
@@ -2619,7 +2657,7 @@ namespace Photon.Realtime
                         {
                             this.State = ClientState.Joining;
 
-                            if (this.enterRoomParamsCache.RejoinOnly)
+                            if (this.enterRoomParamsCache.JoinMode == JoinMode.RejoinOnly)
                             {
                                 this.enterRoomParamsCache.PlayerProperties = null;
                             }
@@ -3078,7 +3116,7 @@ namespace Photon.Realtime
                         this.UpdatedActorList(actorsInRoom);
 
                         // any operation that does a "rejoin" will set this value to true. this can indicate if the local player returns to a room.
-                        originatingPlayer.HasRejoined = this.enterRoomParamsCache.RejoinOnly;
+                        originatingPlayer.HasRejoined = this.enterRoomParamsCache.JoinMode == JoinMode.RejoinOnly;
 
                         // joinWithCreateOnDemand can turn an OpJoin into creating the room. Then actorNumber is 1 and callback: OnCreatedRoom()
                         if (this.lastJoinType == JoinType.CreateRoom || (this.lastJoinType == JoinType.JoinOrCreateRoom && this.LocalPlayer.ActorNumber == 1))
@@ -3223,7 +3261,7 @@ namespace Photon.Realtime
 
         #endregion
 
-        
+
         private void OnDisconnectMessageReceived(DisconnectMessage obj)
         {
             this.DebugReturn(DebugLevel.ERROR, string.Format("Got DisconnectMessage. Code: {0} Msg: \"{1}\". Debug Info: {2}", obj.Code, obj.DebugMessage, obj.Parameters.ToStringFull()));
@@ -3243,7 +3281,7 @@ namespace Photon.Realtime
 
 
         private string ReplacePortWithAlternative(string address, ushort replacementPort)
-        {   
+        {
             bool webSocket = address.StartsWith("ws");
             if (webSocket)
             {
@@ -3275,7 +3313,7 @@ namespace Photon.Realtime
                         this.LoadBalancingPeer.InitDatagramEncryption(secret1, secret2, mode == EncryptionMode.DatagramEncryptionRandomSequence);
                     }
                     break;
-                case EncryptionMode.DatagramEncryptionGCMRandomSequence:
+                case EncryptionMode.DatagramEncryptionGCM:
                     {
                         byte[] secret1 = (byte[])encryptionData[EncryptionDataParameters.Secret1];
                         this.LoadBalancingPeer.InitDatagramEncryption(secret1, null, true, true);

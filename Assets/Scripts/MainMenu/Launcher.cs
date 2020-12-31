@@ -6,11 +6,15 @@ using Photon.Pun;
 using Photon.Realtime;
 using Random = UnityEngine.Random;
 using UnityEngine.Events; 
+
 public class Launcher : MonoBehaviourPunCallbacks
 {
     private static string gameVersion = "0";
     public UnityEvent OnConnectedSuccess = new UnityEvent();
     
+    
+    //test
+    private double t; 
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -28,6 +32,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinLobby();
         OnConnectedSuccess.Invoke();
+        
+        
+        //test
+        t = PhotonNetwork.Time; 
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -70,9 +78,14 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     #endregion
 
-    
-    
-#region Public Methods 
+    private void Update()
+    {
+        //test
+        t += Time.deltaTime; 
+        print(t);
+    }
+
+    #region Public Methods 
 
 
     /// <summary>
