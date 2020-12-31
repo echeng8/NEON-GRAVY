@@ -42,7 +42,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && PlayerUserInput.localPlayerInstance.gameObject != other.gameObject)
+        if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().Owner.ActorNumber != shooterActorNum)
         {
             Destroy(gameObject);
         }

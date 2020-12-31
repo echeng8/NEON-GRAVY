@@ -9,6 +9,7 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="ConsoleToGUI.cs" t="Include" />
+          <e p="CubeAppearance.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="MainMenu" t="Include">
             <e p="Launcher.cs" t="Include" />

@@ -30,7 +30,7 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
     private Vector3 _lookAtPosition; 
     //private float _cdTimeLeft = 0;
     
-    [SerializeField] private float timeToCharge;
+    public float _timeToCharge;
     #endregion
 
 
@@ -38,7 +38,7 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
     
     #region Implementation Values
 
-    private float SYNC_timeHeld; 
+    [HideInInspector] public float SYNC_timeHeld; 
     
     #endregion
     
@@ -72,7 +72,7 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
 
         if (Input.GetButtonUp("Fire1")) //firing 
         {
-            if (SYNC_timeHeld >= timeToCharge)
+            if (SYNC_timeHeld >= _timeToCharge)
             {
                 Fire();
             }
@@ -94,7 +94,6 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
         if (stream.IsReading)
         {
             SYNC_timeHeld = (float)stream.ReceiveNext();
-            print(SYNC_timeHeld); 
         }
     }
 
