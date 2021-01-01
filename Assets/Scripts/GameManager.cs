@@ -13,6 +13,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// </summary>
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public static GameManager instance; 
 
     public TextMeshProUGUI killFeed;
     public TextMeshProUGUI leaderBoardDisplay;

@@ -84,7 +84,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         //test
         t += Time.deltaTime; 
-        print(t);
+//        print(t);
     }
 
     #region Public Methods 

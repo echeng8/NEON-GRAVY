@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public static class Utility
 {
@@ -44,6 +45,33 @@ public static class Utility
         {
             return Time.time; 
         }
+    }
+    
+    /// <summary>
+    /// Returns an array of booleans where picked number of elements are true, the rest are false. 
+    /// </summary>
+    /// <param name="length"></param>
+    /// <param name="picked"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public static bool[] GetRandomBoolArray(int length, int picked)
+    {
+        if (picked > length)
+            throw new Exception("picked too big"); 
+        
+        bool[] bArray = new bool[length];
+        for (int i = 0; i < picked; i++)
+        {
+            int randomIndex = 0;
+            do
+            {
+                randomIndex = Random.Range(0, length);
+            } while (bArray[randomIndex]);
+
+            bArray[randomIndex] = true;
+        }
+
+        return bArray; 
     }
 }
 

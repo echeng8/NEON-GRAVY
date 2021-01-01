@@ -2,8 +2,3 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlatformPlayerCallbacks
-{
-    void OnLocalPlayerLand();
-    void OnLocalPlayerLeave(); 
-}

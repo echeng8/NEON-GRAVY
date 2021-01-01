@@ -32,6 +32,20 @@ public class ConsoleToGUI : MonoBehaviour
         {
             doShow = !doShow;
         }
+
+        // if (Input.GetKeyDown(KeyCode.Z))
+        // {
+        //     var arr = GetRandomBoolArray(20, 12);
+        //     string s = ""; 
+        //     foreach (bool b in arr)
+        //     {
+        //         if (b)
+        //             s += "1";
+        //         else
+        //             s += "0"; 
+        //     }
+        //     print(s);
+        // }
     }
 
     public void Log(string logString, string stackTrace, LogType type)

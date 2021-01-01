@@ -233,12 +233,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				//delete velocity if you were falling 
 				if (!m_IsGrounded)
 				{
-					m_Rigidbody.velocity = Vector3.zero; 
-					CallOnLandPlatform(standPlatform);
+					m_Rigidbody.velocity = Vector3.zero;
 					OnLand.Invoke();
-					
 				}
-				
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.applyRootMotion = true;
@@ -247,7 +244,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			{
 				if (standPlatform != null)
 				{
-					CallOnLeavePlatform(standPlatform);
 					standPlatform = null;
 				}
 				if (!pg.GetGravity())
@@ -266,32 +262,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Animator.enabled = gravityOn;
 			m_BoxCollider.isTrigger = !gravityOn;
 			m_gravOffCollider.enabled = !gravityOn;
-		}
-
-		/// <summary>
-		/// calls on land platform functions on all componets implementing IPlatformPlayerCallbcks 
-		/// </summary>
-		/// <param name="platform"></param>
-		void CallOnLandPlatform(GameObject platform)
-		{
-			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
-			foreach (IPlatformPlayerCallbacks p in plat)
-			{
-				p.OnLocalPlayerLand();
-			}
-		}
-		
-		/// <summary>
-		/// calls on leave platform functions on all components implementing IPlatformPlayerCallbacks 
-		/// </summary>
-		/// <param name="platform"></param>
-		void CallOnLeavePlatform(GameObject platform)
-		{
-			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
-			foreach (IPlatformPlayerCallbacks p in plat)
-			{
-				p.OnLocalPlayerLeave();
-			}
 		}
 		#endregion
 		

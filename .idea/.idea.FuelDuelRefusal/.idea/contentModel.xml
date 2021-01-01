@@ -11,7 +11,7 @@
           <e p="ConsoleToGUI.cs" t="Include" />
           <e p="CubeAppearance.cs" t="Include" />
           <e p="Environment" t="Include">
-            <e p="PlatformGravy.cs" t="Include" />
+            <e p="GravyManager.cs" t="Include" />
           </e>
           <e p="GameManager.cs" t="Include" />
           <e p="Interfaces.cs" t="Include" />
