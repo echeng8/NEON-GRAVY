@@ -7,18 +7,14 @@ using TMPro;
 using UnityEngine.LowLevel;
 using UnityStandardAssets.Characters.ThirdPerson;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-using System.Linq; 
+
 /// <summary>
 /// Creates and updates the gravies on platform  
 /// </summary>
-public class GravyManager : MonoBehaviourPunCallbacks, IPunObservable
+public class GravyManager : MonoBehaviourPunCallbacks
 {
     
-    #region Gameplay Values 
-
-    
-
-
+    #region Gameplay Values
     public float gravyPercent; 
     /// <summary>
     /// number of gravies in the game 
@@ -62,31 +58,27 @@ public class GravyManager : MonoBehaviourPunCallbacks, IPunObservable
             gravyNum = (int)(gravyPercent * (float)platformNum); 
             generateGravyArray(platformNum,gravyNum);
         }
+        else
+        {
+            SYNC_gravyArray = (bool[])PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"]; 
+            UpdateGravyObjects();
+        }
     }
     
     #endregion
     
-    #region PUN Callbacks
+    #region PUN Callbacks 
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
-        if (stream.IsWriting)
+        //todo optimize maybe 
+        if (propertiesThatChanged.ContainsKey("gravyArray"))
         {
-            stream.SendNext(SYNC_gravyArray);
+            SYNC_gravyArray = (bool[])propertiesThatChanged["gravyArray"];
+            UpdateGravyObjects(); 
         }
-
-        if (stream.IsReading)
-        {
-            bool[] temp = (bool[])stream.ReceiveNext();
-            SYNC_gravyArray = temp; 
-            UpdateGravyObjects();
-            if (!temp.SequenceEqual(SYNC_gravyArray))
-            {
-                return; 
-            }
-        }
+            
     }
-
     #endregion
 
     #region  RPC
@@ -107,8 +99,7 @@ public class GravyManager : MonoBehaviourPunCallbacks, IPunObservable
             info.Sender.SetCustomProperties(h); 
             
             //delete the gravy 
-            SYNC_gravyArray[platNum] = false;
-            UpdateGravyObjects(); //todo update later better place
+            removeGravy(platNum);
         }
     }
     
@@ -155,15 +146,18 @@ public class GravyManager : MonoBehaviourPunCallbacks, IPunObservable
     
     /// <summary>
     /// generates a gravy array, a bool table referring to platforms with gravies on them, and sets it to
-    /// room custom properties.
-    /// meant to be executed on the master client at round start 
+    /// room custom properties
     /// </summary>
     /// <param name="pNum"></param>
     /// <param name="gNum"></param>
     void generateGravyArray(int pNum, int gNum) 
     { 
-        SYNC_gravyArray = Utility.GetRandomBoolArray(pNum, gNum);
-        UpdateGravyObjects();
+        bool[] gravyArray = Utility.GetRandomBoolArray(pNum, gNum);
+        
+        Hashtable h = new Hashtable();
+        h.Add("gravyArray", gravyArray);
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(h);
     }
 
     /// <summary>
@@ -179,8 +173,8 @@ public class GravyManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void NotifyPlayerGetGravy()
     {
-        if (SYNC_gravyArray == null) //todo this means you cannot get the gravy that u just spawned on 
-            return; 
+        if (SYNC_gravyArray == null)
+            return;
         
         int actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
         int platNum = playerTPC.standPlatform.transform.GetSiblingIndex();
@@ -191,6 +185,16 @@ public class GravyManager : MonoBehaviourPunCallbacks, IPunObservable
             photonView.RPC("RPC_ProcessGravyGet", RpcTarget.MasterClient, platNum);
         }
         
+    }
+    /// <summary>
+    /// removes the gravy by updating the GravyArray in setcustomproperties 
+    /// </summary>
+    /// <param name="platIndex"></param>
+    void removeGravy(int platIndex)
+    {
+        SYNC_gravyArray[platIndex] = false; 
+        Hashtable h = new Hashtable {{"gravyArray", SYNC_gravyArray}};
+        PhotonNetwork.CurrentRoom.SetCustomProperties(h); 
     }
     #endregion
 }
