@@ -1,9 +1,34 @@
 fileFormatVersion: 2
-guid: 51e9371bcfd72474ea13728b310eee39
+guid: c996d86e25e0982469a10615c0be2cae
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BP Slot Material
+    second: {fileID: 2100000, guid: 41ca0de0e3a3de84ca20d6b19716d3a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body UV
+    second: {fileID: 2100000, guid: 30ecf05394e82a7488df4fa3a4bf2e98, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Clothes Guard_BP Material
+    second: {fileID: 2100000, guid: f47e961510135fb448a4ae243e9dca10, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head Material
+    second: {fileID: 2100000, guid: 3e5053828bb8dc240bb3436aad2bc244, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lasercube UV
+    second: {fileID: 2100000, guid: c559357969536bc488c916a227af1c1d, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

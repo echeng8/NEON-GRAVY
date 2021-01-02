@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: d8d129177a2afea42b79b82bd995c383
+guid: 988c3605d82ede849b3fb3bd23dce6f9
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BP Slot Material
+    second: {fileID: 2100000, guid: 41ca0de0e3a3de84ca20d6b19716d3a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body UV
+    second: {fileID: 2100000, guid: 30ecf05394e82a7488df4fa3a4bf2e98, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Clothes Guard_BP Material
+    second: {fileID: 2100000, guid: f47e961510135fb448a4ae243e9dca10, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head Material
+    second: {fileID: 2100000, guid: 3e5053828bb8dc240bb3436aad2bc244, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -28,7 +48,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -89,13 +109,13 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 3
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
