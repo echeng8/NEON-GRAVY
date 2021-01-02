@@ -1,0 +1,44 @@
+diff a/Assets/Scripts/Environment/GravyManager.cs b/Assets/Scripts/Environment/GravyManager.cs	(rejected hunks)
+@@ -62,26 +62,31 @@
+             gravyNum = (int)(gravyPercent * (float)platformNum); 
+             generateGravyArray(platformNum,gravyNum);
+         }
+-        else // if you just joined 
+-        {
+-            LoadGravyObjects();
+-        }
+     }
+     
+     #endregion
+     
+-    #region PUN Callbacks 
++    #region PUN Callbacks
+ 
+-    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
++    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+     {
+-        //todo optimize maybe 
+-        if (propertiesThatChanged.ContainsKey("gravyArray"))
++        if (stream.IsWriting)
+         {
+-            SYNC_gravyArray = (bool[])propertiesThatChanged["gravyArray"];
+-            LoadGravyObjects();
++            stream.SendNext(SYNC_gravyArray);
++        }
++
++        if (stream.IsReading)
++        {
++            bool[] temp = (bool[])stream.ReceiveNext();
++            SYNC_gravyArray = temp; 
++            UpdateGravyObjects();
++            if (!temp.SequenceEqual(SYNC_gravyArray))
++            {
++                return; 
++            }
+         }
+-            
+     }
++
+     #endregion
+ 
+     #region  RPC
