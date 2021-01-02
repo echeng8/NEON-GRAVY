@@ -173,7 +173,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
     void NotifyPlayerGetGravy()
     {
-        if (SYNC_gravyArray == null)
+        if (SYNC_gravyArray == null || SYNC_gravyArray.Length == 0)
             return;
         
         int actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
