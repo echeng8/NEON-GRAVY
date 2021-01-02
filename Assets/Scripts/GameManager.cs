@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         playerList = PhotonNetwork.PlayerList; 
         
         //init local player properties 
-        Hashtable playerProps = new Hashtable {{"kills", 0}};
+        Hashtable playerProps = new Hashtable {{"kills", 0},{"gravies", 0}};
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps); 
     }
 
@@ -86,6 +86,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             updateLeaderboard();
         }
+
+        if (changedProps.ContainsKey("gravies"))
+        {
+            SetKillFeed($"{targetPlayer.NickName} now has {changedProps["gravies"]} gravies");
+        }
     }
 
     /// <summary>
@@ -117,6 +122,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             SetKillFeed($"{deadPlayer.NickName} was killed by {killer.NickName}");
         }
     }
+    
+    
+    //test for showing new gravies 
+    
+    
 
     void updateLeaderboard()
     {
@@ -147,5 +157,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         killFeed.text = s; 
     }
+    
+    
     
 }
