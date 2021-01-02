@@ -7,11 +7,11 @@ using TMPro;
 using UnityEngine.LowLevel;
 using UnityStandardAssets.Characters.ThirdPerson;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-
+using System.Linq; 
 /// <summary>
 /// Creates and updates the gravies on platform  
 /// </summary>
-public class GravyManager : MonoBehaviourPunCallbacks
+public class GravyManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     
     #region Gameplay Values 
@@ -53,9 +53,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-
-        playerTPC = PlayerUserInput.localPlayerInstance.GetComponent<ThirdPersonCharacter>();
-        playerTPC.OnLand.AddListener(NotifyPlayerGetGravy);
+        PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
 
         //todo instead of checking if playercount is 1, check if its the start of a new round
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
@@ -64,26 +62,31 @@ public class GravyManager : MonoBehaviourPunCallbacks
             gravyNum = (int)(gravyPercent * (float)platformNum); 
             generateGravyArray(platformNum,gravyNum);
         }
-        else // if you just joined 
-        {
-            LoadGravyObjects();
-        }
     }
     
     #endregion
     
-    #region PUN Callbacks 
+    #region PUN Callbacks
 
-    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //todo optimize maybe 
-        if (propertiesThatChanged.ContainsKey("gravyArray"))
+        if (stream.IsWriting)
         {
-            SYNC_gravyArray = (bool[])propertiesThatChanged["gravyArray"];
-            LoadGravyObjects();
+            stream.SendNext(SYNC_gravyArray);
         }
-            
+
+        if (stream.IsReading)
+        {
+            bool[] temp = (bool[])stream.ReceiveNext();
+            SYNC_gravyArray = temp; 
+            UpdateGravyObjects();
+            if (!temp.SequenceEqual(SYNC_gravyArray))
+            {
+                return; 
+            }
+        }
     }
+
     #endregion
 
     #region  RPC
@@ -99,9 +102,13 @@ public class GravyManager : MonoBehaviourPunCallbacks
         if (SYNC_gravyArray[platNum]) // gravy is there
         {
             //award the player
+            int newGravies = (int)info.Sender.CustomProperties["gravies"] + 1;
+            Hashtable h  = new Hashtable{{"gravies", newGravies}};
+            info.Sender.SetCustomProperties(h); 
             
             //delete the gravy 
-            
+            SYNC_gravyArray[platNum] = false;
+            UpdateGravyObjects(); //todo update later better place
         }
     }
     
@@ -109,11 +116,20 @@ public class GravyManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Private Functions
+
+    /// <summary>
+    /// to be called after the player is set
+    /// </summary>
+    void AddPlayerListeners(GameObject localPlayer)
+    {
+        playerTPC = localPlayer.GetComponent<ThirdPersonCharacter>();
+        playerTPC.OnLand.AddListener(NotifyPlayerGetGravy);
+    }
     /// <summary>
     /// spawns the available gravy objects based on gravyArray in custom properties
     /// updates gravyNum 
     /// </summary>
-    void LoadGravyObjects()
+    void UpdateGravyObjects()
     {
         int gNum = 0; 
         for (int i = 0; i < SYNC_gravyArray.Length; i++)
@@ -128,6 +144,8 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
             if (!SYNC_gravyArray[i] && HasGravyDisplay(i))
             {
+                print(platform.name);
+                print(platform.transform.GetChild(0).gameObject.name);
                 Destroy(platform.transform.GetChild(0).gameObject); //todo get gravy with set or send signal 
             }
         }
@@ -137,19 +155,15 @@ public class GravyManager : MonoBehaviourPunCallbacks
     
     /// <summary>
     /// generates a gravy array, a bool table referring to platforms with gravies on them, and sets it to
-    /// room custom properties
+    /// room custom properties.
+    /// meant to be executed on the master client at round start 
     /// </summary>
     /// <param name="pNum"></param>
     /// <param name="gNum"></param>
     void generateGravyArray(int pNum, int gNum) 
     { 
-        bool[] gravyArray = Utility.GetRandomBoolArray(pNum, gNum);
-        
-        Hashtable h = new Hashtable();
-        h.Add("gravyArray", gravyArray);
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(h);
-//        loadGravyObjects();
+        SYNC_gravyArray = Utility.GetRandomBoolArray(pNum, gNum);
+        UpdateGravyObjects();
     }
 
     /// <summary>
@@ -165,13 +179,16 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
     void NotifyPlayerGetGravy()
     {
+        if (SYNC_gravyArray == null) //todo this means you cannot get the gravy that u just spawned on 
+            return; 
+        
         int actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
         int platNum = playerTPC.standPlatform.transform.GetSiblingIndex();
         bool touchedGravy = SYNC_gravyArray[platNum];
 
         if (touchedGravy)
         {
-            photonView.RPC("RPC_ProcessGravyGet", RpcTarget.MasterClient, actorNum, platNum);
+            photonView.RPC("RPC_ProcessGravyGet", RpcTarget.MasterClient, platNum);
         }
         
     }
