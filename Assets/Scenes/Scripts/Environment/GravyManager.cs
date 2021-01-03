@@ -49,7 +49,15 @@ public class GravyManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
+        if (PlayerUserInput.localPlayerInstance == null)
+        {
+            PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
+        }
+        else
+        {
+            AddPlayerListeners(PlayerUserInput.localPlayerInstance.gameObject);
+        }
+       
 
         //todo instead of checking if playercount is 1, check if its the start of a new round
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
