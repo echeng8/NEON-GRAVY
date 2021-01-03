@@ -135,8 +135,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
             if (!SYNC_gravyArray[i] && HasGravyDisplay(i))
             {
-                print(platform.name);
-                print(platform.transform.GetChild(0).gameObject.name);
                 Destroy(platform.transform.GetChild(0).gameObject); //todo get gravy with set or send signal 
             }
         }
@@ -179,7 +177,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     {
         print("checked " + playerTPC.standPlatform.transform.GetSiblingIndex());  
         if (SYNC_gravyArray == null || SYNC_gravyArray.Length == 0)
-            return;
+            return; 
         
         int actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
         int platNum = playerTPC.standPlatform.transform.GetSiblingIndex();
@@ -190,7 +188,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
             print("hey i got one!"); 
             photonView.RPC("RPC_ProcessGravyGet", RpcTarget.MasterClient, platNum);
         }
-        
     }
     /// <summary>
     /// removes the gravy by updating the GravyArray in setcustomproperties 

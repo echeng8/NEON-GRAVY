@@ -5008,7 +5008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 526fab7b48d9afa4eab81c3dcf62d80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
+  speed: 30
   duration: 1000
   gravOffDamage: 2
   gravOnDamage: 1
