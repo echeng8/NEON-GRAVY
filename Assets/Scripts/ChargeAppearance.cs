@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeAppearance : MonoBehaviour
+public class ChargeAppearance : MonoBehaviour
 {
     private PlayerShoot ps; 
     private Animator an; 

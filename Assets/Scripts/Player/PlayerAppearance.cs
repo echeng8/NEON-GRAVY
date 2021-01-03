@@ -13,27 +13,12 @@ public class PlayerAppearance : MonoBehaviourPun
     public Renderer head;
     public Renderer cube;
 
-    public TextMeshPro nameTag; 
+    public TextMeshPro nameTag;
 
     private void Start()
     {
-        GetComponent<PlayerGravity>().OnGravityChange.AddListener(ChangeColor);
-        if(PhotonNetwork.IsConnected)
-            nameTag.GetComponent<TextMeshPro>().text = photonView.Owner.NickName; 
-    }
-
-    //todo draft code
-    public void ChangeColor(bool gravityOn)
-    {
-        if (gravityOn)
-        {
-            head.materials[0].SetColor("_BaseColor",Color.white);
-            cube.materials[0].SetColor("_BaseColor", Color.white);
-        }
-        else
-        {
-            head.materials[0].SetColor("_BaseColor",Color.green);
-            cube.materials[0].SetColor("_BaseColor",Color.green);
-        }
+        if (PhotonNetwork.IsConnected)
+            nameTag.GetComponent<TextMeshPro>().text = photonView.Owner.NickName;
     }
 }
+
