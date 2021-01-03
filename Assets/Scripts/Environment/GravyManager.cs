@@ -114,7 +114,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     void AddPlayerListeners(GameObject localPlayer)
     {
         playerTPC = localPlayer.GetComponent<ThirdPersonCharacter>();
-        playerTPC.OnLand.AddListener(NotifyPlayerGetGravy);
+        playerTPC.OnLand.AddListener(CheckPlayerGetGravy);
     }
     /// <summary>
     /// spawns the available gravy objects based on gravyArray in custom properties
@@ -171,8 +171,13 @@ public class GravyManager : MonoBehaviourPunCallbacks
         return platformParent.transform.GetChild(childIndex).childCount > 0; 
     }
 
-    void NotifyPlayerGetGravy()
+    
+    /// <summary>
+    /// checks if player is getting a platform locally, if yes send it to master client for processsing
+    /// </summary>
+    void CheckPlayerGetGravy()
     {
+        print("checked " + playerTPC.standPlatform.transform.GetSiblingIndex());  
         if (SYNC_gravyArray == null || SYNC_gravyArray.Length == 0)
             return;
         
@@ -182,6 +187,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
         if (touchedGravy)
         {
+            print("hey i got one!"); 
             photonView.RPC("RPC_ProcessGravyGet", RpcTarget.MasterClient, platNum);
         }
         
