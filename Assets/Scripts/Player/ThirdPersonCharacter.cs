@@ -262,6 +262,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Animator.enabled = gravityOn;
 			m_BoxCollider.isTrigger = !gravityOn;
 			m_gravOffCollider.enabled = !gravityOn;
+			if(!gravityOn)
+				m_IsGrounded = false; 
 		}
 		#endregion
 		
