@@ -287,7 +287,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0.06
-      minScalar: 0.03
+      minScalar: 0.01
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -867,7 +867,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 80
+      scalar: 120
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5727,13 +5727,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7026064584403205283}
-  m_LocalRotation: {x: 0.1521543, y: -0.22683145, z: -0.6570573, w: 0.7026182}
-  m_LocalPosition: {x: 0.00332, y: -0.00361, z: 0.00149}
-  m_LocalScale: {x: 0.00942148, y: 0.01, z: 0.009999998}
+  m_LocalRotation: {x: 0.37823635, y: 0.52966374, z: 0.59744227, w: 0.46846175}
+  m_LocalPosition: {x: 0.00153, y: -0.00353, z: 0.000267}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6211893127054414380}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -172.831, y: -111.287994, z: 89.99999}
+  m_LocalEulerAnglesHint: {x: -16.171001, y: 80.846, z: 90.00001}
 --- !u!198 &6479920632262674881
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -5816,9 +5816,9 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0.2
-      minScalar: 5
+      minMaxState: 3
+      scalar: 0.25
+      minScalar: 0.15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5870,7 +5870,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.01
+      scalar: 0.03
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5986,8 +5986,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.06
-      minScalar: 0.03
+      scalar: 0.03
+      minScalar: 0.01
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6361,7 +6361,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 18
     angle: 0
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -6369,7 +6369,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 0.1, y: 0.1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -6567,7 +6567,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
