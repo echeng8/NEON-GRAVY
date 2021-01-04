@@ -23,21 +23,25 @@ public class Mirror : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.name == "Hitbox2D")
+        {
+            return;
+        }
         if (isTriggered == false)
         {
             isTriggered = true;
             hitPos = other.ClosestPointOnBounds(transform.position);
             normalVector = hitPos - transform.position;
             normalVector.y = 0f;
-            newestVector = other.transform.forward - 2 * (Vector3.Dot(other.transform.forward, normalVector)) *
-                normalVector / Mathf.Pow(Vector3.Magnitude(normalVector), 2);
+            newestVector = other.transform.forward - 2 * (Vector3.Dot(other.transform.forward, normalVector)) * normalVector / Mathf.Pow(Vector3.Magnitude(normalVector), 2);
             other.transform.forward = newestVector;
             if (newestVector == null)
             {
                 return;
             }
 
-            other.transform.GetComponent<Rigidbody>().AddForce(newestVector * power, ForceMode.Impulse);
+            newestVector.y = 0f;
+            other.transform.GetComponentInParent<Rigidbody>().AddForce(newestVector * power, ForceMode.Impulse);
             rend.material.SetColor("_BaseColor", Random.ColorHSV());
         }
     }

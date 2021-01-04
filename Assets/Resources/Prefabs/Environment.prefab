@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &793438391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 793438392}
+  m_Layer: 9
+  m_Name: Mirrors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &793438392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793438391}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7905751251795298330}
+  m_Father: {fileID: 8593239931130538786}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2671510413721505214
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5629604929618142989}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Platforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,7 +173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8593239931130538786}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,6 +192,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5629604929618142989}
+  - {fileID: 793438392}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -230,6 +262,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSqLong (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
@@ -306,6 +343,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriEdge
       objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
 --- !u!4 &8080210024505111464 stripped
@@ -380,6 +422,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriEdge (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
@@ -456,6 +503,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498524735662098 stripped
@@ -531,6 +583,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498524724805989 stripped
@@ -550,6 +607,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -625,6 +687,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -756,6 +823,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqCrn (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8676788465448906498, guid: f07a0c53ab6cfc949afd13823be41597,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07a0c53ab6cfc949afd13823be41597, type: 3}
 --- !u!4 &315436416227306245 stripped
@@ -830,6 +902,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriEdge (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
@@ -906,6 +983,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498524299620025 stripped
@@ -980,6 +1062,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriPc (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
@@ -1056,6 +1143,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqCrn (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 8676788465448906498, guid: f07a0c53ab6cfc949afd13823be41597,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07a0c53ab6cfc949afd13823be41597, type: 3}
 --- !u!4 &315436416180975432 stripped
@@ -1075,6 +1167,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -1206,6 +1303,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriPc (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
 --- !u!4 &4913236193090202433 stripped
@@ -1280,6 +1382,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriPc (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
@@ -1356,6 +1463,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498524548510401 stripped
@@ -1430,6 +1542,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriPc (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
@@ -1506,6 +1623,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriEdge (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
 --- !u!4 &8080210024077322263 stripped
@@ -1580,6 +1702,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSqLong (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
@@ -1656,6 +1783,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqCrn (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8676788465448906498, guid: f07a0c53ab6cfc949afd13823be41597,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07a0c53ab6cfc949afd13823be41597, type: 3}
 --- !u!4 &315436416865697955 stripped
@@ -1730,6 +1862,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriPc (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
@@ -1806,6 +1943,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498524100691969 stripped
@@ -1825,6 +1967,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -1901,6 +2048,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSq (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
       propertyPath: m_RootOrder
@@ -1975,6 +2127,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -2106,6 +2263,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523863441307 stripped
@@ -2180,6 +2342,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSqLong (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
@@ -2256,6 +2423,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523853119210 stripped
@@ -2330,6 +2502,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSqLong (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
@@ -2406,6 +2583,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriPc (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
 --- !u!4 &4913236193810881897 stripped
@@ -2433,6 +2615,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MovingPlatSq
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
         type: 3}
@@ -2496,15 +2683,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ff34c11b92797f44aaf4d1dcf73da81, type: 3}
---- !u!4 &4190339907520208720 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5577217490000549865, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
-    type: 3}
-  m_PrefabInstance: {fileID: 8593239931008485561}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3561436210906973674 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
+    type: 3}
+  m_PrefabInstance: {fileID: 8593239931008485561}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4190339907520208720 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5577217490000549865, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
     type: 3}
   m_PrefabInstance: {fileID: 8593239931008485561}
   m_PrefabAsset: {fileID: 0}
@@ -2574,6 +2761,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriEdge (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
@@ -2650,6 +2842,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqCrn (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8676788465448906498, guid: f07a0c53ab6cfc949afd13823be41597,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07a0c53ab6cfc949afd13823be41597, type: 3}
 --- !u!4 &315436416503555078 stripped
@@ -2725,6 +2922,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523998854426 stripped
@@ -2744,6 +2946,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -2819,6 +3026,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -2950,6 +3162,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriPc (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
 --- !u!4 &4913236193710575314 stripped
@@ -3024,6 +3241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriEdge (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
@@ -3100,6 +3322,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqCrn (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8676788465448906498, guid: f07a0c53ab6cfc949afd13823be41597,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07a0c53ab6cfc949afd13823be41597, type: 3}
 --- !u!4 &315436415251958723 stripped
@@ -3175,6 +3402,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523583077804 stripped
@@ -3194,6 +3426,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -3325,6 +3562,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriEdge (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
 --- !u!4 &8080210023348210464 stripped
@@ -3344,6 +3586,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -3475,6 +3722,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523677707730 stripped
@@ -3494,6 +3746,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -3625,6 +3882,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqCrn (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8676788465448906498, guid: f07a0c53ab6cfc949afd13823be41597,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07a0c53ab6cfc949afd13823be41597, type: 3}
 --- !u!4 &315436415166826657 stripped
@@ -3652,6 +3914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MovingPlatSq (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
         type: 3}
@@ -3715,15 +3982,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ff34c11b92797f44aaf4d1dcf73da81, type: 3}
---- !u!1 &3561436210270869215 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
-    type: 3}
-  m_PrefabInstance: {fileID: 8593239931441961868}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4190339907083357285 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5577217490000549865, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
+    type: 3}
+  m_PrefabInstance: {fileID: 8593239931441961868}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3561436210270869215 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5056857855624498515, guid: 1ff34c11b92797f44aaf4d1dcf73da81,
     type: 3}
   m_PrefabInstance: {fileID: 8593239931441961868}
   m_PrefabAsset: {fileID: 0}
@@ -3793,6 +4060,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSqLong (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
@@ -3869,6 +4141,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523303917620 stripped
@@ -3888,6 +4165,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -3963,6 +4245,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (0)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -4094,6 +4381,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523372236952 stripped
@@ -4113,6 +4405,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -4188,6 +4485,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -4319,6 +4621,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriPc (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
 --- !u!4 &4913236192055580600 stripped
@@ -4326,6 +4633,86 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3705900064555308890, guid: f5165f3ad19a23f4ead92dc106c1638f,
     type: 3}
   m_PrefabInstance: {fileID: 8593239931688206562}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8593239931705589530
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 793438392}
+    m_Modifications:
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.6000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380292, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_Name
+      value: Mirror Cylinder
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943176592886380292, guid: ac26108a8ff06804abc62b79ce237fa5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ac26108a8ff06804abc62b79ce237fa5, type: 3}
+--- !u!4 &7905751251795298330 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1943176592886380288, guid: ac26108a8ff06804abc62b79ce237fa5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8593239931705589530}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8593239931783690370
 PrefabInstance:
@@ -4393,6 +4780,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriEdge (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
@@ -4469,6 +4861,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498522965806393 stripped
@@ -4544,6 +4941,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqCrn
       objectReference: {fileID: 0}
+    - target: {fileID: 8676788465448906498, guid: f07a0c53ab6cfc949afd13823be41597,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07a0c53ab6cfc949afd13823be41597, type: 3}
 --- !u!4 &315436415878412248 stripped
@@ -4563,6 +4965,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -4694,6 +5101,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523062031199 stripped
@@ -4768,6 +5180,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriEdge (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
@@ -4844,6 +5261,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriPc (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
 --- !u!4 &4913236192798887877 stripped
@@ -4919,6 +5341,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498523131908820 stripped
@@ -4938,6 +5365,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -5069,6 +5501,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriEdge (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
 --- !u!4 &8080210023787766771 stripped
@@ -5088,6 +5525,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -5219,6 +5661,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498522715496152 stripped
@@ -5294,6 +5741,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriPc
       objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
 --- !u!4 &4913236192768189000 stripped
@@ -5313,6 +5765,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -5444,6 +5901,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498522844849055 stripped
@@ -5518,6 +5980,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSqLong (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
@@ -5594,6 +6061,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriEdge (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 876001427763655548, guid: db3a4e2ad1470114e86b554a660c038d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3a4e2ad1470114e86b554a660c038d, type: 3}
 --- !u!4 &8080210023574827187 stripped
@@ -5668,6 +6140,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSqCrn
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676788465448906498, guid: f07a0c53ab6cfc949afd13823be41597,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07a0c53ab6cfc949afd13823be41597, type: 3}
@@ -5744,6 +6221,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatSqLong (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 2931639998904859021, guid: bd7010f3d52a81441b0c4db97f61d371,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd7010f3d52a81441b0c4db97f61d371, type: 3}
 --- !u!4 &6099498522941900789 stripped
@@ -5763,6 +6245,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatSq
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049786968941329915, guid: f848e563374f2b7458dfcb5d949498d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5575353890050975553, guid: f848e563374f2b7458dfcb5d949498d3,
         type: 3}
@@ -5894,6 +6381,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatTriPc (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}
 --- !u!4 &4913236192639713322 stripped
@@ -5968,6 +6460,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlatTriPc (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045869456769600992, guid: f5165f3ad19a23f4ead92dc106c1638f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5165f3ad19a23f4ead92dc106c1638f, type: 3}

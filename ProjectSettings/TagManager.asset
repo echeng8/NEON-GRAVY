@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Damage
   - Platform
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Minimap
+  - Environment
   - 
   - 
   - 
