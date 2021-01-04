@@ -82,15 +82,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (changedProps.ContainsKey("kills"))
-        {
-            updateLeaderboard();
-        }
-
-        if (changedProps.ContainsKey("gravies"))
-        {
-            SetKillFeed($"{targetPlayer.NickName} now has {changedProps["gravies"]} gravies");
-        }
+        //todo make checks 
+        updateLeaderboard();
     }
 
     /// <summary>
