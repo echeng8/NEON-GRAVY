@@ -9,18 +9,22 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// <summary>
-/// handles deaths and scoreboard and kills tracking  
+/// handles scoreboard: kills and gravy transfer 
 /// </summary>
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public static GameManager instance; 
+
+    #region  Implementation Values 
+
+    public static GameManager instance;
 
     public TextMeshProUGUI killFeed;
     public TextMeshProUGUI leaderBoardDisplay;
     
     public List<Player> leaderBoard; 
     private Player[] playerList;
-    
+
+    #endregion
 
     #region Unity Callbacks 
 
@@ -53,20 +57,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #endregion
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        playerList = PhotonNetwork.PlayerList; //refresh player name list
-    }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        playerList = PhotonNetwork.PlayerList;
-    }
-    
-    public override void OnLeftRoom()
-    {
-        SceneManager.LoadScene(0);
-    }
+    #region Pun Callbacks
 
     private void OpRPC_ReportFall(int lastAttacker)
     {
@@ -85,6 +76,25 @@ public class GameManager : MonoBehaviourPunCallbacks
         //todo make checks 
         updateLeaderboard();
     }
+    
+    //room roster changes
+    
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        playerList = PhotonNetwork.PlayerList; //refresh player name list
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        playerList = PhotonNetwork.PlayerList;
+    }
+    
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
+    }
+    
+    #endregion
 
     /// <summary>
     /// only on host client 
@@ -117,9 +127,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 //transfer gravy 
                 newKillerGravies = (int)deadPlayer.CustomProperties["gravies"] + (int)killer.CustomProperties["gravies"];
                 killer.SetCustomProperties(new Hashtable() {{"gravies", newKillerGravies}});
+                deadPlayer.SetCustomProperties(new Hashtable() {{"gravies", 0}});
             }
 
-            //todo
+            //todo make better 
             SetKillFeed($"{killer.NickName} killed {deadPlayer.NickName} for {newKillerGravies} gravies");
         }
     }
@@ -158,11 +169,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         return (int)p2.CustomProperties["gravies"] - (int)p1.CustomProperties["gravies"]; 
     }
+    
     void SetKillFeed(string s)
     {
         killFeed.text = s; 
     }
-    
-    
-    
 }
