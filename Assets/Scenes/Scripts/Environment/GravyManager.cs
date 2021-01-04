@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun; 
 using Photon.Realtime;
@@ -9,31 +10,38 @@ using UnityStandardAssets.Characters.ThirdPerson;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>
-/// Creates and updates the gravies on platform  
+/// Creates and updates the gravies on platform
+/// handles player gravy dection and awarding 
 /// </summary>
 public class GravyManager : MonoBehaviourPunCallbacks
 {
     
     #region Gameplay Values
+    
     public float gravyPercent; 
+
+    
+    #endregion
+    
+    #region  Implementation Values
+
+    /// <summary>
+    /// The parent of all platforms in the game, used for managing gravies. 
+    /// </summary>
+    public GameObject platformParent;  
+    public GameObject gravyPrefab;
+    public TextMeshProUGUI gravyCountDisplay; 
+
     /// <summary>
     /// number of gravies in the game 
     /// </summary>
     [HideInInspector] public int gravyNum;
 
     [HideInInspector] public int platformNum;
-
-    public GameObject platformParent;    
-    public GameObject gravyPrefab;
-
-    #endregion
-    
-    #region  Implementation Values
-
     /// <summary>
     /// number of gravy's left 
     /// </summary>
-    [HideInInspector] public int currentGravyNum;
+    [HideInInspector] public int SYNC_currentGravyNum;
 
     private ThirdPersonCharacter playerTPC;
     
@@ -42,6 +50,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     /// DO NOT edit directly, use SetCustomValues["gravyArray"] instead
     /// </summary>
     private bool[] SYNC_gravyArray;
+    
     #endregion
 
     #region Unity Callbacks 
@@ -49,6 +58,8 @@ public class GravyManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        
+        //set up listeners for landing gravy detection 
         if (PlayerUserInput.localPlayerInstance == null)
         {
             PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
@@ -57,8 +68,10 @@ public class GravyManager : MonoBehaviourPunCallbacks
         {
             AddPlayerListeners(PlayerUserInput.localPlayerInstance.gameObject);
         }
-       
 
+        
+        
+        //generate or load gravies 
         //todo instead of checking if playercount is 1, check if its the start of a new round
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
         {
@@ -71,6 +84,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
             SYNC_gravyArray = (bool[])PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"]; 
             UpdateGravyObjects();
         }
+        
     }
     
     #endregion
@@ -83,9 +97,12 @@ public class GravyManager : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.ContainsKey("gravyArray"))
         {
             SYNC_gravyArray = (bool[])propertiesThatChanged["gravyArray"];
+            SYNC_currentGravyNum = SYNC_gravyArray.Count(s => s == true);
+            gravyCountDisplay.text = SYNC_currentGravyNum.ToString(); 
+            
+            //YNC_currentGravyNum = SYNC_gravyArray.Length - 
             UpdateGravyObjects(); 
         }
-            
     }
     #endregion
 
@@ -183,7 +200,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
     /// </summary>
     void CheckPlayerGetGravy()
     {
-        print("checked " + playerTPC.standPlatform.transform.GetSiblingIndex());  
         if (SYNC_gravyArray == null || SYNC_gravyArray.Length == 0)
             return; 
         
