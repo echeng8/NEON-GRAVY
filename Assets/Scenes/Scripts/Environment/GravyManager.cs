@@ -193,7 +193,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
         if (touchedGravy)
         {
-            print("hey i got one!"); 
             photonView.RPC("RPC_ProcessGravyGet", RpcTarget.MasterClient, platNum);
         }
     }

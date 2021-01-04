@@ -47,7 +47,6 @@ public class Mirror : MonoBehaviour
         if (isTriggered)
         {
             setDelayTrigger = setDelayTrigger + Time.deltaTime;
-            print(setDelayTrigger);
             if (setDelayTrigger > minTimeDelay)
             {
                 isTriggered = false;
