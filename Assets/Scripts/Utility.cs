@@ -39,6 +39,7 @@ public static class Utility
     {
         if (PhotonNetwork.IsConnected)
         {
+            
             return PhotonNetwork.Time;
         }
         else
