@@ -49,7 +49,15 @@ public class GravyManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
+        if (PlayerUserInput.localPlayerInstance == null)
+        {
+            PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
+        }
+        else
+        {
+            AddPlayerListeners(PlayerUserInput.localPlayerInstance.gameObject);
+        }
+       
 
         //todo instead of checking if playercount is 1, check if its the start of a new round
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
@@ -135,8 +143,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
             if (!SYNC_gravyArray[i] && HasGravyDisplay(i))
             {
-                print(platform.name);
-                print(platform.transform.GetChild(0).gameObject.name);
                 Destroy(platform.transform.GetChild(0).gameObject); //todo get gravy with set or send signal 
             }
         }
@@ -179,7 +185,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     {
         print("checked " + playerTPC.standPlatform.transform.GetSiblingIndex());  
         if (SYNC_gravyArray == null || SYNC_gravyArray.Length == 0)
-            return;
+            return; 
         
         int actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
         int platNum = playerTPC.standPlatform.transform.GetSiblingIndex();
@@ -187,10 +193,8 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
         if (touchedGravy)
         {
-            print("hey i got one!"); 
             photonView.RPC("RPC_ProcessGravyGet", RpcTarget.MasterClient, platNum);
         }
-        
     }
     /// <summary>
     /// removes the gravy by updating the GravyArray in setcustomproperties 
