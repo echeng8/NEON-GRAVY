@@ -7,94 +7,99 @@
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="Mirror.cs" t="Include" />
-        <e p="Scripts" t="Include">
-          <e p="ConsoleToGUI.cs" t="Include" />
-          <e p="CubeAppearance.cs" t="Include" />
-          <e p="Environment" t="Include">
-            <e p="GravyManager.cs" t="Include" />
-          </e>
-          <e p="GameManager.cs" t="Include" />
-          <e p="Interfaces.cs" t="Include" />
-          <e p="MainMenu" t="Include">
-            <e p="Launcher.cs" t="Include" />
-            <e p="NameInput.cs" t="Include" />
-          </e>
-          <e p="ParticleAttract.cs" t="Include" />
-          <e p="Player" t="Include">
-            <e p="CameraFacing.cs" t="Include" />
-            <e p="PlayerAppearance.cs" t="Include" />
-            <e p="PlayerCamera.cs" t="Include" />
-            <e p="PlayerGravity.cs" t="Include" />
-            <e p="PlayerPlatformAttach.cs" t="Include" />
-            <e p="PlayerShoot.cs" t="Include" />
-            <e p="PlayerUserInput.cs" t="Include" />
-            <e p="ThirdPersonCharacter.cs" t="Include" />
-            <e p="ThirdPersonUserControl.cs" t="Include" />
-          </e>
-          <e p="Projectile.cs" t="Include" />
-          <e p="SetAnimTime.cs" t="Include" />
-          <e p="Standard Assets" t="Include">
-            <e p="Characters" t="Include">
-              <e p="ThirdPersonCharacter" t="Include">
-                <e p="ThirdPersonCharacterGuidelines.txt" t="Include" />
-              </e>
+        <e p="Scenes" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="ChargeAppearance.cs" t="Include" />
+            <e p="ConsoleToGUI.cs" t="Include" />
+            <e p="Environment" t="Include">
+              <e p="GravyManager.cs" t="Include" />
             </e>
-            <e p="CrossPlatformInput" t="Include">
-              <e p="CrossPlatformInputGuidelines.txt" t="Include" />
-              <e p="Scripts" t="Include">
-                <e p="AxisTouchButton.cs" t="Include" />
-                <e p="ButtonHandler.cs" t="Include" />
-                <e p="CrossPlatformInputManager.cs" t="Include" />
-                <e p="InputAxisScrollbar.cs" t="Include" />
-                <e p="Joystick.cs" t="Include" />
-                <e p="MobileControlRig.cs" t="Include" />
-                <e p="PlatformSpecific" t="Include">
-                  <e p="MobileInput.cs" t="Include" />
-                  <e p="StandaloneInput.cs" t="Include" />
+            <e p="GameManager.cs" t="Include" />
+            <e p="Interfaces.cs" t="Include" />
+            <e p="LockTransformWorld.cs" t="Include" />
+            <e p="MainMenu" t="Include">
+              <e p="Launcher.cs" t="Include" />
+              <e p="NameInput.cs" t="Include" />
+            </e>
+            <e p="ParticleAttract.cs" t="Include" />
+            <e p="Player" t="Include">
+              <e p="CameraFacing.cs" t="Include" />
+              <e p="PlayerAppearance.cs" t="Include" />
+              <e p="PlayerCamera.cs" t="Include" />
+              <e p="PlayerGravity.cs" t="Include" />
+              <e p="PlayerPlatformAttach.cs" t="Include" />
+              <e p="PlayerShoot.cs" t="Include" />
+              <e p="PlayerUserInput.cs" t="Include" />
+              <e p="ThirdPersonCharacter.cs" t="Include" />
+              <e p="ThirdPersonUserControl.cs" t="Include" />
+            </e>
+            <e p="Projectile.cs" t="Include" />
+            <e p="SetAnimTime.cs" t="Include" />
+            <e p="Standard Assets" t="Include">
+              <e p="Characters" t="Include">
+                <e p="ThirdPersonCharacter" t="Include">
+                  <e p="ThirdPersonCharacterGuidelines.txt" t="Include" />
                 </e>
-                <e p="TiltInput.cs" t="Include" />
-                <e p="TouchPad.cs" t="Include" />
-                <e p="VirtualInput.cs" t="Include" />
               </e>
-            </e>
-            <e p="Editor" t="Include">
               <e p="CrossPlatformInput" t="Include">
-                <e p="CrossPlatformInputInitialize.cs" t="Include" />
+                <e p="CrossPlatformInputGuidelines.txt" t="Include" />
+                <e p="Scripts" t="Include">
+                  <e p="AxisTouchButton.cs" t="Include" />
+                  <e p="ButtonHandler.cs" t="Include" />
+                  <e p="CrossPlatformInputManager.cs" t="Include" />
+                  <e p="InputAxisScrollbar.cs" t="Include" />
+                  <e p="Joystick.cs" t="Include" />
+                  <e p="MobileControlRig.cs" t="Include" />
+                  <e p="PlatformSpecific" t="Include">
+                    <e p="MobileInput.cs" t="Include" />
+                    <e p="StandaloneInput.cs" t="Include" />
+                  </e>
+                  <e p="TiltInput.cs" t="Include" />
+                  <e p="TouchPad.cs" t="Include" />
+                  <e p="VirtualInput.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Editor" t="Include">
+                <e p="CrossPlatformInput" t="Include">
+                  <e p="CrossPlatformInputInitialize.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Fonts" t="Include">
+                <e p="OpenSans" t="Include">
+                  <e p="License!.txt" t="Include" />
+                </e>
+              </e>
+              <e p="Utility" t="Include">
+                <e p="ActivateTrigger.cs" t="Include" />
+                <e p="AlphaButtonClickMask.cs" t="Include" />
+                <e p="AutoMobileShaderSwitch.cs" t="Include" />
+                <e p="AutoMoveAndRotate.cs" t="Include" />
+                <e p="CameraRefocus.cs" t="Include" />
+                <e p="CurveControlledBob.cs" t="Include" />
+                <e p="DragRigidbody.cs" t="Include" />
+                <e p="DynamicShadowSettings.cs" t="Include" />
+                <e p="EventSystemChecker.cs" t="Include" />
+                <e p="FollowTarget.cs" t="Include" />
+                <e p="ForcedReset.cs" t="Include" />
+                <e p="FOVKick.cs" t="Include" />
+                <e p="FPSCounter.cs" t="Include" />
+                <e p="LerpControlledBob.cs" t="Include" />
+                <e p="ObjectResetter.cs" t="Include" />
+                <e p="ParticleSystemDestroyer.cs" t="Include" />
+                <e p="PlatformSpecificContent.cs" t="Include" />
+                <e p="SimpleMouseRotator.cs" t="Include" />
+                <e p="SmoothFollow.cs" t="Include" />
+                <e p="TimedObjectActivator.cs" t="Include" />
+                <e p="TimedObjectDestructor.cs" t="Include" />
+                <e p="WaypointCircuit.cs" t="Include" />
+                <e p="WaypointProgressTracker.cs" t="Include" />
               </e>
             </e>
-            <e p="Fonts" t="Include">
-              <e p="OpenSans" t="Include">
-                <e p="License!.txt" t="Include" />
-              </e>
-            </e>
-            <e p="Utility" t="Include">
-              <e p="ActivateTrigger.cs" t="Include" />
-              <e p="AlphaButtonClickMask.cs" t="Include" />
-              <e p="AutoMobileShaderSwitch.cs" t="Include" />
-              <e p="AutoMoveAndRotate.cs" t="Include" />
-              <e p="CameraRefocus.cs" t="Include" />
-              <e p="CurveControlledBob.cs" t="Include" />
-              <e p="DragRigidbody.cs" t="Include" />
-              <e p="DynamicShadowSettings.cs" t="Include" />
-              <e p="EventSystemChecker.cs" t="Include" />
-              <e p="FollowTarget.cs" t="Include" />
-              <e p="ForcedReset.cs" t="Include" />
-              <e p="FOVKick.cs" t="Include" />
-              <e p="FPSCounter.cs" t="Include" />
-              <e p="LerpControlledBob.cs" t="Include" />
-              <e p="ObjectResetter.cs" t="Include" />
-              <e p="ParticleSystemDestroyer.cs" t="Include" />
-              <e p="PlatformSpecificContent.cs" t="Include" />
-              <e p="SimpleMouseRotator.cs" t="Include" />
-              <e p="SmoothFollow.cs" t="Include" />
-              <e p="TimedObjectActivator.cs" t="Include" />
-              <e p="TimedObjectDestructor.cs" t="Include" />
-              <e p="WaypointCircuit.cs" t="Include" />
-              <e p="WaypointProgressTracker.cs" t="Include" />
-            </e>
+            <e p="Utility.cs" t="Include" />
           </e>
-          <e p="Utility.cs" t="Include" />
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Mirror.cs" t="Include" />
         </e>
         <e p="ThirdParty" t="Include">
           <e p="Cinemachine" t="Include">

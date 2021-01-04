@@ -82,15 +82,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (changedProps.ContainsKey("kills"))
-        {
-            updateLeaderboard();
-        }
-
-        if (changedProps.ContainsKey("gravies"))
-        {
-            SetKillFeed($"{targetPlayer.NickName} now has {changedProps["gravies"]} gravies");
-        }
+        //todo make checks 
+        updateLeaderboard();
     }
 
     /// <summary>
@@ -109,17 +102,25 @@ public class GameManager : MonoBehaviourPunCallbacks
             SetKillFeed($"{deadPlayer.NickName} has fallen.");
         }
         else
-        { // process kill 
+        { 
+            // process kill 
 
+            int newKillerGravies = 0; 
             if (PhotonNetwork.IsMasterClient)
             {
                 //add 1 to player kills
                 int currentPlayerKills = (int)killer.CustomProperties["kills"];
                 currentPlayerKills++;
                 killer.SetCustomProperties(new Hashtable() {{"kills", currentPlayerKills}});
+                
+                
+                //transfer gravy 
+                newKillerGravies = (int)deadPlayer.CustomProperties["gravies"] + (int)killer.CustomProperties["gravies"];
+                killer.SetCustomProperties(new Hashtable() {{"gravies", newKillerGravies}});
             }
 
-            SetKillFeed($"{deadPlayer.NickName} was killed by {killer.NickName}");
+            //todo
+            SetKillFeed($"{killer.NickName} killed {deadPlayer.NickName} for {newKillerGravies} gravies");
         }
     }
     
@@ -131,12 +132,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     void updateLeaderboard()
     {
         leaderBoard = playerList.ToList(); 
-        leaderBoard.Sort(comparePlayerKills);
+        leaderBoard.Sort(comparePlayerGravies);
 
-        string lbString = "KILLEREST KILLERS\n"; 
+        string lbString = "GRAVIEST KILLERS\n"; 
         foreach (Player p in leaderBoard)
         {
-            lbString += $"{p.NickName} {p.CustomProperties["kills"]}\n";
+            lbString += $"{p.NickName} {p.CustomProperties["gravies"]}\n";
         }
 
         leaderBoardDisplay.text = lbString;
@@ -153,6 +154,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         return (int)p2.CustomProperties["kills"] - (int)p1.CustomProperties["kills"]; 
     }
 
+    int comparePlayerGravies(Player p1, Player p2)
+    {
+        return (int)p2.CustomProperties["gravies"] - (int)p1.CustomProperties["gravies"]; 
+    }
     void SetKillFeed(string s)
     {
         killFeed.text = s; 

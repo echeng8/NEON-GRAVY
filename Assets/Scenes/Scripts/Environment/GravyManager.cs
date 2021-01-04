@@ -49,7 +49,15 @@ public class GravyManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
+        if (PlayerUserInput.localPlayerInstance == null)
+        {
+            PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
+        }
+        else
+        {
+            AddPlayerListeners(PlayerUserInput.localPlayerInstance.gameObject);
+        }
+       
 
         //todo instead of checking if playercount is 1, check if its the start of a new round
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
@@ -114,7 +122,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     void AddPlayerListeners(GameObject localPlayer)
     {
         playerTPC = localPlayer.GetComponent<ThirdPersonCharacter>();
-        playerTPC.OnLand.AddListener(NotifyPlayerGetGravy);
+        playerTPC.OnLand.AddListener(CheckPlayerGetGravy);
     }
     /// <summary>
     /// spawns the available gravy objects based on gravyArray in custom properties
@@ -135,8 +143,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
             if (!SYNC_gravyArray[i] && HasGravyDisplay(i))
             {
-                print(platform.name);
-                print(platform.transform.GetChild(0).gameObject.name);
                 Destroy(platform.transform.GetChild(0).gameObject); //todo get gravy with set or send signal 
             }
         }
@@ -171,10 +177,15 @@ public class GravyManager : MonoBehaviourPunCallbacks
         return platformParent.transform.GetChild(childIndex).childCount > 0; 
     }
 
-    void NotifyPlayerGetGravy()
+    
+    /// <summary>
+    /// checks if player is getting a platform locally, if yes send it to master client for processsing
+    /// </summary>
+    void CheckPlayerGetGravy()
     {
+        print("checked " + playerTPC.standPlatform.transform.GetSiblingIndex());  
         if (SYNC_gravyArray == null || SYNC_gravyArray.Length == 0)
-            return;
+            return; 
         
         int actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
         int platNum = playerTPC.standPlatform.transform.GetSiblingIndex();
@@ -184,7 +195,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
         {
             photonView.RPC("RPC_ProcessGravyGet", RpcTarget.MasterClient, platNum);
         }
-        
     }
     /// <summary>
     /// removes the gravy by updating the GravyArray in setcustomproperties 
