@@ -5860,6 +5860,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dieYValue: -10
+  lastAttacker: -1
 --- !u!114 &5241548347328579800
 MonoBehaviour:
   m_ObjectHideFlags: 0

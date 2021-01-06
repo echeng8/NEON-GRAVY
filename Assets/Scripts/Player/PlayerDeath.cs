@@ -27,7 +27,7 @@ public class PlayerDeath : MonoBehaviourPun
     /// The last person to hit this player, by ActorNum.
     /// -1 when none. 
     /// </summary>
-    private int lastAttacker = -1;
+    public int lastAttacker = -1;
  
 
     // Start is called before the first frame update

@@ -55,12 +55,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region Pun Callbacks
 
-    private void OpRPC_ReportFall(int lastAttacker)
+    private void OpRPC_ReportFall()
     {
         if (PhotonNetwork.IsConnected)
         {
             photonView.RPC("RPC_ReportFall", RpcTarget.All,
-                PlayerUserInput.localPlayerInstance.photonView.Owner.ActorNumber, lastAttacker);
+                PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().lastAttacker);
         }
         else
         {
@@ -99,9 +99,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="deadActorNumber"></param>
     /// <param name="killerActorNumber"></param>
     [PunRPC]
-    private void RPC_ReportFall(int deadActorNumber, int killerActorNumber)
+    private void RPC_ReportFall(int killerActorNumber, PhotonMessageInfo info)
     {
-        Player deadPlayer = PhotonNetwork.CurrentRoom.GetPlayer(deadActorNumber);
+        Player deadPlayer = info.Sender;
         Player killer = PhotonNetwork.CurrentRoom.GetPlayer(killerActorNumber);
 
         if (killerActorNumber == -1 || killer == null)
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             // process kill 
 
-            int newKillerGravies = 0;
+            int deadPlayerGravies = (int) deadPlayer.CustomProperties["gravies"];
             if (PhotonNetwork.IsMasterClient)
             {
                 //add 1 to player kills
@@ -122,14 +122,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
                 //transfer gravy 
-                newKillerGravies = (int) deadPlayer.CustomProperties["gravies"] +
+                int newKillerGravies = deadPlayerGravies +
                                    (int) killer.CustomProperties["gravies"];
                 killer.SetCustomProperties(new Hashtable() {{"gravies", newKillerGravies}});
                 deadPlayer.SetCustomProperties(new Hashtable() {{"gravies", 0}});
             }
 
             //todo make better 
-            SetKillFeed($"{killer.NickName} killed {deadPlayer.NickName} for {newKillerGravies} gravies");
+            SetKillFeed($"{killer.NickName} killed {deadPlayer.NickName} for {deadPlayerGravies} gravies");
         }
     }
 
@@ -189,7 +189,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("Player", GetComponent<GravyManager>().platformParent.transform.GetChild(j).position + Vector3.up * 2, Quaternion.identity);
         }
         
-        PlayerUserInput.localPlayerInstance.GetComponent<PlayerGravity>().OnHit.AddListener(OpRPC_ReportFall);
+        PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(OpRPC_ReportFall);
 
         playerList = PhotonNetwork.PlayerList; 
         
