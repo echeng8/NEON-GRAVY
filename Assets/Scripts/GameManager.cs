@@ -189,7 +189,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("Player", GetComponent<GravyManager>().platformParent.transform.GetChild(j).position + Vector3.up * 2, Quaternion.identity);
         }
         
-        PlayerUserInput.localPlayerInstance.GetComponent<PlayerGravity>().OnFall.AddListener(OpRPC_ReportFall);
+        PlayerUserInput.localPlayerInstance.GetComponent<PlayerGravity>().OnHit.AddListener(OpRPC_ReportFall);
 
         playerList = PhotonNetwork.PlayerList; 
         

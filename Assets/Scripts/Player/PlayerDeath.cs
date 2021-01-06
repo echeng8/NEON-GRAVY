@@ -9,7 +9,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 /// </summary>
 public class PlayerDeath : MonoBehaviourPun
 {
-    
+    private GameObject platforms;
     /// <summary>
     /// Triggers when the player dies.
     /// </summary>
@@ -23,12 +23,18 @@ public class PlayerDeath : MonoBehaviourPun
     [SerializeField] private float dieYValue;
 
     private Rigidbody rb;
-    public int lastAttacker = -1; 
+    /// <summary>
+    /// The last person to hit this player, by ActorNum.
+    /// -1 when none. 
+    /// </summary>
+    private int lastAttacker = -1;
+ 
 
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        platforms = GameObject.Find("Platforms");
     }
     
     private void Start()
@@ -74,8 +80,14 @@ public class PlayerDeath : MonoBehaviourPun
     /// </summary>
     private void Recall()
     {
-        transform.position = Vector3.zero;
-        rb.velocity = Vector3.zero;
+        bool[] respawnPlatforms = (bool[]) PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"];
+        int j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
+        while (respawnPlatforms[j] == true)
+        {
+            j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
+        }
+        transform.position = platforms.gameObject.transform.GetChild(j).position + Vector3.up * 2;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     void updateLastAttacker(int attackerNum)

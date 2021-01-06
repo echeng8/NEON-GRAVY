@@ -34,11 +34,6 @@ public class PlayerGravity : MonoBehaviourPun
     [SerializeField] private float hitInvulSec;
 
     /// <summary>
-    /// The lowest Y value that a player can have before they 'die'.
-    /// </summary>
-    [SerializeField] private float dieYValue;
-
-    /// <summary>
     /// The times you must be hit before you go Grav Off by force. 
     /// </summary>
     [SerializeField] private int gravDurability;
@@ -52,8 +47,6 @@ public class PlayerGravity : MonoBehaviourPun
     #endregion
 
     #region Implementation Fields
-
-    private GameObject platforms;
 
     private bool gravity = true;
     
@@ -69,7 +62,7 @@ public class PlayerGravity : MonoBehaviourPun
     /// Triggers when the player recalls.
     /// Passes the player's actor number and the actor number of their last attacker if available, otherwise -1
     /// </summary>
-    public IntEvent OnFall = new IntEvent();
+    public IntEvent OnHit = new IntEvent();
     
     /// <summary>
     /// The last person to hit this player, by ActorNum.
@@ -112,7 +105,6 @@ private void Awake()
         
         //placeholder, durabiilty text not final todo refactor 
         durabilityDisplay.text = gravDurability.ToString();
-        platforms = GameObject.Find("Platforms");
     }
 
     private void Start()
@@ -143,28 +135,11 @@ private void Awake()
         if (!gravity)
             rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
 
-        
-        //Checking to see if below die point
-        if (transform.position.y < dieYValue) //death 
-        {
-            OnFall.Invoke(lastAttacker);
-            if (PhotonNetwork.IsConnected)
-            {
-                photonView.RPC("RPC_SetDurability", RpcTarget.All, gravDurability);
-            }
-            Recall();
-        }
-
 
         //Debug Stuff 
         if (Input.GetKeyDown(KeyCode.V))
         {
             print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
-        }
-        
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Recall(); 
         }
     }
 
@@ -301,22 +276,7 @@ private void Awake()
     {
         lastAttacker = -1; 
     }
-
-    /// <summary>
-    /// dying and debug teleport to back
-    /// clears velocity 
-    /// </summary>
-    private void Recall()
-    {
-        bool[] respawnPlatforms = (bool[]) PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"];
-        int j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
-        while (respawnPlatforms[j] == true)
-        {
-            j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
-        }
-        transform.position = platforms.gameObject.transform.GetChild(j).position + Vector3.up * 2;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-    }
+    
 
     /// <summary>
     /// Handles the durability break. Disables gravity and re-enables it when ready.
