@@ -24,9 +24,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<Player> leaderBoard; 
     private Player[] playerList;
 
+
     #endregion
 
-    #region Unity Callbacks 
+    #region Unity Callbacks
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("Player", Vector3.zero + Vector3.up * 2, Quaternion.identity);
         }
         
-        PlayerUserInput.localPlayerInstance.GetComponent<PlayerGravity>().OnFall.AddListener(OpRPC_ReportFall);
+        PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(OpRPC_ReportFall);
         
         playerList = PhotonNetwork.PlayerList; 
         
@@ -59,11 +61,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region Pun Callbacks
 
-    private void OpRPC_ReportFall(int lastAttacker)
+    /// <summary>
+    /// called when the local player dies 
+    /// </summary>
+    private void OpRPC_ReportFall()
     {
         if (PhotonNetwork.IsConnected)
         {
-            photonView.RPC("RPC_ReportFall", RpcTarget.All, PlayerUserInput.localPlayerInstance.photonView.Owner.ActorNumber, lastAttacker);
+            photonView.RPC("RPC_ReportFall", RpcTarget.All, PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().lastAttacker);
         }
         else
         {
@@ -102,9 +107,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="deadActorNumber"></param>
     /// <param name="killerActorNumber"></param>
     [PunRPC]
-    private void RPC_ReportFall(int deadActorNumber, int killerActorNumber)
+    private void RPC_ReportFall(int killerActorNumber, PhotonMessageInfo info)
     {
-        Player deadPlayer = PhotonNetwork.CurrentRoom.GetPlayer(deadActorNumber);
+        Player deadPlayer = info.Sender;
         Player killer = PhotonNetwork.CurrentRoom.GetPlayer(killerActorNumber);
         
         if (killerActorNumber == -1 || killer == null)

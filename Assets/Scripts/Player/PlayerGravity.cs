@@ -10,8 +10,7 @@ using UnityEngine.Events;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 /// <summary>
-/// Handles player gravity user toggling AND damage handling
-/// todo separate damage recording and death functionality into other script 
+/// Handles player gravity user toggling AND damage handling 
 /// </summary>
 public class PlayerGravity : MonoBehaviourPun
 {
@@ -32,11 +31,7 @@ public class PlayerGravity : MonoBehaviourPun
     /// Seconds the player is invulnerable after being hit. 
     /// </summary>
     [SerializeField] private float hitInvulSec;
-
-    /// <summary>
-    /// The lowest Y value that a player can have before they 'die'.
-    /// </summary>
-    [SerializeField] private float dieYValue;
+    
 
     /// <summary>
     /// The times you must be hit before you go Grav Off by force. 
@@ -64,17 +59,10 @@ public class PlayerGravity : MonoBehaviourPun
     public BoolEvent OnGravityChange = new BoolEvent();
 
     /// <summary>
-    /// Triggers when the player recalls.
-    /// Passes the player's actor number and the actor number of their last attacker if available, otherwise -1
+    /// passes the actor number of the attacker 
     /// </summary>
-    public IntEvent OnFall = new IntEvent();
+    public IntEvent OnHit = new IntEvent(); 
     
-    /// <summary>
-    /// The last person to hit this player, by ActorNum.
-    /// -1 when none. 
-    /// </summary>
-    private int lastAttacker = -1;
-
     /// <summary>
     /// underlying value of CurrentDurabillity property 
     /// </summary>
@@ -108,14 +96,12 @@ private void Awake()
         rb = GetComponent<Rigidbody>();
         CurrentDurability = gravDurability; 
         
+        GetComponent<PlayerDeath>().OnDeath.AddListener(ResetOnDeath);
+
         //placeholder, durabiilty text not final todo refactor 
-        durabilityDisplay.text = gravDurability.ToString(); 
+        durabilityDisplay.text = gravDurability.ToString();
     }
 
-    private void Start()
-    {
-        GetComponent<ThirdPersonCharacter>().OnLand.AddListener(resetLastAttacker);
-    }
 
     /// <summary>
     /// its update but it only calls when you're the local player OR set so in inspector
@@ -139,29 +125,12 @@ private void Awake()
         //clamp velocity.y to negative or 0 
         if (!gravity)
             rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
-
         
-        //Checking to see if below die point
-        if (transform.position.y < dieYValue) //death 
-        {
-            OnFall.Invoke(lastAttacker);
-            if (PhotonNetwork.IsConnected)
-            {
-                photonView.RPC("RPC_SetDurability", RpcTarget.All, gravDurability);
-            }
-            Recall();
-        }
-
 
         //Debug Stuff 
         if (Input.GetKeyDown(KeyCode.V))
         {
             print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
-        }
-        
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Recall(); 
         }
     }
 
@@ -212,12 +181,6 @@ private void Awake()
     [PunRPC]
     void RPC_ProcessHit(int damageEndured, int attackerNum = -1)
     {
-        if (attackerNum != -1)
-        {
-            lastAttacker = attackerNum;
-            
-        }
-
         if (gravity)
         {
             if (photonView.IsMine)
@@ -232,6 +195,8 @@ private void Awake()
             hitInvulnerable = true;
             this.Invoke(() => hitInvulnerable = false, hitInvulSec);
         }
+        
+        OnHit.Invoke(attackerNum);
     }
 
     /// <summary>
@@ -271,11 +236,10 @@ private void Awake()
         return gravity; 
     }
     
-
     #endregion
 
     #region Private Methods
-    
+
     /// <summary>
     /// applies impulse force on the player towards hit direction
     /// based on hits
@@ -294,21 +258,6 @@ private void Awake()
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
     }
 
-    private void resetLastAttacker()
-    {
-        lastAttacker = -1; 
-    }
-
-    /// <summary>
-    /// dying and debug teleport to back
-    /// clears velocity 
-    /// </summary>
-    private void Recall()
-    {
-        transform.position = Vector3.zero;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-    }
-
     /// <summary>
     /// Handles the durability break. Disables gravity and re-enables it when ready.
     /// Calls RPC_SetGravity and RPC_RecoverGravity
@@ -322,6 +271,15 @@ private void Awake()
         }
     }
     
+    /// <summary>
+    /// resets values on death, to be added to OnDeath event
+    /// called for ALL clients by PlayerDeath through event triggering  
+    /// </summary>
+    private void ResetOnDeath()
+    {
+        RPC_SetGravity(true);
+        CurrentDurability = gravDurability;
+    }
     #endregion
 
 
