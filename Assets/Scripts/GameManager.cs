@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         { 
             // process kill 
 
-            int newKillerGravies = 0; 
+            int deadPlayerGravies = (int) deadPlayer.CustomProperties["gravies"]; 
             if (PhotonNetwork.IsMasterClient)
             {
                 //add 1 to player kills
@@ -130,13 +130,14 @@ public class GameManager : MonoBehaviourPunCallbacks
                 
                 
                 //transfer gravy 
-                newKillerGravies = (int)deadPlayer.CustomProperties["gravies"] + (int)killer.CustomProperties["gravies"];
+                int newKillerGravies = deadPlayerGravies + (int)killer.CustomProperties["gravies"];
                 killer.SetCustomProperties(new Hashtable() {{"gravies", newKillerGravies}});
                 deadPlayer.SetCustomProperties(new Hashtable() {{"gravies", 0}});
             }
 
             //todo make better 
-            SetKillFeed($"{killer.NickName} killed {deadPlayer.NickName} for {newKillerGravies} gravies");
+            
+            SetKillFeed($"{killer.NickName} killed {deadPlayer.NickName} for {deadPlayerGravies} gravies");
         }
     }
     
