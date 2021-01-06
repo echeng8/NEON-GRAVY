@@ -9,7 +9,6 @@ using UnityEngine.Events;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
-    private static string gameVersion = "0";
     public UnityEvent OnConnectedSuccess = new UnityEvent();
     
     //test
@@ -108,8 +107,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             // #Critical, we must first and foremost connect to Photon Online Server.
             PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.GameVersion = gameVersion;
-            
         }
     }
 

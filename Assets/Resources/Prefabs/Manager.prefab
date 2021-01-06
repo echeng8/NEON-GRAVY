@@ -82,9 +82,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravyPercent: 0.75
-  gravyNum: 0
-  platformNum: 0
   platformParent: {fileID: 0}
   gravyPrefab: {fileID: 2218740844897392649, guid: 912d579a0b89ba3468727f7278a6bb25,
     type: 3}
-  currentGravyNum: 0
+  gravyCountDisplay: {fileID: 0}
+  gravyNum: 0
+  platformNum: 0
+  SYNC_currentGravyNum: 0
