@@ -53,6 +53,8 @@ public class PlayerGravity : MonoBehaviourPun
 
     #region Implementation Fields
 
+    private GameObject platforms;
+
     private bool gravity = true;
     
     /// <summary>
@@ -109,7 +111,8 @@ private void Awake()
         CurrentDurability = gravDurability; 
         
         //placeholder, durabiilty text not final todo refactor 
-        durabilityDisplay.text = gravDurability.ToString(); 
+        durabilityDisplay.text = gravDurability.ToString();
+        platforms = GameObject.Find("Platforms");
     }
 
     private void Start()
@@ -305,7 +308,13 @@ private void Awake()
     /// </summary>
     private void Recall()
     {
-        transform.position = Vector3.zero;
+        bool[] respawnPlatforms = (bool[]) PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"];
+        int j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
+        while (respawnPlatforms[j] == true)
+        {
+            j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
+        }
+        transform.position = platforms.gameObject.transform.GetChild(j).position + Vector3.up * 2;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 

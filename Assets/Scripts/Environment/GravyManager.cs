@@ -56,7 +56,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     #region Unity Callbacks 
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         
         //set up listeners for landing gravy detection 
