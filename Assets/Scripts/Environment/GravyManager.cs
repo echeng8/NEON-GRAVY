@@ -58,6 +58,8 @@ public class GravyManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Awake()
     {
+        if (!PhotonNetwork.IsConnected)
+            return; 
         
         //set up listeners for landing gravy detection 
         if (PlayerUserInput.localPlayerInstance == null)
@@ -81,7 +83,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            SYNC_gravyArray = (bool[])PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"]; 
             UpdateGravyObjects();
         }
         
@@ -96,11 +97,6 @@ public class GravyManager : MonoBehaviourPunCallbacks
         //todo optimize maybe 
         if (propertiesThatChanged.ContainsKey("gravyArray"))
         {
-            SYNC_gravyArray = (bool[])propertiesThatChanged["gravyArray"];
-            SYNC_currentGravyNum = SYNC_gravyArray.Count(s => s == true);
-            gravyCountDisplay.text = SYNC_currentGravyNum.ToString(); 
-            
-            //YNC_currentGravyNum = SYNC_gravyArray.Length - 
             UpdateGravyObjects(); 
         }
     }
@@ -142,11 +138,16 @@ public class GravyManager : MonoBehaviourPunCallbacks
         playerTPC.OnLand.AddListener(CheckPlayerGetGravy);
     }
     /// <summary>
-    /// spawns the available gravy objects based on gravyArray in custom properties
+    /// updates gravy variables AND spawns or deletes grav display based on Gravy Array 
     /// updates gravyNum 
     /// </summary>
     void UpdateGravyObjects()
     {
+        SYNC_gravyArray = (bool[])PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"]; 
+        SYNC_currentGravyNum = SYNC_gravyArray.Count(s => s == true);
+        gravyCountDisplay.text = SYNC_currentGravyNum.ToString(); 
+        
+        
         int gNum = 0; 
         for (int i = 0; i < SYNC_gravyArray.Length; i++)
         {
