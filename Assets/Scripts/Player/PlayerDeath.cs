@@ -36,11 +36,8 @@ public class PlayerDeath : MonoBehaviourPun
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-<<<<<<< HEAD
-        alive = true; 
-=======
+        alive = true;
         platforms = GameObject.Find("Platforms");
->>>>>>> 144db0991a44ad6852ada7da34f894885a367bc9
     }
     
     private void Start()
@@ -91,7 +88,6 @@ public class PlayerDeath : MonoBehaviourPun
         }
     }
     
-    private GameObject platforms;
     /// <summary>
     /// sets alive and triggers onalive events 
     /// </summary>
@@ -106,7 +102,7 @@ public class PlayerDeath : MonoBehaviourPun
     
     
     /// <summary>
-    /// sets aliv eand triggers ondeath events
+    /// sets alive and triggers ondeath events
     /// </summary>
     [PunRPC]
     void RPC_InvokeOnDeath()
