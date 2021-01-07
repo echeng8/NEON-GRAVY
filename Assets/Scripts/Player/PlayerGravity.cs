@@ -60,6 +60,7 @@ public class PlayerGravity : MonoBehaviourPun
 
     /// <summary>
     /// passes the actor number of the attacker 
+    /// Triggers when the player recalls.
     /// </summary>
     public IntEvent OnHit = new IntEvent(); 
     
@@ -97,7 +98,6 @@ private void Awake()
         CurrentDurability = gravDurability; 
         
         GetComponent<PlayerDeath>().OnDeath.AddListener(ResetOnDeath);
-
         //placeholder, durabiilty text not final todo refactor 
         durabilityDisplay.text = gravDurability.ToString();
     }
@@ -125,7 +125,7 @@ private void Awake()
         //clamp velocity.y to negative or 0 
         if (!gravity)
             rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
-        
+
 
         //Debug Stuff 
         if (Input.GetKeyDown(KeyCode.V))
@@ -236,10 +236,11 @@ private void Awake()
         return gravity; 
     }
     
+
     #endregion
 
     #region Private Methods
-
+    
     /// <summary>
     /// applies impulse force on the player towards hit direction
     /// based on hits
