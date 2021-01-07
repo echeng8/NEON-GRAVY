@@ -175,7 +175,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     IEnumerator SetSpawn()
     {
-        yield return new WaitForSeconds(0.5f);
+        while (PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"] == null) //ensures that gravyarray is loaded
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+            
         bool[] respawnPlatforms = (bool[]) PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"];
 
         int j = Random.Range(0, respawnPlatforms.Length);
