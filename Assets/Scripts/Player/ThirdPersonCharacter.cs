@@ -31,7 +31,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] private float groundCheckRaycastHeightOffset;
 		
 		/// <summary>
-		/// Invoked whenever the player touches the ground with Grav-On
+		/// Invoked whenever the player touches the ground with Grav-On 
 		/// </summary>
 		public UnityEvent OnLand = new UnityEvent();
 
@@ -63,6 +63,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		/// time player has been off ground since last time 
 		/// </summary>
 		private float timeOffGround;
+
+		private bool isStanding; 
 		
 		/// <summary>
 		/// the platform the player is standing on
@@ -88,7 +90,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			//listen to events
 			GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
 		}
-		
+
 
 		public void Move(Vector3 move)
 		{
@@ -222,29 +224,40 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 #endif
 
-			if (hitInfo.collider != null)
+			if (hitInfo.collider != null) // theres something unde ryou 
 			{
-					
 				standPlatform = hitInfo.collider.gameObject; //todo remove redunancy
 				
 				if (!pg.GetGravity())
 					return;
 
+				
+				
 				//if this is the frame that you just landed in 
 				//delete velocity if you were falling 
-				if (!m_IsGrounded)
+				if (!isStanding)
 				{
-					m_Rigidbody.velocity = Vector3.zero;
+					m_Rigidbody.velocity = Vector3.zero; 
+					
+					CallOnLandPlatform(standPlatform);
 					OnLand.Invoke();
+					isStanding = true;
 				}
-				m_GroundNormal = hitInfo.normal;
-				m_IsGrounded = true;
-				m_Animator.applyRootMotion = true;
+				else
+				{
+					m_GroundNormal = hitInfo.normal;
+					m_IsGrounded = true;
+					m_Animator.applyRootMotion = true;
+				}
+				
+			
 			}
-			else
-			{
+			else // if theres nothing under you 
+			{//bug here 
+				isStanding = false; 
 				if (standPlatform != null)
 				{
+					CallOnLeavePlatform(standPlatform);
 					standPlatform = null;
 				}
 				if (!pg.GetGravity())
@@ -260,11 +273,37 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void respondToGravity(bool gravityOn)
 		{
+			if (!gravityOn)
+				isStanding = false; 
 			m_Animator.enabled = gravityOn;
 			m_BoxCollider.isTrigger = !gravityOn;
 			m_gravOffCollider.enabled = !gravityOn;
-			if(!gravityOn)
-				m_IsGrounded = false; 
+		}
+
+		/// <summary>
+		/// calls on land platform functions on all componets implementing IPlatformPlayerCallbcks 
+		/// </summary>
+		/// <param name="platform"></param>
+		void CallOnLandPlatform(GameObject platform)
+		{
+			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
+			foreach (IPlatformPlayerCallbacks p in plat)
+			{
+				p.OnLocalPlayerLand();
+			}
+		}
+		
+		/// <summary>
+		/// calls on leave platform functions on all components implementing IPlatformPlayerCallbacks 
+		/// </summary>
+		/// <param name="platform"></param>
+		void CallOnLeavePlatform(GameObject platform)
+		{
+			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
+			foreach (IPlatformPlayerCallbacks p in plat)
+			{
+				p.OnLocalPlayerLeave();
+			}
 		}
 		#endregion
 		
