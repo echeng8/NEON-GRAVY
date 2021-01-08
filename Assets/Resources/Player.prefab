@@ -5636,7 +5636,7 @@ MonoBehaviour:
   m_GravityMultiplier: 2
   m_MoveSpeedMultiplier: 1.25
   m_AnimSpeedMultiplier: 1.25
-  m_GroundCheckDistance: 1
+  m_GroundCheckDistance: 0.05
   groundCheckRaycastSpread: 0.05
   groundCheckRaycastHeightOffset: 0.05
   OnLand:
@@ -5669,7 +5669,7 @@ MonoBehaviour:
   - {fileID: -701184294584743466}
   - {fileID: 7423241816855295017}
   - {fileID: 4926659754991069527}
-  viewIdField: 1
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &898129209291207219
@@ -11388,6 +11388,11 @@ PrefabInstance:
     - target: {fileID: 5283702896890890727, guid: 988c3605d82ede849b3fb3bd23dce6f9,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283702896890890727, guid: 988c3605d82ede849b3fb3bd23dce6f9,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6628540283269283791, guid: 988c3605d82ede849b3fb3bd23dce6f9,
