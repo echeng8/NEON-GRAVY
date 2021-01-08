@@ -34,10 +34,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region Unity Callbacks
 
+    private void Awake()
+    {
+        instance = this; 
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-
         StartCoroutine(SetSpawn());
     }
 
@@ -96,8 +100,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <summary>
     /// only on host client 
     /// </summary>
-    /// <param name="deadActorNumber"></param>
-    /// <param name="killerActorNumber"></param>
     [PunRPC]
     private void RPC_ReportFall(int killerActorNumber, PhotonMessageInfo info)
     {
@@ -175,30 +177,24 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     IEnumerator SetSpawn()
     {
-        while (PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"] == null) //ensures that gravyarray is loaded
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-            
-        bool[] respawnPlatforms = (bool[]) PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"];
-
-        int j = Random.Range(0, respawnPlatforms.Length);
-        while (respawnPlatforms[j] == true)
-        {
-            j = Random.Range(0, respawnPlatforms.Length);
-        }
-       
         if (PhotonNetwork.IsConnected)
         {
-            PhotonNetwork.Instantiate("Player", GetComponent<GravyManager>().platformParent.transform.GetChild(j).position + Vector3.up * 2, Quaternion.identity);
+            while (PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"] == null) //ensures that gravyarray is loaded
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            PhotonNetwork.Instantiate("Player", Vector3.up * 5f, Quaternion.identity); 
+            
+            //init local player properties 
+            Hashtable playerProps = new Hashtable {{"kills", 0},{"gravies", 0}};
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps); 
         }
-        
+
+        PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().Spawn();
         PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(OpRPC_ReportFall);
 
         playerList = PhotonNetwork.PlayerList; 
         
-        //init local player properties 
-        Hashtable playerProps = new Hashtable {{"kills", 0},{"gravies", 0}};
-        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps); 
+
     }
 }

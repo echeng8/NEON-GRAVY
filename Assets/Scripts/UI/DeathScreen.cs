@@ -26,7 +26,7 @@ public class DeathScreen : MonoBehaviour
     //tries to revive the player 
     public void TryRevive()
     {
-        pd.Revive();
+        pd.Spawn();
     }
     
     
@@ -38,7 +38,7 @@ public class DeathScreen : MonoBehaviour
         }
         
         pd.OnDeath.AddListener(enableSelf);
-        pd.OnRevive.AddListener(disableSelf);
+        pd.OnSpawn.AddListener(disableSelf);
 
 }
     

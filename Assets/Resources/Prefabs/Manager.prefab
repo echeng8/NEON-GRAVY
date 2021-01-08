@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 404525293491802412}
   - component: {fileID: 404525293491802403}
   - component: {fileID: 3795716947706820217}
+  - component: {fileID: 404525291925151462}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
+  ObservedComponentsFoldoutOpen: 0
   Group: 0
   prefixField: -1
   observableSearch: 2
@@ -82,10 +83,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravyPercent: 0.75
-  platformParent: {fileID: 0}
   gravyPrefab: {fileID: 2218740844897392649, guid: 912d579a0b89ba3468727f7278a6bb25,
     type: 3}
   gravyCountDisplay: {fileID: 0}
   gravyNum: 0
-  platformNum: 0
   SYNC_currentGravyNum: 0
+--- !u!114 &404525291925151462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404525293491802401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01190fa3d7a8e1644ac317687b4b61f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformParent: {fileID: 0}
+  platformNum: 0

@@ -31,7 +31,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] private float groundCheckRaycastHeightOffset;
 		
 		/// <summary>
-		/// Invoked whenever the player touches the ground with Grav-On 
+		/// Invoked whenever the player touches the ground with Grav-On
 		/// </summary>
 		public UnityEvent OnLand = new UnityEvent();
 
@@ -88,7 +88,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			//listen to events
 			GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
 		}
-
+		
 
 		public void Move(Vector3 move)
 		{
@@ -224,6 +224,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			if (hitInfo.collider != null)
 			{
+					
 				standPlatform = hitInfo.collider.gameObject; //todo remove redunancy
 				
 				if (!pg.GetGravity())

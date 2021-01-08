@@ -10,15 +10,17 @@ using UnityStandardAssets.Characters.ThirdPerson;
 /// </summary>
 public class PlayerDeath : MonoBehaviourPun
 {
-    private GameObject platforms;
     /// <summary>
     /// Triggers when the player dies.
     /// </summary>
     public UnityEvent OnDeath = new UnityEvent();
 
-    public UnityEvent OnRevive = new UnityEvent();
+    /// <summary>
+    /// networked event that triggers when players spawned
+    /// </summary>
+    public UnityEvent OnSpawn = new UnityEvent();
 
-    public bool alive = true; 
+    [HideInInspector] public bool alive = false; 
     /// <summary>
     /// The lowest Y value that a player can have before they 'die'.
     /// </summary>
@@ -35,9 +37,8 @@ public class PlayerDeath : MonoBehaviourPun
     // Start is called before the first frame update
     void Awake()
     {
+        alive = false;
         rb = GetComponent<Rigidbody>();
-        alive = true;
-        platforms = GameObject.Find("Platforms");
     }
     
     private void Start()
@@ -52,19 +53,12 @@ public class PlayerDeath : MonoBehaviourPun
         //Checking to see if below die point
         if (transform.position.y < dieYValue && alive) //death 
         {
-            if (PhotonNetwork.IsConnected)
-            {
-                photonView.RPC("RPC_InvokeOnDeath", RpcTarget.All);
-            }
-            else
-            {
-                RPC_InvokeOnDeath();
-            }
+            KillPlayer();
         }
         
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Recall(); 
+            KillPlayer(); 
         }
 
     }
@@ -72,31 +66,48 @@ public class PlayerDeath : MonoBehaviourPun
     /// <summary>
     /// calls rpc_InvokeOnRevive via network or offline
     /// </summary>
-    public void Revive()
+    public void Spawn()
     {
+        print(alive);
         if (!alive)
         {
             if (PhotonNetwork.IsConnected)
             {
-                photonView.RPC("RPC_InvokeOnAlive", RpcTarget.All);
+                photonView.RPC("RPC_SpawnPlayer", RpcTarget.All);
             }
             else
             {
-                RPC_InvokeOnAlive();
+                RPC_SpawnPlayer();
             }
 
         }
     }
     
     /// <summary>
-    /// sets alive and triggers onalive events 
+    /// sets alive, moves player to spawn, triggers onalive events 
     /// </summary>
     [PunRPC]
-    void RPC_InvokeOnAlive()
+    void RPC_SpawnPlayer()
     {
-        alive = true; 
-        Recall();
-        OnRevive.Invoke();
+        alive = true; //todo move custom properties? 
+        transform.position = GetSpawnLocation(); 
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        OnSpawn.Invoke();
+    }
+
+    public void KillPlayer()
+    {
+        if (alive)
+        {
+            if (PhotonNetwork.IsConnected)
+            {
+                photonView.RPC("RPC_KillPlayer", RpcTarget.All);
+            }
+            else
+            {
+                RPC_KillPlayer();
+            }
+        }
 
     }
     
@@ -105,7 +116,7 @@ public class PlayerDeath : MonoBehaviourPun
     /// sets alive and triggers ondeath events
     /// </summary>
     [PunRPC]
-    void RPC_InvokeOnDeath()
+    void RPC_KillPlayer()
     {
         alive = false;
         OnDeath.Invoke();
@@ -115,16 +126,18 @@ public class PlayerDeath : MonoBehaviourPun
     /// dying and debug teleport to back
     /// clears velocity 
     /// </summary>
-    private void Recall()
+    private Vector3 GetSpawnLocation()
     {
-        bool[] respawnPlatforms = (bool[]) PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"];
-        int j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
-        while (respawnPlatforms[j] == true)
+        Vector3 spawnLoc = Vector3.zero;
+        if (!PhotonNetwork.IsConnected) 
+            spawnLoc = Vector3.zero;
+        else
         {
-            j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
+            int platIndex = GravyManager.GetGravylessPlatform(); 
+            spawnLoc = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform.GetChild(platIndex).position + Vector3.up * 2;
         }
-        transform.position = platforms.gameObject.transform.GetChild(j).position + Vector3.up * 2;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        return spawnLoc; 
     }
 
     void UpdateLastAttacker(int attackerNum)

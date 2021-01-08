@@ -5636,7 +5636,7 @@ MonoBehaviour:
   m_GravityMultiplier: 2
   m_MoveSpeedMultiplier: 1.25
   m_AnimSpeedMultiplier: 1.25
-  m_GroundCheckDistance: 0.05
+  m_GroundCheckDistance: 1
   groundCheckRaycastSpread: 0.05
   groundCheckRaycastHeightOffset: 0.05
   OnLand:
@@ -5856,7 +5856,7 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
-  OnRevive:
+  OnSpawn:
     m_PersistentCalls:
       m_Calls: []
   alive: 1
