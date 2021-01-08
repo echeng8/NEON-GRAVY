@@ -5221,7 +5221,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2018856538704818406}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 0
   m_MotionVectors: 1
@@ -5669,7 +5669,7 @@ MonoBehaviour:
   - {fileID: -701184294584743466}
   - {fileID: 7423241816855295017}
   - {fileID: 4926659754991069527}
-  viewIdField: 0
+  viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &898129209291207219
