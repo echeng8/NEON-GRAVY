@@ -4,7 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class Minimapcolorcode : MonoBehaviour
+public class MinimapColorCode : MonoBehaviour
 {
     private Renderer ren;
 

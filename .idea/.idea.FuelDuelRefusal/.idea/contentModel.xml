@@ -23,6 +23,7 @@
           <e p="Minimapcolorcode.cs" t="Include" />
           <e p="Mirror.cs" t="Include" />
           <e p="ParticleAttract.cs" t="Include" />
+          <e p="PlatformAppearance.cs" t="Include" />
           <e p="PlatformManager.cs" t="Include" />
           <e p="Player" t="Include">
             <e p="CameraFacing.cs" t="Include" />
