@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformAppearance : MonoBehaviour
+public class PlatformAppearance : MonoBehaviour, IPlatformPlayerCallbacks
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnLocalPlayerLand()
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnLocalPlayerLeave()
     {
-        
+        throw new System.NotImplementedException();
     }
 }

@@ -5583,8 +5583,8 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 988c3605d82ede849b3fb3bd23dce6f9, type: 3}
   m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
+  m_CullingMode: 2
+  m_UpdateMode: 1
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -5644,8 +5644,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_gravOffCollider: {fileID: 6906985377878469053}
-  coyoteTime: 0.15
-  standPlatform: {fileID: 0}
+  coyoteTime: 0.25
+  _platformBelow: {fileID: 0}
+  OnPlatformBelowChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &719885462788168250
 MonoBehaviour:
   m_ObjectHideFlags: 0

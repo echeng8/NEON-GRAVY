@@ -162,11 +162,11 @@ private void Awake()
     }
 
     //to trigger gravity changes in debug 
-    private void OnValidate()
-    {
+    //private void OnValidate()
+    //{
         //!!!this will call gravity change twice if something else was edited
-        OnGravityChange.Invoke(gravity);
-    }
+        //OnGravityChange.Invoke(gravity);
+    //}
     #endregion
     
     #region RPC and related Methods 

@@ -64,12 +64,32 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private float timeOffGround;
 
-		private bool isStanding; 
-		
+		private bool isStanding;
+
 		/// <summary>
 		/// the platform the player is standing on
 		/// </summary>
-		public GameObject standPlatform;
+		public GameObject PlatformBelow
+		{
+			get
+			{
+				return _platformBelow; 
+			}
+			set
+			{
+				if (value != _platformBelow)
+				{
+					_platformBelow = value;
+					OnPlatformBelowChange.Invoke(value); 
+				}
+			}
+		}
+
+		public GameObject _platformBelow; 
+		/// <summary>
+		/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
+		/// </summary>
+		public GameObjectEvent OnPlatformBelowChange = new GameObjectEvent();
 		
 		
 		void Awake()
@@ -90,8 +110,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			//listen to events
 			GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
 		}
-
-
+		
 		public void Move(Vector3 move)
 		{
 			// convert the world relative moveInput vector into a local-relative
@@ -226,7 +245,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			if (hitInfo.collider != null) // theres something unde ryou 
 			{
-				standPlatform = hitInfo.collider.gameObject; //todo remove redunancy
+				PlatformBelow = hitInfo.collider.gameObject; //todo remove redunancy
 				
 				if (!pg.GetGravity())
 					return;
@@ -239,7 +258,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				{
 					m_Rigidbody.velocity = Vector3.zero; 
 					
-					CallOnLandPlatform(standPlatform);
+					CallOnLandPlatform(PlatformBelow);
 					OnLand.Invoke();
 					isStanding = true;
 				}
@@ -255,11 +274,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			else // if theres nothing under you 
 			{//bug here 
 				isStanding = false; 
-				if (standPlatform != null)
+				if (PlatformBelow != null)
 				{
-					CallOnLeavePlatform(standPlatform);
-					standPlatform = null;
+					CallOnLeavePlatform(PlatformBelow);
+					PlatformBelow = null;
 				}
+				
+				
 				if (!pg.GetGravity())
 					return;
 
