@@ -1,5 +1,6 @@
 
 using System;
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,6 +30,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
 		[SerializeField] private float groundCheckRaycastSpread;
 		[SerializeField] private float groundCheckRaycastHeightOffset;
+
+		public float dampingAirSpeed;
 		
 		/// <summary>
 		/// Invoked whenever the player touches the ground with Grav-On
@@ -84,11 +87,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		private void Start()
 		{
-			
+
 			//listen to events
 			GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
 		}
-		
+
 
 		public void Move(Vector3 move)
 		{
@@ -105,7 +108,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			ApplyExtraTurnRotation();
 
 			// coyote time 
-			if (!m_IsGrounded)
+			if (!m_IsGrounded && pg.GetGravity())
 			{
 				timeOffGround += Time.deltaTime; 
 			}
@@ -153,9 +156,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (!m_Animator.enabled) // don't apply gravity if animator is down 
 				return; 
 			
-			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
+			Vector3 extraGravityForce = Physics.gravity * m_GravityMultiplier;
 			m_Rigidbody.AddForce(extraGravityForce);
-			
+			m_Rigidbody.velocity = new Vector3(dampingAirSpeed*m_Rigidbody.velocity.x, m_Rigidbody.velocity.y, dampingAirSpeed*m_Rigidbody.velocity.z);
 		}
 
 		
@@ -231,12 +234,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 					return;
 
 				//if this is the frame that you just landed in 
-				//delete velocity if you were falling 
-				if (!m_IsGrounded)
-				{
-					m_Rigidbody.velocity = Vector3.zero;
-					OnLand.Invoke();
-				}
+				//delete velocity if you were falling (seemed unnecessary)
+				//if (!m_IsGrounded)
+				//{
+				//	m_Rigidbody.velocity = Vector3.zero;
+				//}
+				OnLand.Invoke();
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.applyRootMotion = true;
@@ -263,8 +266,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Animator.enabled = gravityOn;
 			m_BoxCollider.isTrigger = !gravityOn;
 			m_gravOffCollider.enabled = !gravityOn;
-			if(!gravityOn)
-				m_IsGrounded = false; 
 		}
 		#endregion
 		
