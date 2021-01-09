@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public TextMeshProUGUI leaderBoardDisplay;
 
     public List<Player> leaderBoard;
-    private Player[] playerList;
+    public Player[] playerList;
 
     #endregion
 

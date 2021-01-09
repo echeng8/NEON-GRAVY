@@ -86,6 +86,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		}
 
 		public GameObject _platformBelow; 
+		/// <summary>
+		/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
+		/// </summary>
 		public GameObjectEvent OnPlatformBelowChange = new GameObjectEvent();
 		
 		

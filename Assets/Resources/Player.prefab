@@ -5639,13 +5639,15 @@ MonoBehaviour:
   m_GroundCheckDistance: 0.05
   groundCheckRaycastSpread: 0.05
   groundCheckRaycastHeightOffset: 0.05
-  dampingAirSpeed: 0.25
   OnLand:
     m_PersistentCalls:
       m_Calls: []
   m_gravOffCollider: {fileID: 6906985377878469053}
   coyoteTime: 0.25
-  standPlatform: {fileID: 0}
+  _platformBelow: {fileID: 0}
+  OnPlatformBelowChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &719885462788168250
 MonoBehaviour:
   m_ObjectHideFlags: 0

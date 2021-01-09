@@ -208,7 +208,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     
     
     /// <summary>
-    /// checks if player is getting a platform locally, if yes send it to master client for processsing
+    /// checks if player is getting a platform by LANDING on it, if yes send it to master client for processsing
     /// </summary>
     void CheckPlayerGetGravy()
     {
