@@ -54,6 +54,7 @@ public class PlayerDeath : MonoBehaviourPun
         if (transform.position.y < dieYValue && alive) //death 
         {
             KillPlayer();
+            transform.position = new Vector3(1000,transform.position.y,1000); //todo pan camera or something
         }
         
         if (Input.GetKeyDown(KeyCode.R))
