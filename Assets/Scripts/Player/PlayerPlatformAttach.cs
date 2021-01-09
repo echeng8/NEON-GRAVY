@@ -24,23 +24,23 @@ public class PlayerPlatformAttach : MonoBehaviour
     private void ControlledLateUpdate()
     {
         //checks current platform its if moving, will change position based on platform movement
-        if (tpc.standPlatform != null && tpc.standPlatform.GetComponent<Animator>() != null && pg.GetGravity())
+        if (tpc.PlatformBelow != null && tpc.PlatformBelow.GetComponent<Animator>() != null && pg.GetGravity())
         {
             if (previousPosition == Vector3.zero)
             {
                 return;
             }
             
-            transform.position += tpc.standPlatform.transform.position - previousPosition;
+            transform.position += tpc.PlatformBelow.transform.position - previousPosition;
         }
     }
 
     private void ControlledUpdate()
     {
         //checks current platform if its moving, bases position on platform if true bases position on (0,0,0) if false, does not change player position
-        if(tpc.standPlatform != null && tpc.standPlatform.GetComponent<Animator>() != null)
+        if(tpc.PlatformBelow != null && tpc.PlatformBelow.GetComponent<Animator>() != null)
         {
-            previousPosition = tpc.standPlatform.transform.position;
+            previousPosition = tpc.PlatformBelow.transform.position;
         }
         else
         {

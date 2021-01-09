@@ -216,7 +216,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
             return; 
         
         int actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
-        int platNum = playerTPC.standPlatform.transform.GetSiblingIndex();
+        int platNum = playerTPC.PlatformBelow.transform.GetSiblingIndex();
         bool touchedGravy = SYNC_gravyArray[platNum];
 
         if (touchedGravy)

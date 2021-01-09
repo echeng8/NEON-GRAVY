@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WebSocketSharp;
 
 /// <summary>
 /// tracks who is on what platform with byte array where each element is an actor number
