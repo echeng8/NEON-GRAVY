@@ -69,7 +69,6 @@ public class PlayerDeath : MonoBehaviourPun
     /// </summary>
     public void Spawn()
     {
-        print(alive);
         if (!alive)
         {
             if (PhotonNetwork.IsConnected)

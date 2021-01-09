@@ -1,6 +1,5 @@
 
 using System;
-using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -30,11 +29,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
 		[SerializeField] private float groundCheckRaycastSpread;
 		[SerializeField] private float groundCheckRaycastHeightOffset;
-
-		public float dampingAirSpeed;
 		
 		/// <summary>
-		/// Invoked whenever the player touches the ground with Grav-On
+		/// Invoked whenever the player touches the ground with Grav-On 
 		/// </summary>
 		public UnityEvent OnLand = new UnityEvent();
 
@@ -66,6 +63,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		/// time player has been off ground since last time 
 		/// </summary>
 		private float timeOffGround;
+
+		private bool isStanding; 
 		
 		/// <summary>
 		/// the platform the player is standing on
@@ -87,7 +86,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		private void Start()
 		{
-
+			
 			//listen to events
 			GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
 		}
@@ -108,7 +107,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			ApplyExtraTurnRotation();
 
 			// coyote time 
-			if (!m_IsGrounded && pg.GetGravity())
+			if (!m_IsGrounded)
 			{
 				timeOffGround += Time.deltaTime; 
 			}
@@ -156,9 +155,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (!m_Animator.enabled) // don't apply gravity if animator is down 
 				return; 
 			
-			Vector3 extraGravityForce = Physics.gravity * m_GravityMultiplier;
+			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
 			m_Rigidbody.AddForce(extraGravityForce);
-			m_Rigidbody.velocity = new Vector3(dampingAirSpeed*m_Rigidbody.velocity.x, m_Rigidbody.velocity.y, dampingAirSpeed*m_Rigidbody.velocity.z);
+			
 		}
 
 		
@@ -225,29 +224,40 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 #endif
 
-			if (hitInfo.collider != null)
+			if (hitInfo.collider != null) // theres something unde ryou 
 			{
-					
 				standPlatform = hitInfo.collider.gameObject; //todo remove redunancy
 				
 				if (!pg.GetGravity())
 					return;
 
+				
+				
 				//if this is the frame that you just landed in 
-				//delete velocity if you were falling (seemed unnecessary)
-				//if (!m_IsGrounded)
-				//{
-				//	m_Rigidbody.velocity = Vector3.zero;
-				//}
-				OnLand.Invoke();
-				m_GroundNormal = hitInfo.normal;
-				m_IsGrounded = true;
-				m_Animator.applyRootMotion = true;
+				//delete velocity if you were falling 
+				if (!isStanding)
+				{
+					m_Rigidbody.velocity = Vector3.zero; 
+					
+					CallOnLandPlatform(standPlatform);
+					OnLand.Invoke();
+					isStanding = true;
+				}
+				else
+				{
+					m_GroundNormal = hitInfo.normal;
+					m_IsGrounded = true;
+					m_Animator.applyRootMotion = true;
+				}
+				
+			
 			}
-			else
-			{
+			else // if theres nothing under you 
+			{//bug here 
+				isStanding = false; 
 				if (standPlatform != null)
 				{
+					CallOnLeavePlatform(standPlatform);
 					standPlatform = null;
 				}
 				if (!pg.GetGravity())
@@ -263,9 +273,37 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void respondToGravity(bool gravityOn)
 		{
+			if (!gravityOn)
+				isStanding = false; 
 			m_Animator.enabled = gravityOn;
 			m_BoxCollider.isTrigger = !gravityOn;
 			m_gravOffCollider.enabled = !gravityOn;
+		}
+
+		/// <summary>
+		/// calls on land platform functions on all componets implementing IPlatformPlayerCallbcks 
+		/// </summary>
+		/// <param name="platform"></param>
+		void CallOnLandPlatform(GameObject platform)
+		{
+			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
+			foreach (IPlatformPlayerCallbacks p in plat)
+			{
+				p.OnLocalPlayerLand();
+			}
+		}
+		
+		/// <summary>
+		/// calls on leave platform functions on all components implementing IPlatformPlayerCallbacks 
+		/// </summary>
+		/// <param name="platform"></param>
+		void CallOnLeavePlatform(GameObject platform)
+		{
+			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
+			foreach (IPlatformPlayerCallbacks p in plat)
+			{
+				p.OnLocalPlayerLeave();
+			}
 		}
 		#endregion
 		
