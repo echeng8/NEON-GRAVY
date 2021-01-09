@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Emissive
+  m_Name: Platform Emissive
   m_Shader: {fileID: -6465566751694194690, guid: f1777bb4f048da045ab4a0947d6073a3,
     type: 3}
   m_ShaderKeywords: _EMISSION
@@ -91,7 +91,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_8A577280: {r: 1, g: 1, b: 1, a: 0}
+    - Color_8A577280: {r: 0, g: 1.39772, b: 1.2367262, a: 0}
     - _BaseColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

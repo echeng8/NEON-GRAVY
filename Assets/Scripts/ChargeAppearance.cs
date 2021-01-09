@@ -9,7 +9,8 @@ public class ChargeAppearance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ps = GetComponentInParent<PlayerShoot>();
+        //todo check to see if player is there
+        ps = PlayerUserInput.localPlayerInstance.GetComponentInParent<PlayerShoot>();
         an = GetComponent<Animator>();
     }
 
