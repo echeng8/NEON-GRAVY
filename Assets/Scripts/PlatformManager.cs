@@ -70,7 +70,7 @@ public class PlatformManager : MonoBehaviourPunCallbacks
     /// <param name="platNum"></param>
     public void TurnOnPlat(int platNum)
     {
-        platformParent.transform.GetChild(platNum).GetComponent<MeshRenderer>().materials[1].SetColor("_BaseColor", Color.black);
+        platformParent.transform.GetChild(platNum).GetComponent<MeshRenderer>().materials[0].SetColor("Color_8A577280", Color.yellow);
     }
 
     void AddPlayerListeners(GameObject player)
