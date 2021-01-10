@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         leaderBoard = playerList.ToList();
         leaderBoard.Sort(comparePlayerGravies);
 
-        string lbString = "GRAVIEST KILLERS\n";
+        string lbString = "";
         foreach (Player p in leaderBoard)
         {
             lbString += $"{p.NickName} {p.CustomProperties["gravies"]}\n";
