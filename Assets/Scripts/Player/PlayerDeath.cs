@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityStandardAssets.Characters.ThirdPerson;
@@ -25,6 +26,16 @@ public class PlayerDeath : MonoBehaviourPun
     /// The lowest Y value that a player can have before they 'die'.
     /// </summary>
     [SerializeField] private float dieYValue;
+    
+    /// <summary>
+    /// The maximum/minimum X value that a player can have before they 'die'.
+    /// </summary>
+    [SerializeField] private float dieXValue;
+    
+    /// <summary>
+    /// The maximum/minimum Z value that a player can have before they 'die'.
+    /// </summary>
+    [SerializeField] private float dieZValue;
 
     private Rigidbody rb;
     /// <summary>
@@ -44,7 +55,7 @@ public class PlayerDeath : MonoBehaviourPun
     private void Start()
     {
         GetComponent<ThirdPersonCharacter>().OnLand.AddListener(ResetLastAttacker);
-        GetComponent<PlayerGravity>().OnHit.AddListener(UpdateLastAttacker); 
+        GetComponent<PlayerGravity>().OnHit.AddListener(UpdateLastAttacker);
     }
 
     // Update is called once per frame
@@ -52,6 +63,17 @@ public class PlayerDeath : MonoBehaviourPun
     {
         //Checking to see if below die point
         if (transform.position.y < dieYValue && alive) //death 
+        {
+            KillPlayer();
+            transform.position = new Vector3(1000,transform.position.y,1000); //todo pan camera or something
+        }
+        if ((transform.position.x < GameObject.Find("MiniMapCamera").transform.position.x-dieXValue || transform.position.x > GameObject.Find("MiniMapCamera").transform.position.x+dieXValue) && alive) //death 
+        {
+            KillPlayer();
+            transform.position = new Vector3(1000,transform.position.y,1000); //todo pan camera or something
+        }
+        
+        if ((transform.position.z < GameObject.Find("MiniMapCamera").transform.position.z-dieZValue || transform.position.z > GameObject.Find("MiniMapCamera").transform.position.z+dieZValue) && alive) //death 
         {
             KillPlayer();
             transform.position = new Vector3(1000,transform.position.y,1000); //todo pan camera or something

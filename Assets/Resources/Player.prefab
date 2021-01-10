@@ -15441,6 +15441,8 @@ MonoBehaviour:
       m_Calls: []
   alive: 1
   dieYValue: -10
+  dieXValue: 125
+  dieZValue: 75
   lastAttacker: -1
 --- !u!114 &5241548347328579800
 MonoBehaviour:
