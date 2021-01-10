@@ -10,16 +10,28 @@ public class ChargeAppearance : MonoBehaviour
     void Start()
     {
         //todo check to see if player is there
-        ps = PlayerUserInput.localPlayerInstance.GetComponentInParent<PlayerShoot>();
+        if (PlayerUserInput.localPlayerInstance == null)
+        {
+            PlayerUserInput.OnLocalPlayerSet.AddListener(InitializePlayerReference);
+            
+        }
+        else
+        {
+            InitializePlayerReference(PlayerUserInput.localPlayerInstance.gameObject);
+        }
         an = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ps._timeToCharge == 0)
+        if (ps == null || ps._timeToCharge == 0)
             return; 
         float chargePercent = Mathf.Clamp01(ps.SYNC_timeHeld / ps._timeToCharge);  
         an.SetFloat("ChargePercentage", chargePercent );
+    }
+    void InitializePlayerReference(GameObject plyr)
+    {
+        ps = plyr.GetComponent<PlayerShoot>();
     }
 }
