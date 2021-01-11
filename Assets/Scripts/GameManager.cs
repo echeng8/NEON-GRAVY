@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
         {
             photonView.RPC("RPC_ReportFall", RpcTarget.All,
-                PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().lastAttacker);
+                PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().lastAttacker);
         }
         else
         {
@@ -190,8 +190,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps); 
         }
 
-        PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().Spawn();
-        PlayerUserInput.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(OpRPC_ReportFall);
+        PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().Spawn();
+        PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(OpRPC_ReportFall);
 
         playerList = PhotonNetwork.PlayerList; 
         

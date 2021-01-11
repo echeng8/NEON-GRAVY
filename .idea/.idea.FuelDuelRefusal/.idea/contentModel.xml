@@ -30,9 +30,9 @@
             <e p="PlayerCamera.cs" t="Include" />
             <e p="PlayerDeath.cs" t="Include" />
             <e p="PlayerGravity.cs" t="Include" />
+            <e p="PlayerIdentity.cs" t="Include" />
             <e p="PlayerPlatformAttach.cs" t="Include" />
             <e p="PlayerShoot.cs" t="Include" />
-            <e p="PlayerUserInput.cs" t="Include" />
             <e p="ThirdPersonCharacter.cs" t="Include" />
             <e p="ThirdPersonUserControl.cs" t="Include" />
           </e>
@@ -100,6 +100,7 @@
           </e>
           <e p="UI" t="Include">
             <e p="DeathScreen.cs" t="Include" />
+            <e p="GravyBar.cs" t="Include" />
             <e p="Minimapcolorcode.cs" t="Include" />
           </e>
           <e p="Utility.cs" t="Include" />

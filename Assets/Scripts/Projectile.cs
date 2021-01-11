@@ -37,9 +37,8 @@ public class Projectile : MonoBehaviour
     {
         this.Invoke(() => Destroy(gameObject), duration);
         shotWithGravOff = isShooterGravOff();
-        
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().Owner.ActorNumber != shooterActorNum)
@@ -60,8 +59,7 @@ public class Projectile : MonoBehaviour
 
     public int getDamage()
     {
-        return shotWithGravOff ? gravOffDamage : gravOnDamage; 
-        
+        return shotWithGravOff ? gravOffDamage : gravOnDamage;
     }
 
 

@@ -10,7 +10,7 @@ using UnityEngine.Events;
 /// Handles enabling input signal transfer.
 /// Also handles identifying and providing the PlayerGameObject 
 /// </summary>
-public class PlayerUserInput : MonoBehaviourPun
+public class PlayerIdentity : MonoBehaviourPun
 {    
     
     /// <summary>
@@ -20,12 +20,9 @@ public class PlayerUserInput : MonoBehaviourPun
     /// </summary>
     [SerializeField] public bool debugControlled;
     
-    public static PlayerUserInput localPlayerInstance;
+    public static PlayerIdentity localPlayerInstance;
     public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
-    
 
-    
-    
     private void Awake()
     {
         if (localPlayerInstance == null)

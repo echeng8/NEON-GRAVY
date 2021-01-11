@@ -10,13 +10,13 @@ public class DeathScreen : MonoBehaviour
     
     void Start()
     {
-        if (PlayerUserInput.localPlayerInstance == null)
+        if (PlayerIdentity.localPlayerInstance == null)
         {
-            PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
+            PlayerIdentity.OnLocalPlayerSet.AddListener(AddPlayerListeners);
         }
         else
         {
-            AddPlayerListeners(PlayerUserInput.localPlayerInstance.gameObject);
+            AddPlayerListeners(PlayerIdentity.localPlayerInstance.gameObject);
         }
         
         gameObject.SetActive(false);

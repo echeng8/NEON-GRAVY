@@ -8,7 +8,7 @@ public class PlayerCamera : MonoBehaviour
 {
     private void Awake()
     {
-        PlayerUserInput.CallOnLocalPlayerSet(FollowPlayer); 
+        PlayerIdentity.CallOnLocalPlayerSet(FollowPlayer); 
     }
 
     void FollowPlayer(GameObject player)

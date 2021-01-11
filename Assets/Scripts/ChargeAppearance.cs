@@ -9,7 +9,7 @@ public class ChargeAppearance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerUserInput.CallOnLocalPlayerSet(InitializePlayerReference);
+        PlayerIdentity.CallOnLocalPlayerSet(InitializePlayerReference);
         an = GetComponent<Animator>();
     }
 
