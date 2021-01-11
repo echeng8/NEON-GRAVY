@@ -25,15 +25,7 @@ public class PlatformManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Awake()
     {
-        if (PlayerUserInput.localPlayerInstance == null)
-        {
-            PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
-        }
-        else
-        {
-            AddPlayerListeners(PlayerUserInput.localPlayerInstance.gameObject);
-        }
-
+        PlayerUserInput.CallOnLocalPlayerSet(AddPlayerListeners);
         
         platformNum = platformParent.transform.childCount;
         GetComponent<GravyManager>().LoadGravies();

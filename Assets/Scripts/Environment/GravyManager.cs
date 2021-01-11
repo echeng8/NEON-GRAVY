@@ -63,14 +63,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         platformManager = GetComponent<PlatformManager>();
 
         //set up listeners for landing gravy detection 
-        if (PlayerUserInput.localPlayerInstance == null)
-        {
-            PlayerUserInput.OnLocalPlayerSet.AddListener(AddPlayerListeners);
-        }
-        else
-        {
-            AddPlayerListeners(PlayerUserInput.localPlayerInstance.gameObject);
-        }
+        PlayerUserInput.CallOnLocalPlayerSet(AddPlayerListeners);
         
         //generate or load gravies 
         //todo instead of checking if playercount is 1, check if its the start of a new round

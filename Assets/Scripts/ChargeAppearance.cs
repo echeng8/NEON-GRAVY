@@ -9,16 +9,7 @@ public class ChargeAppearance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //todo check to see if player is there
-        if (PlayerUserInput.localPlayerInstance == null)
-        {
-            PlayerUserInput.OnLocalPlayerSet.AddListener(InitializePlayerReference);
-            
-        }
-        else
-        {
-            InitializePlayerReference(PlayerUserInput.localPlayerInstance.gameObject);
-        }
+        PlayerUserInput.CallOnLocalPlayerSet(InitializePlayerReference);
         an = GetComponent<Animator>();
     }
 

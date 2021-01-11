@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Events;
 
 /// <summary>
 /// The high level player script.
-/// Handles enabling input signal transfer and determining the local player 
+/// Handles enabling input signal transfer.
+/// Also handles identifying and providing the PlayerGameObject 
 /// </summary>
 public class PlayerUserInput : MonoBehaviourPun
 {    
@@ -19,6 +22,9 @@ public class PlayerUserInput : MonoBehaviourPun
     
     public static PlayerUserInput localPlayerInstance;
     public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
+    
+
+    
     
     private void Awake()
     {
@@ -38,13 +44,24 @@ public class PlayerUserInput : MonoBehaviourPun
                 photonView.Owner.TagObject = gameObject; 
         }
     }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
+    /// <summary>
+    /// Executes the given function when the player loads, with the player's gameobject as a parameter. 
+    /// </summary>
+    /// <param name="func"></param>
+    public static void CallOnLocalPlayerSet(UnityAction<GameObject> func)
+    {
+        if (localPlayerInstance == null)
+        {
+            OnLocalPlayerSet.AddListener(func);
+        }
+        else
+        {
+            func(localPlayerInstance.gameObject);
+        }
+    }
+    
+    
     // Update is called once per frame
     void Update()
     {
@@ -54,7 +71,7 @@ public class PlayerUserInput : MonoBehaviourPun
         gameObject.SendMessage("ControlledUpdate",null, SendMessageOptions.DontRequireReceiver);
         
     }
-
+    
     void FixedUpdate()
     {
         if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
