@@ -43,6 +43,11 @@ public class PlayerGravity : MonoBehaviourPun
     /// </summary>
     [SerializeField] private float gravBrokenTime;
     
+    /// <summary>
+    /// Set the maximum speed in the air
+    /// </summary>
+    [SerializeField] private float maxSpeed;
+    
     
     #endregion
 
@@ -132,6 +137,8 @@ private void Awake()
         {
             print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
         }
+
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
     }
 
     private void OnTriggerEnter(Collider other)

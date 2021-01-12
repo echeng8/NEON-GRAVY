@@ -19,14 +19,14 @@ public class PlayerJetpack : MonoBehaviour
         currentCharges = maxCharges;
     }
 
-    public void ControlledFixedUpdate()
+    public void ControlledUpdate()
     {
         if (!GetComponent<PlayerGravity>().GetGravity())
         {
             //if (CrossPlatformInputManager.GetAxis("Vertical") != 0f || CrossPlatformInputManager.GetAxis("Horizontal") != 0f)
             //{
                 //timeHeld += Time.deltaTime;
-                if (currentCharges > 0 && Input.GetKeyUp(KeyCode.Space))
+                if (currentCharges > 0 && Input.GetKeyDown(KeyCode.Space))
                 {
                     //timeHeld = 0;
                     currentCharges = currentCharges - 1;
