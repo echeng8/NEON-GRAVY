@@ -70,6 +70,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   killFeed: {fileID: 0}
   leaderBoardDisplay: {fileID: 0}
+  gravyManager: {fileID: 0}
+  OnGravyKingChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3795716947706820217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,12 +86,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642ff2c25fb5c7e4293004537b9abfe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravyPercent: 0.75
+  gravyPercent: 0.1
   gravyPrefab: {fileID: 2218740844897392649, guid: 912d579a0b89ba3468727f7278a6bb25,
     type: 3}
-  gravyCountDisplay: {fileID: 0}
-  gravyNum: 0
-  SYNC_currentGravyNum: 0
+  startingGravyNum: 0
+  OnGravyNumChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &404525291925151462
 MonoBehaviour:
   m_ObjectHideFlags: 0

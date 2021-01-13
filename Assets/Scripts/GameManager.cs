@@ -26,17 +26,49 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI killFeed;
     public TextMeshProUGUI leaderBoardDisplay;
+    
+    //component references
+    public GravyManager gravyManager; 
 
     public List<Player> leaderBoard;
     public Player[] playerList;
 
+
+
+    /// <summary>
+    /// The person with ALL the gravies. Null when no one has all the gravies. 
+    /// </summary>
+    public Player GravyKing
+    {
+        get => _gravyKing;
+        set
+        {
+            if (value.Equals(_gravyKing))//todo see if this really works
+            {
+                print(value.NickName);
+                _gravyKing = value;
+                OnGravyKingChange.Invoke(_gravyKing);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Invoked when someones becomes the new Gravy King. The Player object is passed. You can find the GameObject with Player.TagObject. 
+    /// </summary>
+    public PlayerEvent OnGravyKingChange = new PlayerEvent();
+
+    /// <summary>
+    /// The person with ALL the gravies. 
+    /// </summary>
+    private Player _gravyKing;
     #endregion
 
     #region Unity Callbacks
 
     private void Awake()
     {
-        instance = this; 
+        instance = this;
+        gravyManager = GetComponent<GravyManager>(); 
     }
 
     // Start is called before the first frame update
@@ -57,8 +89,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #endregion
 
-    #region Pun Callbacks
-
+    #region RPCs
+    
+        /// <summary>
+    /// Optional RPC report fall. Reports the fall through RPC if online, otherwise, simply set KillFeed to "i died". 
+    /// </summary>
     private void OpRPC_ReportFall()
     {
         if (PhotonNetwork.IsConnected)
@@ -71,32 +106,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             SetKillFeed("I died");
         }
     }
-
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        //todo make checks 
-        updateLeaderboard();
-    }
     
-    //room roster changes
-    
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        playerList = PhotonNetwork.PlayerList; //refresh player name list
-    }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        playerList = PhotonNetwork.PlayerList;
-    }
-    
-    public override void OnLeftRoom()
-    {
-        SceneManager.LoadScene(0);
-    }
-    
-    #endregion
-
     /// <summary>
     /// only on host client 
     /// </summary>
@@ -135,11 +145,58 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// Checks to see if a player has all the gravies in the match. If so, set them to be GravyKing. Otherwise, GravyKing is set to null.
+    /// </summary>
+    #endregion
+    
+    #region Pun Callbacks
 
-    //test for showing new gravies 
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        updateLeaderboard();
+        CheckGravyKing(leaderBoard); 
+    }
+    
 
+    //room roster changes
+    
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        playerList = PhotonNetwork.PlayerList; //refresh player name list
+    }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        playerList = PhotonNetwork.PlayerList;
+    }
+    
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
+    }
+    
+    #endregion
 
+    #region  Private Methods
+    
+    Player CheckGravyKing(List<Player> updatedLeaderboard)
+    {
+        Player tempGK = null;
+        if ((int) updatedLeaderboard[0].CustomProperties["gravies"] == gravyManager.startingGravyNum)
+        {
+            tempGK = leaderBoard[0];
+        }
+        else
+        {
+            tempGK = null; 
+        }
+        return tempGK; 
+    }
+
+    /// <summary>
+    /// Sorts players by kills and outputs the text to the leaderBoardDisplay.
+    /// </summary>
     void updateLeaderboard()
     {
         leaderBoard = playerList.ToList();
@@ -152,17 +209,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         leaderBoardDisplay.text = lbString;
-    }
-
-    /// <summary>
-    /// descending order 
-    /// </summary>
-    /// <param name="p1"></param>
-    /// <param name="p2"></param>
-    /// <returns></returns>
-    int comparePlayerKills(Player p1, Player p2)
-    {
-        return (int) p2.CustomProperties["kills"] - (int) p1.CustomProperties["kills"];
     }
 
     int comparePlayerGravies(Player p1, Player p2)
@@ -193,8 +239,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().Spawn();
         PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(OpRPC_ReportFall);
 
-        playerList = PhotonNetwork.PlayerList; 
-        
-
+        playerList = PhotonNetwork.PlayerList;
     }
+    
+
+    #endregion
+   
 }

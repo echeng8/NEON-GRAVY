@@ -44,6 +44,10 @@ MonoBehaviour:
   - RPC_SetDurability
   - RPC_SetGravity
   - RPC_Shoot
+  - RPC_KillPlayer
+  - RPC_ProcessGravyGet
+  - RPC_SpawnPlayer
+  - RPC_SpawnProj
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

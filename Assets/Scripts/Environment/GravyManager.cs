@@ -143,6 +143,20 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
     #endregion
 
+    #region Public Functions
+
+    public Vector3 GetGraviedPlatformPosition()
+    {
+        for (int i = 0; i < SYNC_gravyArray.Length; i++)
+        {
+            if (SYNC_gravyArray[i])
+            {
+                return platformManager.platformParent.transform.GetChild(i).transform.position; 
+            }
+        }
+        return Vector3.zero; 
+    }
+    #endregion
     #region Private Functions
 
     /// <summary>
