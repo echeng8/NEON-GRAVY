@@ -15302,7 +15302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
+  m_SynchronizeVelocity: 0
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
@@ -15321,7 +15321,7 @@ MonoBehaviour:
   m_PositionModel:
     SynchronizeEnabled: 1
     TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
+    TeleportIfDistanceGreaterThan: 10
     InterpolateOption: 2
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 20
