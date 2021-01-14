@@ -27,6 +27,7 @@
           <e p="Player" t="Include">
             <e p="CameraFacing.cs" t="Include" />
             <e p="DEBUGPlayer.cs" t="Include" />
+            <e p="MuteScript.cs" t="Include" />
             <e p="PlayerAppearance.cs" t="Include" />
             <e p="PlayerCamera.cs" t="Include" />
             <e p="PlayerDeath.cs" t="Include" />

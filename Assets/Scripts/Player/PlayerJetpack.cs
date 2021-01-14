@@ -23,24 +23,14 @@ public class PlayerJetpack : MonoBehaviour
     {
         if (!GetComponent<PlayerGravity>().GetGravity())
         {
-            //if (CrossPlatformInputManager.GetAxis("Vertical") != 0f || CrossPlatformInputManager.GetAxis("Horizontal") != 0f)
-            //{
-                //timeHeld += Time.deltaTime;
-                if (currentCharges > 0 && Input.GetKeyDown(KeyCode.Space))
-                {
-                    //timeHeld = 0;
-                    currentCharges = currentCharges - 1;
-                    GetComponent<Rigidbody>().AddForce(transform.forward*jetpackForce,ForceMode.Impulse);
-                }
-            //}
-            //else
-            //{
-                //timeHeld = 0;
-            //}
+            if (currentCharges > 0 && Input.GetKeyDown(KeyCode.Space))
+            {
+                currentCharges = currentCharges - 1;
+                GetComponent<Rigidbody>().AddForce(transform.forward*jetpackForce,ForceMode.Impulse);
+            }
         }
         if (GetComponent<PlayerGravity>().GetGravity())
         {
-            //timeHeld = 0;
             currentCharges = maxCharges;
         }
     }
