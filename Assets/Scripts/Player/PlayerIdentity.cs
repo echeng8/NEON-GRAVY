@@ -64,9 +64,8 @@ public class PlayerIdentity : MonoBehaviourPun
     {
         if (!debugControlled || PhotonNetwork.IsConnected && !photonView.IsMine)
             return;
-        
-        gameObject.SendMessage("ControlledUpdate",null, SendMessageOptions.DontRequireReceiver);
-        
+
+        gameObject.SendMessage("ControlledUpdate", null, SendMessageOptions.DontRequireReceiver); 
     }
     
     void FixedUpdate()

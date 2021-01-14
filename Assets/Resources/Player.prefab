@@ -15123,6 +15123,7 @@ GameObject:
   - component: {fileID: 1803587193430823739}
   - component: {fileID: 5241548347328579800}
   - component: {fileID: 761305381}
+  - component: {fileID: 5682627859575082312}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -15472,6 +15473,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jetpackForce: 5
   maxCharges: 100
+--- !u!114 &5682627859575082312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051251168168012507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e938aff9235ab4c99e38bd899197c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7026064584403205283
 GameObject:
   m_ObjectHideFlags: 0

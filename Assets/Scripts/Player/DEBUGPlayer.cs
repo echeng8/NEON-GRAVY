@@ -11,7 +11,7 @@ public class DEBUGPlayer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            transform.position = GameManager.instance.GetComponent<GravyManager>().GetGraviedPlatformPosition(); 
+            transform.position = GameManager.instance.GetComponent<GravyManager>().GetGraviedPlatformPosition() + Vector3.up * 5f; 
         }
     }
 }

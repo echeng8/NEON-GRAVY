@@ -33,29 +33,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<Player> leaderBoard;
     public Player[] playerList;
 
-
-
-    /// <summary>
-    /// The person with ALL the gravies. Null when no one has all the gravies. 
-    /// </summary>
-    public Player GravyKing
-    {
-        get => _gravyKing;
-        set
-        {
-            if (value.Equals(_gravyKing))//todo see if this really works
-            {
-                print(value.NickName);
-                _gravyKing = value;
-                OnGravyKingChange.Invoke(_gravyKing);
-            }
-        }
-    }
     
     /// <summary>
-    /// Invoked when someones becomes the new Gravy King. The Player object is passed. You can find the GameObject with Player.TagObject. 
+    /// Invoked when someones becomes the new Gravy King. The king's actor number is passed. 
     /// </summary>
-    public PlayerEvent OnGravyKingChange = new PlayerEvent();
+    public IntEvent OnGravyKingChange = new IntEvent();
 
     /// <summary>
     /// The person with ALL the gravies. 
@@ -145,9 +127,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    /// <summary>
-    /// Checks to see if a player has all the gravies in the match. If so, set them to be GravyKing. Otherwise, GravyKing is set to null.
-    /// </summary>
+
     #endregion
     
     #region Pun Callbacks
@@ -155,7 +135,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         updateLeaderboard();
-        CheckGravyKing(leaderBoard); 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            CheckGravyKing(leaderBoard);
+        }
     }
     
 
@@ -180,18 +163,17 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region  Private Methods
     
-    Player CheckGravyKing(List<Player> updatedLeaderboard)
+    /// <summary>
+    /// Checks to see if a player has all the gravies in the match. If so, set them to be GravyKing in custom properties. 
+    /// </summary>
+    void CheckGravyKing(List<Player> updatedLeaderboard)
     {
-        Player tempGK = null;
         if ((int) updatedLeaderboard[0].CustomProperties["gravies"] == gravyManager.startingGravyNum)
         {
-            tempGK = leaderBoard[0];
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable {{"gravy_king", leaderBoard[0].ActorNumber}});
+            OnGravyKingChange.Invoke(leaderBoard[0].ActorNumber);
         }
-        else
-        {
-            tempGK = null; 
-        }
-        return tempGK; 
+
     }
 
     /// <summary>

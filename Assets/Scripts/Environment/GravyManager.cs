@@ -145,6 +145,10 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
     #region Public Functions
 
+    /// <summary>
+    /// return the position of any platform with gravy. 
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetGraviedPlatformPosition()
     {
         for (int i = 0; i < SYNC_gravyArray.Length; i++)
