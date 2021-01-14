@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class ChargeAppearance : MonoBehaviour
 {
+    /// <summary>
+    /// If true, the charge percentage would be bound to the player game object that is in the parent. This is to allowed networked charge appearances (e.g. laser).
+    /// If this is false, then this binds to the local player (e.g. UI elements).
+    /// </summary>
+    //[SerializeField] private bool bindToParentPlayer; 
     private PlayerShoot ps; 
     private Animator an; 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerIdentity.CallOnLocalPlayerSet(InitializePlayerReference);
+        if (transform.root.CompareTag("Player")) // binds to parent player 
+        {
+            ps = GetComponentInParent<PlayerShoot>();
+        }
+        else //binds to local player
+        {
+            PlayerIdentity.CallOnLocalPlayerSet(InitializePlayerReference);
+        }
+   
         an = GetComponent<Animator>();
     }
 
