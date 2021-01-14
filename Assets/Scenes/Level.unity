@@ -12771,6 +12771,11 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3795716947706820217, guid: 1b156acf67789de4784431a983d0e62b,
+        type: 3}
+      propertyPath: gravyPercent
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b156acf67789de4784431a983d0e62b, type: 3}
 --- !u!1001 &2556321313826327918

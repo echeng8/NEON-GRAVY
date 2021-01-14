@@ -19,9 +19,13 @@ public class PlatformManager : MonoBehaviourPunCallbacks
     /// The parent of all platforms in the game, used for managing gravies. 
     /// </summary>
     public GameObject platformParent;
-
-
-    [HideInInspector] public int platformNum;
+    
+    /// <summary>
+    /// number of children in the platform parent (ie the platforms) 
+    /// </summary>
+    [HideInInspector]
+    public int PlatformNum => platformParent.transform.childCount;
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,7 +37,6 @@ public class PlatformManager : MonoBehaviourPunCallbacks
         
         PlayerIdentity.CallOnLocalPlayerSet(AddPlayerListeners);
         
-        platformNum = platformParent.transform.childCount;
         GetComponent<GravyManager>().LoadGravies();
     }
 

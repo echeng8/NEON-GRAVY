@@ -54,7 +54,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     
     /// <summary>
     /// index refers to children platforms. true if theres a gravy there
-    /// DO NOT edit directly, use SetCustomValues["gravyArray"] instead
+    /// DO NOT edit directly, use SetCustomValues["gravy_array"] instead
     /// </summary>
     private bool[] SYNC_gravyArray;
     
@@ -81,10 +81,10 @@ public class GravyManager : MonoBehaviourPunCallbacks
         
         //generate or load gravies 
         //todo instead of checking if playercount is 1, check if its the start of a new round
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1) // you're the first one in the game and gotta set it up 
         {
-            startingGravyNum = (int)(gravyPercent * platformManager.platformNum); 
-            generateGravyArray(platformManager.platformNum,startingGravyNum);
+            startingGravyNum = (int)(gravyPercent * platformManager.PlatformNum); 
+            GenerateGravyArray(platformManager.PlatformNum,startingGravyNum);
         }
         else
         {
@@ -94,7 +94,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
     public static int GetGravylessPlatform()
     {
-        bool[] respawnPlatforms = (bool[]) PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"];
+        bool[] respawnPlatforms = (bool[]) PhotonNetwork.CurrentRoom.CustomProperties["gravy_array"];
         int j = UnityEngine.Random.Range(0, respawnPlatforms.Length);
         while (respawnPlatforms[j] == true)
         {
@@ -111,7 +111,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         //todo optimize maybe 
-        if (propertiesThatChanged.ContainsKey("gravyArray"))
+        if (propertiesThatChanged.ContainsKey("gravy_array"))
         {
             UpdateGravyObjects(); 
         }
@@ -177,7 +177,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     /// </summary>
     void UpdateGravyObjects()
     {
-        SYNC_gravyArray = (bool[])PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"]; 
+        SYNC_gravyArray = (bool[])PhotonNetwork.CurrentRoom.CustomProperties["gravy_array"]; 
         CurrentGravyNum = SYNC_gravyArray.Count(s => s == true);
 
         //todo remove reduncies where this is run multiple times needlessly
@@ -203,14 +203,23 @@ public class GravyManager : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="pNum"></param>
     /// <param name="gNum"></param>
-    void generateGravyArray(int pNum, int gNum) 
+    void GenerateGravyArray(int pNum, int gNum) 
     { 
         bool[] gravyArray = Utility.GetRandomBoolArray(pNum, gNum);
         
         Hashtable h = new Hashtable();
-        h.Add("gravyArray", gravyArray);
+        h.Add("gravy_array", gravyArray);
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(h);
+    }
+    
+    /// <summary>
+    /// reset the game with current gravy count settings
+    /// </summary>
+    public void GenerateGravyArray() 
+    {
+        GenerateGravyArray(platformManager.PlatformNum,
+            (int)(gravyPercent * platformManager.PlatformNum));
     }
 
     /// <summary>
@@ -250,7 +259,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     void removeGravy(int platIndex)
     {
         SYNC_gravyArray[platIndex] = false; 
-        Hashtable h = new Hashtable {{"gravyArray", SYNC_gravyArray}};
+        Hashtable h = new Hashtable {{"gravy_array", SYNC_gravyArray}};
         PhotonNetwork.CurrentRoom.SetCustomProperties(h); 
     }
     #endregion

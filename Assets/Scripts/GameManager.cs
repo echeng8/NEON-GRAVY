@@ -50,7 +50,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         instance = this;
-        gravyManager = GetComponent<GravyManager>(); 
+        gravyManager = GetComponent<GravyManager>();
+        
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1) // you're the first one in the game and gotta set it up 
+        {
+            //initialize custom properties for room 
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable {{"gravy_king", -1}});
+        }
+        
     }
 
     // Start is called before the first frame update
@@ -88,16 +95,16 @@ public class GameManager : MonoBehaviourPunCallbacks
             SetKillFeed("I died");
         }
     }
-    
-    /// <summary>
-    /// only on host client 
-    /// </summary>
+        
     [PunRPC]
     private void RPC_ReportFall(int killerActorNumber, PhotonMessageInfo info)
     {
         Player deadPlayer = info.Sender;
         Player killer = PhotonNetwork.CurrentRoom.GetPlayer(killerActorNumber);
 
+        bool deadPlayerIsKing =
+            deadPlayer.ActorNumber == (int) PhotonNetwork.CurrentRoom.CustomProperties["gravy_king"];
+        
         if (killerActorNumber == -1 || killer == null)
         {
             SetKillFeed($"{deadPlayer.NickName} has fallen.");
@@ -105,8 +112,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
         {
             // process kill 
-
             int deadPlayerGravies = (int) deadPlayer.CustomProperties["gravies"];
+            
+            //HOST CLIENT ONLY 
             if (PhotonNetwork.IsMasterClient)
             {
                 //add 1 to player kills
@@ -116,14 +124,29 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
                 //transfer gravy 
-                int newKillerGravies = deadPlayerGravies +
-                                   (int) killer.CustomProperties["gravies"];
-                killer.SetCustomProperties(new Hashtable() {{"gravies", newKillerGravies}});
+                if (deadPlayerIsKing) // give killer gravies
+                {
+                    int newKillerGravies = deadPlayerGravies +
+                                           (int) killer.CustomProperties["gravies"];
+                
+                    killer.SetCustomProperties(new Hashtable() {{"gravies", newKillerGravies}});
+                }
+
                 deadPlayer.SetCustomProperties(new Hashtable() {{"gravies", 0}});
             }
-
+            
             //todo make better 
             SetKillFeed($"{killer.NickName} killed {deadPlayer.NickName} for {deadPlayerGravies} gravies");
+        }
+        //trigger reset if gravyking dead 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            print((int)PhotonNetwork.CurrentRoom.CustomProperties["gravy_king"]);
+            if (deadPlayerIsKing)
+            {
+                print("the gravy king hath fallen"); 
+                gravyManager.GenerateGravyArray();
+            }
         }
     }
 
@@ -172,8 +195,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable {{"gravy_king", leaderBoard[0].ActorNumber}});
             OnGravyKingChange.Invoke(leaderBoard[0].ActorNumber);
+            print($"Gravy King set as {leaderBoard[0].ActorNumber}");
         }
-
     }
 
     /// <summary>
@@ -207,7 +230,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected)
         {
-            while (PhotonNetwork.CurrentRoom.CustomProperties["gravyArray"] == null) //ensures that gravyarray is loaded
+            while (PhotonNetwork.CurrentRoom.CustomProperties["gravy_array"] == null) //ensures that gravy_array is loaded
             {
                 yield return new WaitForSeconds(0.5f);
             }
