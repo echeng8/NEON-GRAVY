@@ -42,6 +42,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         set
         {
             currentGravyNum = value;
+            print(value);
             OnGravyNumChanged.Invoke(value);
         }
     }

@@ -12771,11 +12771,6 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 3795716947706820217, guid: 1b156acf67789de4784431a983d0e62b,
-        type: 3}
-      propertyPath: gravyPercent
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b156acf67789de4784431a983d0e62b, type: 3}
 --- !u!1001 &2556321313826327918
@@ -12988,9 +12983,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -701184294584743466, guid: 348c23148fed4204f94ef7f9dccb2a4c,
+        type: 3}
+      propertyPath: m_PositionModel.TeleportIfDistanceGreaterThan
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 719885462788168250, guid: 348c23148fed4204f94ef7f9dccb2a4c,
         type: 3}
       propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1117184841452431495, guid: 348c23148fed4204f94ef7f9dccb2a4c,
+        type: 3}
+      propertyPath: m_SynchronizeVelocity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6051251168168012507, guid: 348c23148fed4204f94ef7f9dccb2a4c,
