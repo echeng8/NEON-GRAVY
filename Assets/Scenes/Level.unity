@@ -9728,10 +9728,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1708738314, guid: 2ba96de9a24e9e74eb194fbaf657bee2, type: 3}
-      propertyPath: m_Value
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3733112222396845362, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
         type: 3}
       propertyPath: m_Name
@@ -9847,26 +9843,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 93499084}
-    - target: {fileID: 6451858546030612376, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6451858546030612376, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6451858546030612376, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8737833892274352505, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -103.75003
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ba96de9a24e9e74eb194fbaf657bee2, type: 3}
 --- !u!114 &1214301964 stripped
@@ -9879,24 +9855,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1214301965 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1708738312, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1214301963}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1214301966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1214301965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ace193c0c619a7b40995bde8c33c9de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1230042801
@@ -12983,19 +12941,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -701184294584743466, guid: 348c23148fed4204f94ef7f9dccb2a4c,
-        type: 3}
-      propertyPath: m_PositionModel.TeleportIfDistanceGreaterThan
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 719885462788168250, guid: 348c23148fed4204f94ef7f9dccb2a4c,
         type: 3}
       propertyPath: viewIdField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1117184841452431495, guid: 348c23148fed4204f94ef7f9dccb2a4c,
-        type: 3}
-      propertyPath: m_SynchronizeVelocity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6051251168168012507, guid: 348c23148fed4204f94ef7f9dccb2a4c,

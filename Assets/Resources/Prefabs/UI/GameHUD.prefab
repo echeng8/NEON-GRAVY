@@ -543,6 +543,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1708738313}
   - component: {fileID: 1708738314}
+  - component: {fileID: 1214301966}
   m_Layer: 5
   m_Name: Gravy Bar
   m_TagString: Untagged
@@ -618,10 +619,22 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.693
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1214301966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708738312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace193c0c619a7b40995bde8c33c9de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1760534045
 GameObject:
   m_ObjectHideFlags: 0
@@ -2642,6 +2655,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e6b9b9efb158324b8fd69615af1f81f, type: 3}
+--- !u!224 &6586651481148285620 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3133326059543480574, guid: 0e6b9b9efb158324b8fd69615af1f81f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8075996386651581002}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1435085817205974668 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7204001415117130950, guid: 0e6b9b9efb158324b8fd69615af1f81f,
@@ -2654,9 +2673,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151db92e33d7df345ad6fb49c85e06c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &6586651481148285620 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3133326059543480574, guid: 0e6b9b9efb158324b8fd69615af1f81f,
-    type: 3}
-  m_PrefabInstance: {fileID: 8075996386651581002}
-  m_PrefabAsset: {fileID: 0}

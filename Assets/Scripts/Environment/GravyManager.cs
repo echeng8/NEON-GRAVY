@@ -29,7 +29,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     /// <summary>
     /// starting number of gravies in the game 
     /// </summary>
-    [HideInInspector] public int startingGravyNum;
+    [HideInInspector] public int StartingGravyNum => (int)(gravyPercent * platformManager.PlatformNum);
 
     
     /// <summary>
@@ -42,7 +42,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         set
         {
             currentGravyNum = value;
-            print(value);
+            print(" current gravy num " + value);
             OnGravyNumChanged.Invoke(value);
         }
     }
@@ -84,8 +84,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         //todo instead of checking if playercount is 1, check if its the start of a new round
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1) // you're the first one in the game and gotta set it up 
         {
-            startingGravyNum = (int)(gravyPercent * platformManager.PlatformNum); 
-            GenerateGravyArray(platformManager.PlatformNum,startingGravyNum);
+            GenerateGravyArray(platformManager.PlatformNum,StartingGravyNum);
         }
         else
         {
