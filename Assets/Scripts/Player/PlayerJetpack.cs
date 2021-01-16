@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Packages.Rider.Editor;
+using TMPro;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 using UnityStandardAssets.CrossPlatformInput;
@@ -15,6 +16,8 @@ public class PlayerJetpack : MonoBehaviour
     private int currentCharges;
 
     public int streak;
+
+    public TextMeshProUGUI streaksText;
     //public float chargeTime;
 /// <summary>
 /// The stuff that is commented out is the stuff is just in case if we want to go back to holding down a button/wasd
@@ -52,5 +55,13 @@ public class PlayerJetpack : MonoBehaviour
             currentCharges = maxCharges;
             streak = 0;
         }
+
+        StreakCounter();
+
     }
+    void StreakCounter()
+    {
+        streaksText.text = $"Streaks x{GetComponent<PlayerJetpack>().streak}";
+    }
+
 }

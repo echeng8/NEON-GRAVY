@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI killFeed;
     public TextMeshProUGUI leaderBoardDisplay;
-    public TextMeshProUGUI streaksText;
     
     //component references
     public GravyManager gravyManager; 
@@ -250,12 +249,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         playerList = PhotonNetwork.PlayerList;
     }
-
-    void StreakCounter()
-    {
-        streaksText.text = $"Streaks x{GetComponent<PlayerJetpack>().streak}";
-    }
-
     #endregion
    
 }
