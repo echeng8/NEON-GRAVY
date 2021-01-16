@@ -37,7 +37,8 @@ public class PlatformPower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(ChargePercentage); 
+        float colorIntensity = Mathf.Lerp(0, 255, ChargePercentage); 
+        GetComponent<MeshRenderer>().materials[0].SetColor("Color_8A577280", new Color(255 - colorIntensity, colorIntensity, 0));
         timeCharged += Time.deltaTime;
         if (timeCharged > timeToCharge + timeStayCharged + timeStayDeactivated) 
         {
