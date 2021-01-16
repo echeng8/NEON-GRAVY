@@ -169,7 +169,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     void AddPlayerListeners(GameObject localPlayer)
     {
         playerTPC = localPlayer.GetComponent<ThirdPersonCharacter>();
-        playerTPC.OnLand.AddListener(CheckPlayerGetGravy);
+        playerTPC.OnPlatformBelowChange.AddListener(CheckPlayerGetGravy);
     }
     /// <summary>
     /// updates gravy variables AND spawns or deletes grav display based on Gravy Array 
@@ -238,13 +238,16 @@ public class GravyManager : MonoBehaviourPunCallbacks
     /// <summary>
     /// checks if player is getting a platform by LANDING on it, if yes send it to master client for processsing
     /// </summary>
-    void CheckPlayerGetGravy()
+    void CheckPlayerGetGravy(GameObject platform)
     {
+        if (platform == null)
+            return; 
+        
         if (SYNC_gravyArray == null || SYNC_gravyArray.Length == 0)
             return; 
         
         int actorNum = PhotonNetwork.LocalPlayer.ActorNumber;
-        int platNum = playerTPC.PlatformBelow.transform.GetSiblingIndex();
+        int platNum = platform.transform.GetSiblingIndex();
         bool touchedGravy = SYNC_gravyArray[platNum];
 
         if (touchedGravy)

@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (deadPlayerIsKing)
             {
                 deadPlayer.SetCustomProperties(new Hashtable() {{"gravies", 0}});
-                gravyManager.GenerateGravyArray();
+                //gravyManager.GenerateGravyArray();
             }
         }
     }
@@ -163,7 +163,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         updateLeaderboard();
         if (PhotonNetwork.IsMasterClient)
         {
-            CheckGravyKing(leaderBoard);
+            //CheckGravyKing(leaderBoard);
+            if (gravyManager.CurrentGravyNum == 0)
+            {
+                gravyManager.GenerateGravyArray();
+            }
         }
     }
     
