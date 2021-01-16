@@ -14,6 +14,7 @@ public class PlayerJetpack : MonoBehaviour
     public int maxCharges;
     //private float timeHeld;
     private int currentCharges;
+    public float jetBoost;
 
     public int streak;
 
@@ -26,6 +27,7 @@ public class PlayerJetpack : MonoBehaviour
     {
         currentCharges = maxCharges;
         streak = 0;
+        streaksText = GameObject.Find("Streaks").GetComponent<TextMeshProUGUI>();
     }
 
     public void ControlledUpdate()
@@ -34,13 +36,15 @@ public class PlayerJetpack : MonoBehaviour
         {
             if (currentCharges > 0 && Input.GetKeyDown(KeyCode.Space))
             {
-                if (GetComponent<ThirdPersonCharacter>().PlatformBelow != null && GetComponent<ThirdPersonCharacter>().PlatformBelow.GetComponent<PlatformPower>().ChargePercentage >= 1)
+                if (GetComponent<ThirdPersonCharacter>().PlatformBelow != null)
                 {
+                    GameObject platformBelow = GetComponent<ThirdPersonCharacter>().PlatformBelow;
                     currentCharges = currentCharges - 1;
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
                     GetComponent<Rigidbody>().velocity = velMagnitude * transform.forward;
-                    GetComponent<Rigidbody>().AddForce(transform.forward * jetpackRhythymForce, ForceMode.Impulse);
+                    GetComponent<Rigidbody>().AddForce(transform.forward * jetpackRhythymForce * platformBelow.GetComponent<PlatformPower>().ChargePercentage + transform.forward*jetBoost, ForceMode.Impulse);
                     streak++;
+                    platformBelow.GetComponent<PlatformPower>().RestartPower();
                 }
                 else
                 {
