@@ -15472,6 +15472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jetpackForce: 5
+  jetpackRhythymForce: 20
   maxCharges: 100
 --- !u!114 &5682627859575082312
 MonoBehaviour:

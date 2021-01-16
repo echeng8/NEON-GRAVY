@@ -37,7 +37,6 @@ public class PlatformPower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(ChargePercentage); 
         timeCharged += Time.deltaTime;
         if (timeCharged > timeToCharge + timeStayCharged + timeStayDeactivated) 
         {
