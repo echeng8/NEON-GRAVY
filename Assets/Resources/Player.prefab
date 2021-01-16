@@ -15472,7 +15472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jetpackForce: 5
-  jetpackRhythymForce: 20
+  jetpackRhythymForce: 10
   maxCharges: 100
   streak: 0
   streaksText: {fileID: 0}

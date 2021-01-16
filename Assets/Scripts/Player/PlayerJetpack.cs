@@ -61,7 +61,7 @@ public class PlayerJetpack : MonoBehaviour
     }
     void StreakCounter()
     {
-        streaksText.text = $"Streaks x{GetComponent<PlayerJetpack>().streak}";
+        streaksText.text = $"Streaks x{streak}";
     }
 
 }
