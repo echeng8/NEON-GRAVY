@@ -25,7 +25,7 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
     
     
     [SerializeField] private GameObject projectile;
-    [SerializeField] private Transform shootPointPivot, shootingPosition;
+    [SerializeField] public Transform shootPointPivot, shootingPosition;
 
     private Vector3 _lookAtPosition; 
     //private float _cdTimeLeft = 0;

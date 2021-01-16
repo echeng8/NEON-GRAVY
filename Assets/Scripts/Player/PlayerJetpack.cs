@@ -34,15 +34,17 @@ public class PlayerJetpack : MonoBehaviour
     {
         if (!GetComponent<PlayerGravity>().GetGravity())
         {
-            if (currentCharges > 0 && Input.GetKeyDown(KeyCode.Space))
+            if (currentCharges > 0 && Input.GetButtonDown("Fire1"))
             {
                 if (GetComponent<ThirdPersonCharacter>().PlatformBelow != null)
                 {
+                    Vector3 dashDirection = GetComponent<PlayerShoot>().GetComponent<PlayerShoot>().shootPointPivot.transform.forward;;
+                    
                     GameObject platformBelow = GetComponent<ThirdPersonCharacter>().PlatformBelow;
                     currentCharges = currentCharges - 1;
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
-                    GetComponent<Rigidbody>().velocity = velMagnitude * transform.forward;
-                    GetComponent<Rigidbody>().AddForce(transform.forward * jetpackRhythymForce * platformBelow.GetComponent<PlatformPower>().ChargePercentage + transform.forward*jetBoost, ForceMode.Impulse);
+                    GetComponent<Rigidbody>().velocity = velMagnitude * dashDirection; 
+                    GetComponent<Rigidbody>().AddForce(dashDirection * jetpackRhythymForce * platformBelow.GetComponent<PlatformPower>().ChargePercentage * jetBoost, ForceMode.Impulse);
                     streak++;
                     platformBelow.GetComponent<PlatformPower>().RestartPower();
                 }
