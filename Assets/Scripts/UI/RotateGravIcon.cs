@@ -8,7 +8,14 @@ public class RotateGravIcon : MonoBehaviour
     public void hudGravSwitch(bool gravOn)
     {
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.Rotate(new Vector3(0, 0, 180));
+        if (gravOn == true)
+        {
+            rectTransform.rotation = Quaternion.Euler(new Vector3(rectTransform.rotation.eulerAngles.x, rectTransform.rotation.eulerAngles.y, 180));
+        }
+        else
+        {
+            rectTransform.rotation = Quaternion.Euler(new Vector3(rectTransform.rotation.eulerAngles.x, rectTransform.rotation.eulerAngles.y, 0));
+        }
     }
     void AddPlayerListeners(GameObject p)
     {
@@ -18,11 +25,5 @@ public class RotateGravIcon : MonoBehaviour
     void Start()
     {
         PlayerIdentity.CallOnLocalPlayerSet(AddPlayerListeners);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
