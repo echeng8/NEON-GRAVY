@@ -17,7 +17,6 @@ public class GravyBar : MonoBehaviour
 
     void UpdateGravyBar(int currentGravyNum)
     {
-        print(currentGravyNum+ " " + gm.StartingGravyNum);
         slider.value = ((float)currentGravyNum / gm.StartingGravyNum);
     }
 }
