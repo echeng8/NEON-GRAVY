@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlatformPower : MonoBehaviour
 {
     public float timeToCharge,timeStayCharged, timeStayDeactivated;
-
+    public ParticleSystem particleSystem; 
     public float ChargePercentage
     {
         get
@@ -17,20 +17,25 @@ public class PlatformPower : MonoBehaviour
 
         }
     }
+    
+    
 
     /// <summary>
     /// forces the platform to go back to 0 charge 
     /// </summary>
     public void RestartPower()
     {
-        timeCharged = 0; 
+        timeCharged = 0;
+        particleSystem.Play();
     }
     float timeCharged;
 
     // Start is called before the first frame update
     void Start()
     {
-        timeCharged = 0; 
+        timeCharged = 0;
+        particleSystem = gameObject.AddComponent<ParticleSystem>();
+        particleSystem.Stop(); 
     }
     
 
@@ -43,6 +48,7 @@ public class PlatformPower : MonoBehaviour
         if (timeCharged > timeToCharge + timeStayCharged + timeStayDeactivated) 
         {
             timeCharged = 0; 
+            particleSystem.Stop();
         }
     }
 }
