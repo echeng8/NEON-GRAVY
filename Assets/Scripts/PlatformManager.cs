@@ -57,6 +57,7 @@ public class PlatformManager : MonoBehaviourPunCallbacks
                 byte platNum = (byte)propertiesThatChanged[playerPlatHash];
                 if (platNum != 255)
                 {
+                    return; //todo fix this 
                     TurnOnPlat(platNum); 
                 }
             }
