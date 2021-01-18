@@ -57,22 +57,11 @@ public class PlatformManager : MonoBehaviourPunCallbacks
                 byte platNum = (byte)propertiesThatChanged[playerPlatHash];
                 if (platNum != 255)
                 {
-                    return; //todo fix this 
-                    TurnOnPlat(platNum); 
+                    platformParent.transform.GetChild(platNum).GetComponent<PlatformAppearance>().OnTouch.Invoke(); 
                 }
             }
         }
         
-    }
-
-    
-    /// <summary>
-    /// make the platform specified by platNum brighter or something 
-    /// </summary>
-    /// <param name="platNum"></param>
-    public void TurnOnPlat(int platNum)
-    {
-        platformParent.transform.GetChild(platNum).GetComponent<MeshRenderer>().materials[0].SetColor("Color_8A577280", Color.yellow);
     }
 
     void AddPlayerListeners(GameObject player)

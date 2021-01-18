@@ -89,7 +89,6 @@ MonoBehaviour:
   gravyPercent: 0.1
   gravyPrefab: {fileID: 2218740844897392649, guid: 912d579a0b89ba3468727f7278a6bb25,
     type: 3}
-  startingGravyNum: 0
   OnGravyNumChanged:
     m_PersistentCalls:
       m_Calls: []

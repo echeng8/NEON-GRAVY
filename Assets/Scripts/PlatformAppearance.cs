@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlatformAppearance : MonoBehaviour, IPlatformPlayerCallbacks
+using UnityEngine.Events;
+public class PlatformAppearance : MonoBehaviour
 {
-    public void OnLocalPlayerLand()
-    {
-        throw new System.NotImplementedException();
-    }
+    /// <summary>
+    /// Event invoked when players hover over the platform and are ready to bounce off of it. 
+    /// </summary>
+    public UnityEvent OnTouch = new UnityEvent();
 
-    public void OnLocalPlayerLeave()
-    {
-        throw new System.NotImplementedException();
-    }
+    /// <summary>
+    /// Event invoked when players bounce off the platform. 
+    /// </summary>
+    public UnityEvent OnBounce = new UnityEvent(); 
 }

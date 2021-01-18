@@ -15474,10 +15474,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jetpackForce: 0
   jetpackRhythymForce: 2
-  maxCharges: 100
   jetBoost: 5
   streak: 0
   streaksText: {fileID: 0}
+  OnBounce:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5682627859575082312
 MonoBehaviour:
   m_ObjectHideFlags: 0
