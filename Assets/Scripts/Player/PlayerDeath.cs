@@ -10,6 +10,8 @@ using UnityStandardAssets.Characters.ThirdPerson;
 /// </summary>
 public class PlayerDeath : MonoBehaviourPun
 {
+  
+
     /// <summary>
     /// Triggers when the player dies.
     /// </summary>
@@ -20,7 +22,14 @@ public class PlayerDeath : MonoBehaviourPun
     /// </summary>
     public UnityEvent OnSpawn = new UnityEvent();
 
+    /// <summary>
+    /// how high the player is from the center of the platform when they spawn 
+    /// </summary>
+    public float spawnYOffset = 0; 
+    
     [HideInInspector] public bool alive = false; 
+
+
     /// <summary>
     /// The lowest Y value that a player can have before they 'die'.
     /// </summary>
@@ -155,7 +164,7 @@ public class PlayerDeath : MonoBehaviourPun
         else
         {
             int platIndex = GravyManager.GetGravylessPlatform(); 
-            spawnLoc = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform.GetChild(platIndex).position + Vector3.up * 2;
+            spawnLoc = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform.GetChild(platIndex).position + Vector3.up * 0.25f;
         }
 
         return spawnLoc; 

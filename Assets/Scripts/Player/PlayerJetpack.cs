@@ -11,7 +11,6 @@ public class PlayerJetpack : MonoBehaviour
     public float jetpackForce;
     public float jetpackRhythymForce;
     public int maxCharges;
-    //private float timeHeld;
     private int currentCharges;
     public float jetBoost;
 

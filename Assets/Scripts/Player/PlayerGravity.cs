@@ -107,6 +107,12 @@ private void Awake()
         durabilityDisplay.text = gravDurability.ToString();
     }
 
+    private void Start()
+    {
+        //todo make gravy start off by default then remove the whole friggin concept from the codebase
+        photonView.RPC("RPC_SetGravity", RpcTarget.All, false); 
+    }
+
 
     /// <summary>
     /// its update but it only calls when you're the local player OR set so in inspector
@@ -114,18 +120,6 @@ private void Awake()
     /// </summary>
     void ControlledUpdate()
     {
-        //disables gravity on input 
-        if (Input.GetButtonDown("Fire2") && CurrentDurability > 0)
-        {
-            if (PhotonNetwork.IsConnected)
-            {
-                photonView.RPC("RPC_SetGravity", RpcTarget.All, !gravity);
-            }
-            else
-            {
-                RPC_SetGravity(!gravity);
-            }
-        }
 
         //clamp velocity.y to negative or 0 
         if (!gravity)

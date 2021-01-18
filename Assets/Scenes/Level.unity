@@ -15482,17 +15482,17 @@ PrefabInstance:
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.569368
+      value: -16.593847
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 63.871983
+      value: 63.871727
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -45.28396
+      value: -45.260326
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789565895621, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
@@ -15512,17 +15512,17 @@ PrefabInstance:
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.569368
+      value: -16.593847
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 63.871983
+      value: 63.871727
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -45.28396
+      value: -45.260326
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
@@ -15698,6 +15698,11 @@ PrefabInstance:
       propertyPath: streaksText
       value: 
       objectReference: {fileID: 1762464231}
+    - target: {fileID: 719885462788168250, guid: 348c23148fed4204f94ef7f9dccb2a4c,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6051251168168012507, guid: 348c23148fed4204f94ef7f9dccb2a4c,
         type: 3}
       propertyPath: m_Name
@@ -16300,6 +16305,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16315,6 +16321,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16330,6 +16337,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16345,6 +16353,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16360,6 +16369,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16375,6 +16385,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16390,6 +16401,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16405,6 +16417,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16420,6 +16433,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16435,6 +16449,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16450,6 +16465,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16465,6 +16481,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16480,6 +16497,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16495,6 +16513,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16510,6 +16529,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16525,6 +16545,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16540,6 +16561,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16555,6 +16577,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16570,6 +16593,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16585,6 +16609,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16600,6 +16625,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16615,6 +16641,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16630,6 +16657,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16645,6 +16673,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16660,6 +16689,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16675,6 +16705,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16690,6 +16721,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16705,6 +16737,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16720,6 +16753,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16735,6 +16769,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16750,6 +16785,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16765,6 +16801,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16780,6 +16817,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16795,6 +16833,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16810,6 +16849,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16825,6 +16865,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16840,6 +16881,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16855,6 +16897,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16870,6 +16913,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16885,6 +16929,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16900,6 +16945,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16915,6 +16961,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16930,6 +16977,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16945,6 +16993,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16960,6 +17009,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16975,6 +17025,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16990,6 +17041,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17005,6 +17057,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17020,6 +17073,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17035,6 +17089,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17050,6 +17105,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17065,6 +17121,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17080,6 +17137,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17095,6 +17153,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17110,6 +17169,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17125,6 +17185,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17140,6 +17201,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17155,6 +17217,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17170,6 +17233,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17185,6 +17249,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17200,6 +17265,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17215,6 +17281,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17230,6 +17297,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17245,6 +17313,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17260,6 +17329,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17275,6 +17345,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17290,6 +17361,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17305,6 +17377,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17320,6 +17393,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17335,6 +17409,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17350,6 +17425,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17365,6 +17441,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17380,6 +17457,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17395,6 +17473,7 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
 --- !u!114 &8593239930160463594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17410,3 +17489,4 @@ MonoBehaviour:
   timeToCharge: 1
   timeStayCharged: 1
   timeStayDeactivated: 1
+  particleSystem: {fileID: 0}
