@@ -15416,7 +15416,7 @@ MonoBehaviour:
   hitInvulSec: 0.2
   gravDurability: 3
   gravBrokenTime: 2
-  maxSpeed: 10
+  maxSpeed: 10.75
   OnGravityChange:
     m_PersistentCalls:
       m_Calls: []
