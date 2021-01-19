@@ -7427,9 +7427,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 199279453}
     m_Modifications:
     - target: {fileID: 1393190425, guid: 5669f956a958140429e596ebe0ea8336, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393190425, guid: 5669f956a958140429e596ebe0ea8336, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393190425, guid: 5669f956a958140429e596ebe0ea8336, type: 3}
       propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3254583790756263799}
+    - target: {fileID: 1393190425, guid: 5669f956a958140429e596ebe0ea8336, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393190425, guid: 5669f956a958140429e596ebe0ea8336, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393190425, guid: 5669f956a958140429e596ebe0ea8336, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Camera OnBounce
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393190425, guid: 5669f956a958140429e596ebe0ea8336, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3833420309639975519, guid: 5669f956a958140429e596ebe0ea8336,
         type: 3}
       propertyPath: m_Name
@@ -7500,9 +7524,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 199279453}
     m_Modifications:
     - target: {fileID: 1222876326, guid: 109bc9b19d05831419fad30e76d35a6b, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222876326, guid: 109bc9b19d05831419fad30e76d35a6b, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222876326, guid: 109bc9b19d05831419fad30e76d35a6b, type: 3}
       propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3254583790756263799}
+    - target: {fileID: 1222876326, guid: 109bc9b19d05831419fad30e76d35a6b, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222876326, guid: 109bc9b19d05831419fad30e76d35a6b, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222876326, guid: 109bc9b19d05831419fad30e76d35a6b, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Camera OnBounce
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222876326, guid: 109bc9b19d05831419fad30e76d35a6b, type: 3}
+      propertyPath: OnBounce.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4849132750273546606, guid: 109bc9b19d05831419fad30e76d35a6b,
         type: 3}
       propertyPath: m_Name
