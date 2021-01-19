@@ -7,33 +7,21 @@ using UnityEngine.Events;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
-	
 	/// <summary>
-	/// Handles backend movement, colliders, and animators
-	/// responds to gravity change
+	/// checks for platforms under player
+	/// has extra methods for gravity change, (handle falling, disable istrigger, turns animator on)
 	/// </summary>
 	[RequireComponent(typeof(Rigidbody))]
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonCharacter : MonoBehaviour
 	{
-		[SerializeField] float m_MovingTurnSpeed = 360;
-		[SerializeField] float m_StationaryTurnSpeed = 180;
-		[Range(1f, 4f)][SerializeField] float m_GravityMultiplier = 2f;
-
-
-		//[SerializeField] float m_RunCycleLegOffset = 0.2f; //specific to the character in sample assets, will need to be modified to work with others
-
 		
-		[SerializeField] float m_MoveSpeedMultiplier = 1f;
-		[SerializeField] float m_AnimSpeedMultiplier = 1f;
+		#region Implementation Values
+		[Range(1f, 4f)][SerializeField] float m_GravityMultiplier = 2f;
+		
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
 		[SerializeField] private float groundCheckRaycastSpread;
 		[SerializeField] private float groundCheckRaycastHeightOffset;
-		
-		/// <summary>
-		/// Invoked whenever the player touches the ground with Grav-On 
-		/// </summary>
-		public UnityEvent OnLand = new UnityEvent();
 
 		Rigidbody m_Rigidbody;
 		private BoxCollider m_BoxCollider;
@@ -42,29 +30,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		/// the collider that is only on when the grav is off for hitting into walls 
 		/// </summary>
 		private PlayerGravity pg; 
-		[SerializeField] private Collider m_gravOffCollider; 
 		Animator m_Animator;
-		bool m_IsGrounded;
-		float m_OrigGroundCheckDistance;
-		const float k_Half = 0.5f;
-		float m_TurnAmount;
-		float m_ForwardAmount;
-		Vector3 m_GroundNormal;
-		
-
-		bool m_Crouching;
-		
-		/// <summary>
-		/// coyote time in seconds
-		/// </summary>
-		public float coyoteTime;
-
-		/// <summary>
-		/// time player has been off ground since last time 
-		/// </summary>
-		private float timeOffGround;
-
-		private bool isStanding;
 
 		/// <summary>
 		/// the platform the player is standing on
@@ -90,8 +56,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
 		/// </summary>
 		public GameObjectEvent OnPlatformBelowChange = new GameObjectEvent();
+		#endregion
 		
-		
+		#region Unity Callbacks
 		void Awake()
 		{
 			m_Animator = GetComponent<Animator>();
@@ -100,109 +67,21 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			pg = GetComponent<PlayerGravity>(); 
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-
-			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		}
 
 		private void Start()
 		{
-			
 			//listen to events
 			GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
 		}
 		
-		public void Move(Vector3 move)
+		public void ControlledFixedUpdate()
 		{
-			// convert the world relative moveInput vector into a local-relative
-			// turn amount and forward amount required to head in the desired
-			// direction.
-			if (move.magnitude > 1f) move.Normalize();
-			move = transform.InverseTransformDirection(move);
 			CheckGroundStatus();
-			move = Vector3.ProjectOnPlane(move, m_GroundNormal);
-			m_TurnAmount = Mathf.Atan2(move.x, move.z);
-			m_ForwardAmount = move.z;
-
-			ApplyExtraTurnRotation();
-
-			// coyote time 
-			if (!m_IsGrounded)
-			{
-				timeOffGround += Time.deltaTime; 
-			}
-			else
-			{
-				timeOffGround = 0; 
-			}
-
-			if (timeOffGround > coyoteTime)
-			{
-				HandleAirborneMovement(); // start falling 
-			}
-				
-
-			// send input and other state parameters to the animator
-			UpdateAnimator(move);
 		}
-		
+		#endregion
 
-		void UpdateAnimator(Vector3 move)
-		{
-			// update the animator parameters
-			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
-			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
-			m_Animator.SetBool("OnGround", m_IsGrounded);
-			if (!m_IsGrounded)
-			{
-				m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
-			}
-			
-			if (m_IsGrounded && move.magnitude > 0)
-			{
-				m_Animator.speed = m_AnimSpeedMultiplier;
-			}
-			else
-			{
-				// don't use that while airborne
-				m_Animator.speed = 1;
-			}
-		}
-
-
-		void HandleAirborneMovement()
-		{
-			if (!m_Animator.enabled) // don't apply gravity if animator is down 
-				return; 
-			
-			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-			m_Rigidbody.AddForce(extraGravityForce);
-			
-		}
-
-		
-
-		void ApplyExtraTurnRotation()
-		{
-			// help the character turn faster (this is in addition to root rotation in the animation)
-			float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
-			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
-		}
-
-
-		public void OnAnimatorMove()
-		{
-			// we implement this function to override the default root motion.
-			// this allows us to modify the positional speed before it's applied.
-			if (m_IsGrounded && Time.deltaTime > 0)
-			{
-				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
-
-				// we preserve the existing y part of the current velocity.
-				v.y = m_Rigidbody.velocity.y;
-				m_Rigidbody.velocity = v;
-			}
-		}
-
+		#region Custom Methods
 
 		void CheckGroundStatus()
 		{
@@ -232,7 +111,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				}
 			}
 
-
 #if UNITY_EDITOR
 			// helper to visualise the ground check ray in the scene viewp
 			foreach (Vector3 raycastPoint in rayCastPoints)
@@ -243,88 +121,39 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 #endif
 
-			if (hitInfo.collider != null) // theres something unde ryou 
+			if (hitInfo.collider != null) // theres something under you 
 			{
-				PlatformBelow = hitInfo.collider.gameObject; //todo remove redunancy
-				
-				if (!pg.GetGravity())
-					return;
-
-				
-				
-				//if this is the frame that you just landed in 
-				//delete velocity if you were falling 
-				if (!isStanding)
-				{
-					m_Rigidbody.velocity = Vector3.zero; 
-					
-					CallOnLandPlatform(PlatformBelow);
-					OnLand.Invoke();
-					isStanding = true;
-				}
-				else
-				{
-					m_GroundNormal = hitInfo.normal;
-					m_IsGrounded = true;
-					m_Animator.applyRootMotion = true;
-				}
-				
-			
+				PlatformBelow = hitInfo.collider.gameObject;
 			}
 			else // if theres nothing under you 
-			{//bug here 
-				isStanding = false; 
-				if (PlatformBelow != null)
-				{
-					CallOnLeavePlatform(PlatformBelow);
-					PlatformBelow = null;
-				}
-				
-				
-				if (!pg.GetGravity())
-					return;
-
-				m_IsGrounded = false;
-				m_GroundNormal = Vector3.up;
-				m_Animator.applyRootMotion = false;
+			{
+				PlatformBelow = null;
 			}
 		}
-		
-		#region Custom Scripts
 
+		#endregion
+		
+		#region Gravity Methods
+
+		/// <summary>
+		/// For gravity change
+		/// </summary>
 		void respondToGravity(bool gravityOn)
 		{
-			if (!gravityOn)
-				isStanding = false; 
 			m_Animator.enabled = gravityOn;
 			m_BoxCollider.isTrigger = !gravityOn;
-			m_gravOffCollider.enabled = !gravityOn;
-		}
-
-		/// <summary>
-		/// calls on land platform functions on all componets implementing IPlatformPlayerCallbcks 
-		/// </summary>
-		/// <param name="platform"></param>
-		void CallOnLandPlatform(GameObject platform)
-		{
-			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
-			foreach (IPlatformPlayerCallbacks p in plat)
-			{
-				p.OnLocalPlayerLand();
-			}
 		}
 		
 		/// <summary>
-		/// calls on leave platform functions on all components implementing IPlatformPlayerCallbacks 
+		/// For player falling
 		/// </summary>
-		/// <param name="platform"></param>
-		void CallOnLeavePlatform(GameObject platform)
+		void HandleAirborneMovement()
 		{
-			IPlatformPlayerCallbacks[] plat = platform.GetComponentsInChildren<IPlatformPlayerCallbacks>();
-			foreach (IPlatformPlayerCallbacks p in plat)
-			{
-				p.OnLocalPlayerLeave();
-			}
+			if (!m_Animator.enabled) // don't apply gravity if animator is down 
+				return; 
+			
+			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
+			m_Rigidbody.AddForce(extraGravityForce);
 		}
 		#endregion
 		

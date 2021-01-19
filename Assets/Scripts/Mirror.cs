@@ -33,8 +33,7 @@ public class Mirror : MonoBehaviour
             hitPos = other.ClosestPointOnBounds(transform.position);
             normalVector = hitPos - transform.position;
             normalVector.y = 0f;
-            newestVector = other.transform.forward - 2 * (Vector3.Dot(other.transform.forward, normalVector)) * normalVector / Mathf.Pow(Vector3.Magnitude(normalVector), 2);
-            other.transform.forward = newestVector;
+            newestVector = Vector3.Normalize(Vector3.Reflect(other.GetComponent<Rigidbody>().velocity, normalVector));
             if (newestVector == null)
             {
                 return;

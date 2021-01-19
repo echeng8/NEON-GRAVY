@@ -160,6 +160,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         return Vector3.zero; 
     }
     #endregion
+    
     #region Private Functions
 
     /// <summary>
@@ -191,7 +192,8 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
             if (!SYNC_gravyArray[i] && HasGravyDisplay(i))
             {
-                Destroy(platform.transform.GetChild(0).gameObject); //todo get gravy with set or send signal 
+                Transform gravyless = platform.transform.Find("Gravy(Clone)");
+                Destroy(gravyless.gameObject); //todo get gravy with set or send signal, to only delete gravy not every child
             }
         }
     }

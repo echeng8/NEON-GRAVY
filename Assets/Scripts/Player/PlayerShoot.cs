@@ -12,40 +12,25 @@ using UnityEngine.Animations;
 /// <summary>
 /// Handles player shooting: input, aiming, cooldown, instantiate projectile
 /// </summary>
-public class PlayerShoot : MonoBehaviourPun, IPunObservable
+public class PlayerShoot : MonoBehaviourPun
 {
-    /// Gameplay Values 
-    [SerializeField] private float shootCoolDown; //todo move value to projectile later 
 
+    #region Implementation References
+    
     /// <summary>
     /// the forward distance from the spawning position that the projectile is spawned in 
     /// </summary>
-    [SerializeField] private float forwardProjectileOffset; 
-    #region Implementation References
-    
+    [SerializeField] private float forwardProjectileOffset;
     
     [SerializeField] private GameObject projectile;
     [SerializeField] public Transform shootPointPivot, shootingPosition;
 
-    private Vector3 _lookAtPosition; 
-    //private float _cdTimeLeft = 0;
-    
-    public float _timeToCharge;
-    #endregion
-
-
-    
-    
-    #region Implementation Values
-
-    [HideInInspector] public float SYNC_timeHeld; 
+    private Vector3 _lookAtPosition;
     
     #endregion
-    
+
     #region Unity Callbacks
-
-
-
+    
     private void ControlledUpdate()
     {
         //set look at position from mouse camera position 
@@ -64,41 +49,12 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
         }
 
         //Shooting Input Detection 
-        if (Input.GetButton("Fire1")) //charging
+        if (Input.GetButtonDown("Fire2")) //firing 
         {
-            SYNC_timeHeld += Time.deltaTime;
-
-        }
-
-        if (Input.GetButtonUp("Fire1")) //firing 
-        {
-            if (SYNC_timeHeld >= _timeToCharge)
-            {
-                Fire();
-            }
-            SYNC_timeHeld = 0;
+            Fire();
         }
     }
     #endregion
-    
-    
-    #region  PUN Callbacks
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(SYNC_timeHeld);
-        }
-
-        if (stream.IsReading)
-        {
-            SYNC_timeHeld = (float)stream.ReceiveNext();
-        }
-    }
-
-    #endregion
-
 
     #region RPC and Associated Private Methods
 
@@ -112,7 +68,6 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
         GameObject p = Instantiate(projectile, position, Quaternion.LookRotation(direction));
         p.GetComponent<Projectile>().shooterActorNum = PhotonNetwork.IsConnected ? info.Sender.ActorNumber : -1;
     }
-    
 
     #endregion
 
@@ -137,13 +92,6 @@ public class PlayerShoot : MonoBehaviourPun, IPunObservable
             RPC_SpawnProj(projSpawn, shootPointPivot.forward);
         }
     }
-    
-    private void DisablePlayerMesh(float duration)
-    {
-        GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
-        this.Invoke(() => GetComponentInChildren<SkinnedMeshRenderer>().enabled = true, duration);
-    }
-    
     
     #endregion
 

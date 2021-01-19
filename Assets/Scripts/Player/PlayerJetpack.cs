@@ -12,11 +12,17 @@ using UnityEngine.Events;
 /// </summary>
 public class PlayerJetpack : MonoBehaviour
 {
-    public float jetpackForce;
-    public float jetpackRhythymForce;
-
-    public float jetBoost;
-
+    
+    #region Implementation Values
+    /// <summary>
+    /// Normal bounce force when above platforms
+    /// </summary>
+    public float bounceForce;
+    
+    /// <summary>
+    /// Bonus force for special moves or moments 
+    /// </summary>
+    public float bonusForce;
     public int streak;
 
     public TextMeshProUGUI streaksText;
@@ -25,7 +31,9 @@ public class PlayerJetpack : MonoBehaviour
 
     private Rigidbody rb;
     
-    //public float chargeTime;
+    #endregion
+    
+    #region Unity Callbacks
     /// <summary>
     /// The stuff that is commented out is the stuff is just in case if we want to go back to holding down a button/wasd
     /// </summary>
@@ -39,7 +47,7 @@ public class PlayerJetpack : MonoBehaviour
 
     public void ControlledUpdate()
     {
-        if (!GetComponent<PlayerGravity>().GetGravity())
+        if (!GetComponent<PlayerGravity>().GetGravity()) //todo change to be based on alive/dead
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -47,13 +55,12 @@ public class PlayerJetpack : MonoBehaviour
 
                 if (platformBelow != null)
                 {
-                    Vector3 dashDirection = GetComponent<PlayerShoot>().shootPointPivot.transform.forward;;
-                    
+                    Vector3 dashDirection = GetComponent<PlayerShoot>().shootPointPivot.transform.forward;
 
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
                    
                     rb.velocity = velMagnitude * dashDirection; 
-                    rb.AddForce(dashDirection * jetpackRhythymForce * jetBoost, ForceMode.Impulse);
+                    rb.AddForce(dashDirection * bounceForce, ForceMode.Impulse);
                     streak++;
 
                     //calls events 
@@ -62,22 +69,23 @@ public class PlayerJetpack : MonoBehaviour
                 }
                 else
                 {
-                    rb.AddForce(transform.forward * jetpackForce, ForceMode.Impulse);
                     streak = 0;
                 }
             }
         }
-        if (GetComponent<PlayerGravity>().GetGravity())
+        if (GetComponent<PlayerGravity>().GetGravity()) //todo change to be based on alive/dead
         {
             streak = 0;
         }
-
         StreakCounter();
-
     }
+    #endregion
+    
+    #region Custom Methods
     void StreakCounter()
     {
         streaksText.text = $"Streaks x{streak}";
     }
-
+    #endregion
+    
 }

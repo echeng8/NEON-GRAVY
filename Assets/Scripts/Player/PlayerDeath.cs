@@ -11,7 +11,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 public class PlayerDeath : MonoBehaviourPun
 {
   
-
+    #region Unity Events
     /// <summary>
     /// Triggers when the player dies.
     /// </summary>
@@ -22,6 +22,9 @@ public class PlayerDeath : MonoBehaviourPun
     /// </summary>
     public UnityEvent OnSpawn = new UnityEvent();
 
+    #endregion
+    
+    #region Implementation Values
     /// <summary>
     /// how high the player is from the center of the platform when they spawn 
     /// </summary>
@@ -51,8 +54,10 @@ public class PlayerDeath : MonoBehaviourPun
     /// -1 when none. 
     /// </summary>
     public int lastAttacker = -1;
- 
+    
+    #endregion 
 
+    #region Unity Callbacks
     // Start is called before the first frame update
     void Awake()
     {
@@ -62,7 +67,7 @@ public class PlayerDeath : MonoBehaviourPun
     
     private void Start()
     {
-        GetComponent<ThirdPersonCharacter>().OnLand.AddListener(ResetLastAttacker);
+        OnSpawn.AddListener(ResetLastAttacker);
         GetComponent<PlayerGravity>().OnHit.AddListener(UpdateLastAttacker);
     }
 
@@ -93,7 +98,9 @@ public class PlayerDeath : MonoBehaviourPun
         }
 
     }
+    #endregion
 
+    #region Spawn/Respawn Methods
     /// <summary>
     /// calls rpc_InvokeOnRevive via network or offline
     /// </summary>
@@ -109,8 +116,25 @@ public class PlayerDeath : MonoBehaviourPun
             {
                 RPC_SpawnPlayer();
             }
-
         }
+    }
+    
+    /// <summary>
+    /// dying and debug teleport to back
+    /// clears velocity 
+    /// </summary>
+    private Vector3 GetSpawnLocation()
+    {
+        Vector3 spawnLoc = Vector3.zero;
+        if (!PhotonNetwork.IsConnected) 
+            spawnLoc = Vector3.zero;
+        else
+        {
+            int platIndex = GravyManager.GetGravylessPlatform(); 
+            spawnLoc = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform.GetChild(platIndex).position + Vector3.up * 0.25f;
+        }
+
+        return spawnLoc; 
     }
     
     /// <summary>
@@ -125,6 +149,9 @@ public class PlayerDeath : MonoBehaviourPun
         OnSpawn.Invoke();
     }
 
+    #endregion
+    
+    #region Death Methods
     public void KillPlayer()
     {
         if (alive)
@@ -151,25 +178,10 @@ public class PlayerDeath : MonoBehaviourPun
         alive = false;
         OnDeath.Invoke();
     }
+    
+    #endregion
 
-    /// <summary>
-    /// dying and debug teleport to back
-    /// clears velocity 
-    /// </summary>
-    private Vector3 GetSpawnLocation()
-    {
-        Vector3 spawnLoc = Vector3.zero;
-        if (!PhotonNetwork.IsConnected) 
-            spawnLoc = Vector3.zero;
-        else
-        {
-            int platIndex = GravyManager.GetGravylessPlatform(); 
-            spawnLoc = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform.GetChild(platIndex).position + Vector3.up * 0.25f;
-        }
-
-        return spawnLoc; 
-    }
-
+    #region Last Attacker Methods
     void UpdateLastAttacker(int attackerNum)
     {
         lastAttacker = attackerNum; 
@@ -179,6 +191,6 @@ public class PlayerDeath : MonoBehaviourPun
     {
         lastAttacker = -1; 
     }
-    
+    #endregion
     
 }

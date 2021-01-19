@@ -26,14 +26,15 @@ public class ChargeAppearance : MonoBehaviour
         an = GetComponent<Animator>();
     }
 
+    //todo change the appearance based on the streaks or somethin 
     // Update is called once per frame
-    void Update()
-    {
-        if (ps == null || ps._timeToCharge == 0)
-            return; 
-        float chargePercent = Mathf.Clamp01(ps.SYNC_timeHeld / ps._timeToCharge);  
-        an.SetFloat("ChargePercentage", chargePercent );
-    }
+    // void Update()
+    // {
+    //     if (ps == null || ps._timeToCharge == 0)
+    //         return; 
+    //     float chargePercent = Mathf.Clamp01(ps.SYNC_timeHeld / ps._timeToCharge);  
+    //     an.SetFloat("ChargePercentage", chargePercent );
+    // }
     void InitializePlayerReference(GameObject plyr)
     {
         ps = plyr.GetComponent<PlayerShoot>();

@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// The person with ALL the gravies. 
     /// </summary>
     private Player _gravyKing;
+    
     #endregion
 
     #region Unity Callbacks
@@ -57,7 +58,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             //initialize custom properties for room 
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable {{"gravy_king", -1}});
         }
-        
     }
 
     // Start is called before the first frame update

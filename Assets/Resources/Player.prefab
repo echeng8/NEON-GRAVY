@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 128
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 073b1ee561def20429e655b5c8893ad4, type: 2}
+  - {fileID: 2100000, guid: 228a24219c03ddf428648194cab999f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15115,13 +15115,11 @@ GameObject:
   - component: {fileID: 898129209291207219}
   - component: {fileID: 1117184841452431495}
   - component: {fileID: -701184294584743466}
-  - component: {fileID: 6051251168179290557}
   - component: {fileID: 8771859865254495249}
   - component: {fileID: 7423241816855295017}
   - component: {fileID: -8979177202457268418}
   - component: {fileID: -5546343269976252249}
   - component: {fileID: 1803587193430823739}
-  - component: {fileID: 5241548347328579800}
   - component: {fileID: 761305381}
   - component: {fileID: 5682627859575082312}
   m_Layer: 0
@@ -15160,7 +15158,7 @@ Animator:
   m_GameObject: {fileID: 6051251168168012507}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 988c3605d82ede849b3fb3bd23dce6f9, type: 3}
-  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 2
   m_UpdateMode: 1
   m_ApplyRootMotion: 1
@@ -15210,19 +15208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 1260
-  m_StationaryTurnSpeed: 540
   m_GravityMultiplier: 2
-  m_MoveSpeedMultiplier: 1.25
-  m_AnimSpeedMultiplier: 1.25
   m_GroundCheckDistance: 0.5
   groundCheckRaycastSpread: 0.05
   groundCheckRaycastHeightOffset: 0.05
-  OnLand:
-    m_PersistentCalls:
-      m_Calls: []
-  m_gravOffCollider: {fileID: 6906985377878469053}
-  coyoteTime: 0.25
   _platformBelow: {fileID: 0}
   OnPlatformBelowChange:
     m_PersistentCalls:
@@ -15249,7 +15238,6 @@ MonoBehaviour:
   - {fileID: 898129209291207219}
   - {fileID: 1117184841452431495}
   - {fileID: -701184294584743466}
-  - {fileID: 7423241816855295017}
   - {fileID: 4926659754991069527}
   viewIdField: 0
   InstantiationId: 0
@@ -15268,25 +15256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 1
-    SynchronizeType: 1
-    Name: Forward
-  - Type: 1
-    SynchronizeType: 1
-    Name: Turn
-  - Type: 4
-    SynchronizeType: 0
-    Name: Crouch
-  - Type: 4
-    SynchronizeType: 1
-    Name: OnGround
-  - Type: 1
-    SynchronizeType: 1
-    Name: Jump
-  - Type: 1
-    SynchronizeType: 0
-    Name: JumpLeg
+  m_SynchronizeParameters: []
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -15339,18 +15309,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &6051251168179290557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051251168168012507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8771859865254495249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15376,14 +15334,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e9b115bca8bc54598e87578ede81d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootCoolDown: 0.5
   forwardProjectileOffset: 0.3
   projectile: {fileID: 7196295089048091762, guid: 3e0b285d3dcf92b42832ed5f8d3c1867,
     type: 3}
   shootPointPivot: {fileID: 7423241816200104911}
   shootingPosition: {fileID: 161282208203047596}
-  _timeToCharge: 1
-  SYNC_timeHeld: 0
 --- !u!114 &-8979177202457268418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15412,7 +15367,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitForce: 5
-  maxVelocity: 10
   hitInvulSec: 0.2
   gravDurability: 3
   gravBrokenTime: 2
@@ -15448,18 +15402,6 @@ MonoBehaviour:
   dieXValue: 125
   dieZValue: 75
   lastAttacker: -1
---- !u!114 &5241548347328579800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051251168168012507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c60c8f0ec5690d4488523f7fdccdfd37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &761305381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15472,9 +15414,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008ead631bfae4d47b83e7556ab59a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jetpackForce: 0
-  jetpackRhythymForce: 2
-  jetBoost: 5
+  bounceForce: 5
+  bonusForce: 5
   streak: 0
   streaksText: {fileID: 0}
   OnBounce:

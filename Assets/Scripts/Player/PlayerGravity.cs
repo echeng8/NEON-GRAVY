@@ -23,11 +23,6 @@ public class PlayerGravity : MonoBehaviourPun
     [SerializeField] private float hitForce;
 
     /// <summary>
-    /// hits do not exceed this velocity regardless of force
-    /// </summary>
-    [SerializeField] private float maxVelocity; 
-
-    /// <summary>
     /// Seconds the player is invulnerable after being hit. 
     /// </summary>
     [SerializeField] private float hitInvulSec;
@@ -53,7 +48,7 @@ public class PlayerGravity : MonoBehaviourPun
 
     #region Implementation Fields
 
-    private bool gravity = true;
+    private bool gravity = false;
     
     /// <summary>
     /// cannot be hit, even if grav off
@@ -97,7 +92,7 @@ public class PlayerGravity : MonoBehaviourPun
     #region Unity Callbacks 
 
     
-private void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         CurrentDurability = gravDurability; 
@@ -120,12 +115,10 @@ private void Awake()
     /// </summary>
     void ControlledUpdate()
     {
-
         //clamp velocity.y to negative or 0 
         if (!gravity)
             rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
-
-
+        
         //Debug Stuff 
         if (Input.GetKeyDown(KeyCode.V))
         {
@@ -257,18 +250,17 @@ private void Awake()
         forceDirection += GetComponent<Rigidbody>().velocity;
         
         rb.AddForce(forceDirection, ForceMode.Impulse);
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
     }
 
     /// <summary>
     /// Handles the durability break. Disables gravity and re-enables it when ready.
     /// Calls RPC_SetGravity and RPC_RecoverGravity
     /// </summary>
-    private void ProcessDurabilityDamage()
+    private void ProcessDurabilityDamage() //todo decide what to do with this, can be used for remove colliders on player if they die so they fall through platforms
     {
         if (_currentDurability <= 0)
         {
-            photonView.RPC("RPC_SetGravity", RpcTarget.All, false);
+            photonView.RPC("RPC_SetGravity", RpcTarget.All, true);
             this.Invoke(() => photonView.RPC("RPC_RecoverGravity", RpcTarget.All), gravBrokenTime);
         }
     }
@@ -279,7 +271,7 @@ private void Awake()
     /// </summary>
     private void ResetOnDeath()
     {
-        RPC_SetGravity(true);
+        RPC_SetGravity(false);
         CurrentDurability = gravDurability;
     }
     #endregion
