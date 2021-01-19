@@ -179,7 +179,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     {
         SYNC_gravyArray = (bool[])PhotonNetwork.CurrentRoom.CustomProperties["gravy_array"]; 
         CurrentGravyNum = SYNC_gravyArray.Count(s => s == true);
-
+        
         //todo remove reduncies where this is run multiple times needlessly
         for (int i = 0; i < SYNC_gravyArray.Length; i++)
         {
@@ -192,8 +192,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
             if (!SYNC_gravyArray[i] && HasGravyDisplay(i))
             {
-                Transform gravyless = platform.transform.Find("Gravy(Clone)");
-                Destroy(gravyless.gameObject); //todo get gravy with set or send signal, to only delete gravy not every child
+                Destroy(platform.transform.GetChild(1).gameObject); //todo get gravy with set or send signal, to only delete gravy not every child  
             }
         }
     }
@@ -231,7 +230,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     /// <returns></returns>
     bool HasGravyDisplay(int childIndex)
     {
-        return platformManager.platformParent.transform.GetChild(childIndex).childCount > 0; 
+        return platformManager.platformParent.transform.GetChild(childIndex).childCount > 1; 
     }
 
     
