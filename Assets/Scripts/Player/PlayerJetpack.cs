@@ -55,11 +55,8 @@ public class PlayerJetpack : MonoBehaviour
         Debug.DrawRay(transform.position, Vector3.up * 3, Color.cyan);
         if (groundPlane.Raycast(cameraRay, out rayLength))
         {
-            
             pointToDash = cameraRay.GetPoint(rayLength);
-            
             Debug.DrawRay(pointToDash, (pointToDash - transform.position).normalized * 2f);
-            //transform.LookAt(pointToDash);
         }
         
         if (!GetComponent<PlayerGravity>().GetGravity()) //todo change to be based on alive/dead
@@ -75,9 +72,10 @@ public class PlayerJetpack : MonoBehaviour
 
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
                    
-                    //TODO move to PlayerMovement
+                    //TODO move to PlayerMovement (cant PlayerJetpack just get renamed to PlayerMovement?)
                     rb.velocity = velMagnitude * dashDirection; 
                     rb.AddForce(dashDirection * bounceForce, ForceMode.Impulse);
+                    
                     streak++;
 
                     //calls events 

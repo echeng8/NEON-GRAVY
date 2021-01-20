@@ -13,9 +13,15 @@ public class PlatformAppearance : MonoBehaviour
     /// Event invoked when players bounce off the platform. 
     /// </summary>
     public UnityEvent OnBounce = new UnityEvent();
+    
+    /// <summary>
+    /// Event invoked when players leave platform
+    /// </summary>
+    public UnityEvent OnPlatLeave = new UnityEvent();
+    
     private Animator platAnimator;
     private ParticleSystem platParticles;
-    
+
     private void Start()
     {
         platAnimator = GetComponent<Animator>();
