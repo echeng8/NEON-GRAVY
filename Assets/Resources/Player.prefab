@@ -15210,7 +15210,6 @@ MonoBehaviour:
   m_GroundCheckDistance: 0.5
   groundCheckRaycastSpread: 0.05
   groundCheckRaycastHeightOffset: 0.05
-  _platformBelow: {fileID: 0}
   OnPlatformBelowChange:
     m_PersistentCalls:
       m_Calls: []

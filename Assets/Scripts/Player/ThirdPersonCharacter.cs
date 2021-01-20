@@ -51,7 +51,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		public GameObject _platformBelow;
+		private GameObject _platformBelow;
 		/// <summary>
 		/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
 		/// </summary>
@@ -79,7 +79,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			
 		}
 
-		public void ControlledFixedUpdate()
+
+		public void FixedUpdate()
 		{
 			CheckGroundStatus();
 		}
