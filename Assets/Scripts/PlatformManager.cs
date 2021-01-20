@@ -57,7 +57,7 @@ public class PlatformManager : MonoBehaviourPunCallbacks
                 byte platNum = (byte)propertiesThatChanged[playerPlatHash];
                 if (platNum != 255)
                 {
-                    platformParent.transform.GetChild(platNum).GetComponent<PlatformAppearance>().OnTouch.Invoke(); 
+                    platformParent.transform.GetChild(platNum).GetComponent<PlatformAppearance>().OnTouch.Invoke();
                 }
             }
         }

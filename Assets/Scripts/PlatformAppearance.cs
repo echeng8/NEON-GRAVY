@@ -29,6 +29,7 @@ public class PlatformAppearance : MonoBehaviour
         OnBounce.AddListener(BounceOnPlat);
         OnTouch.AddListener(TouchOnPlat);
     }
+    
     /// <summary>
     /// make the platform specified by platNum brighter or something 
     /// </summary>

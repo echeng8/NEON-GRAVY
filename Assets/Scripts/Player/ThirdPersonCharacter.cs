@@ -47,7 +47,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				{
 					_platformBelow = value;
 					OnPlatformBelowChange.Invoke(value);
-					GetComponent<PlatformAppearance>().OnPlatLeave.Invoke();
 				}
 			}
 		}
