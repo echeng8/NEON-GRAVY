@@ -68,19 +68,24 @@ public class PlayerGravity : MonoBehaviourPun
     }
 
 
-    /// <summary>
-    /// its update but it only calls when you're the local player OR set so in inspector
-    /// playercontroller calls it 
-    /// </summary>
-    void ControlledUpdate()
+    private void Update()
     {
+        //TODO convert the addforce to veloctiy and rmeove the need to clamp velocity 
+
         //clamp velocity.y to negative or 0 
         if (!gravity)
             rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
 
         //clamp velocity matgnitude
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+    }
 
+    /// <summary>
+    /// its update but it only calls when you're the local player OR set so in inspector
+    /// playercontroller calls it 
+    /// </summary>
+    void ControlledUpdate()
+    {
         //Debug Stuff 
         if (Input.GetKeyDown(KeyCode.V))
         {
@@ -168,7 +173,7 @@ public class PlayerGravity : MonoBehaviourPun
         forceDirection += GetComponent<Rigidbody>().velocity;
         
         //TODO network velocity
-        rb.AddForce(forceDirection, ForceMode.Impulse);
+        GetComponent<PlayerMoveSync>().SetVelocityRPC(forceDirection, transform.position);
     }
 
     /// <summary>

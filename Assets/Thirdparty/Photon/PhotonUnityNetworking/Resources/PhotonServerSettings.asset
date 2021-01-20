@@ -16,7 +16,7 @@ MonoBehaviour:
     AppIdRealtime: 532c64a6-98dd-4977-a51d-f26ebf990b5b
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 0.9
+    AppVersion: 0.91
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -48,6 +48,10 @@ MonoBehaviour:
   - RPC_ProcessGravyGet
   - RPC_SpawnPlayer
   - RPC_SpawnProj
+  - RPC_AddForce
+  - RPC_SetPosition
+  - RPC_SetVelocity
+  - RPC_UpdateMovementRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

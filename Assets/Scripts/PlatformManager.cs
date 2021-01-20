@@ -50,15 +50,11 @@ public class PlatformManager : MonoBehaviourPunCallbacks
         //turn on platforms when players are on them
         foreach (int pActorNums in PhotonNetwork.CurrentRoom.Players.Keys)
         {
-            
+            //todo maybe kill this stupid fucking thing 
             string playerPlatHash = $"{pActorNums}plat"; 
             if (propertiesThatChanged.ContainsKey(playerPlatHash))
             {
                 byte platNum = (byte)propertiesThatChanged[playerPlatHash];
-                if (platNum != 255)
-                {
-                    platformParent.transform.GetChild(platNum).GetComponent<PlatformAppearance>().OnTouch.Invoke(); 
-                }
             }
         }
         

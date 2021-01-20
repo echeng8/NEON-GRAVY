@@ -58,15 +58,18 @@ public class PlayerJetpack : MonoBehaviour
                     Vector3 dashDirection = GetComponent<PlayerShoot>().shootPointPivot.transform.forward;
 
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
-                   
-                    //TODO move to PlayerMovement
-                    rb.velocity = velMagnitude * dashDirection; 
-                    rb.AddForce(dashDirection * bounceForce, ForceMode.Impulse);
+
+                    Vector3 vel = velMagnitude * dashDirection;
+                    Vector3 force = dashDirection * bounceForce;
+                    GetComponent<PlayerMoveSync>().UpdateMovementRPC(force, vel, transform.position); 
+
                     streak++;
 
-                    //calls events 
+                    //calls events  
                     platformBelow.GetComponent<PlatformAppearance>().OnBounce.Invoke(); 
-                    OnBounce.Invoke(); 
+                    OnBounce.Invoke();
+                    
+                    
                 }
                 else
                 {

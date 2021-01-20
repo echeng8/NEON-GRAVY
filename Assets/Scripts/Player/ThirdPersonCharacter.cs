@@ -158,4 +158,5 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		#endregion
 		
 	}
+	
 }

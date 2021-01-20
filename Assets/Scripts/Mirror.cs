@@ -40,6 +40,7 @@ public class Mirror : MonoBehaviour
             }
 
             newestVector.y = 0f;
+            ///todo network this movement
             other.transform.GetComponentInParent<Rigidbody>().AddForce(newestVector * power, ForceMode.Impulse);
             rend.material.SetColor("_BaseColor", Random.ColorHSV());
         }
