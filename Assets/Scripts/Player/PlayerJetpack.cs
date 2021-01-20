@@ -59,6 +59,7 @@ public class PlayerJetpack : MonoBehaviour
 
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
                    
+                    //TODO move to PlayerMovement
                     rb.velocity = velMagnitude * dashDirection; 
                     rb.AddForce(dashDirection * bounceForce, ForceMode.Impulse);
                     streak++;
