@@ -5,12 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 using UnityStandardAssets.CrossPlatformInput;
-using UnityEngine.Events; 
+using UnityEngine.Events;
+using Photon.Pun; 
 
 /// <summary>
 /// Handles player bouncing from platforms 
 /// </summary>
-public class PlayerJetpack : MonoBehaviour
+public class PlayerJetpack : MonoBehaviourPun
 {
     
     #region Implementation Values
@@ -43,6 +44,8 @@ public class PlayerJetpack : MonoBehaviour
 
         streak = 0;
         streaksText = GameObject.Find("Streaks").GetComponent<TextMeshProUGUI>();
+
+        
     }
 
     public void ControlledUpdate()
@@ -65,7 +68,7 @@ public class PlayerJetpack : MonoBehaviour
             {
                 GameObject platformBelow = GetComponent<ThirdPersonCharacter>().PlatformBelow;
 
-                if (platformBelow != null)
+                if (platformBelow != null) //THE BOUNCE
                 {
                     Vector3 dashDirection = (pointToDash - transform.position).normalized;
                     transform.forward = (pointToDash - transform.position).normalized;
@@ -73,14 +76,15 @@ public class PlayerJetpack : MonoBehaviour
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
                    
                     //TODO move to PlayerMovement (cant PlayerJetpack just get renamed to PlayerMovement?)
-                    rb.velocity = velMagnitude * dashDirection; 
-                    rb.AddForce(dashDirection * bounceForce, ForceMode.Impulse);
-                    
+                    Vector3 velocity = velMagnitude * dashDirection; 
+                    Vector3 force = (dashDirection * bounceForce);
+
+                    GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, force, transform.position);
+
+                    InvokeOnBouncePlatformRPC(); 
+
                     streak++;
 
-                    //calls events 
-                    platformBelow.GetComponent<PlatformAppearance>().OnBounce.Invoke(); 
-                    OnBounce.Invoke(); 
                 }
                 else
                 {
@@ -101,6 +105,21 @@ public class PlayerJetpack : MonoBehaviour
     {
         streaksText.text = $"Streaks x{streak}";
     }
-    #endregion
+
+    //platform event rpcs
+    [PunRPC]
+    void RPC_InvokeOnBouncePlatform()
+    {
+        GetComponent<ThirdPersonCharacter>().PlatformBelow.GetComponent<PlatformAppearance>().OnBounce.Invoke();
+        
+    }
     
+    void InvokeOnBouncePlatformRPC()
+    {
+        photonView.RPC("RPC_InvokeOnBouncePlatform", RpcTarget.All); 
+    }
+
+
+    #endregion
+
 }
