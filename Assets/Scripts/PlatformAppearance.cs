@@ -13,16 +13,29 @@ public class PlatformAppearance : MonoBehaviour
     /// Event invoked when players bounce off the platform. 
     /// </summary>
     public UnityEvent OnBounce = new UnityEvent();
+<<<<<<< HEAD
     /// <summary>
     /// Camera used for slight jolt when players bounce off platform.
     /// </summary>
     private Animator camAnimator;
     
+=======
+    
+    /// <summary>
+    /// Event invoked when players leave platform
+    /// </summary>
+    public UnityEvent OnPlatLeave = new UnityEvent();
+    
+    private Animator platAnimator;
+    private ParticleSystem platParticles;
+
+>>>>>>> c02fbbb749f6b98b5da41d409c433d90175353ad
     private void Start()
     {
         OnBounce.AddListener(bounceOnPlatEvents);
         camAnimator = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<Animator>();
     }
+    
     /// <summary>
     /// make the platform specified by platNum brighter or something 
     /// </summary>

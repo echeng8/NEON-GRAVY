@@ -10,7 +10,7 @@ using UnityEngine.Events;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 /// <summary>
-/// Handles player gravity user toggling AND damage handling 
+/// Handles vestigal gravity toggling and Damage force
 /// </summary>
 public class PlayerGravity : MonoBehaviourPun
 {
@@ -22,21 +22,6 @@ public class PlayerGravity : MonoBehaviourPun
     /// </summary>
     [SerializeField] private float hitForce;
 
-    /// <summary>
-    /// Seconds the player is invulnerable after being hit. 
-    /// </summary>
-    [SerializeField] private float hitInvulSec;
-    
-
-    /// <summary>
-    /// The times you must be hit before you go Grav Off by force. 
-    /// </summary>
-    [SerializeField] private int gravDurability;
-
-    /// <summary>
-    /// The time in seconds when your gravity is off after being hit gravDurabilty times. 
-    /// </summary>
-    [SerializeField] private float gravBrokenTime;
     
     /// <summary>
     /// Set the maximum speed in the air
@@ -50,10 +35,7 @@ public class PlayerGravity : MonoBehaviourPun
 
     private bool gravity = false;
     
-    /// <summary>
-    /// cannot be hit, even if grav off
-    /// </summary>
-    private bool hitInvulnerable = false;
+
 
     //unity events
     public BoolEvent OnGravityChange = new BoolEvent();
@@ -64,27 +46,6 @@ public class PlayerGravity : MonoBehaviourPun
     /// </summary>
     public IntEvent OnHit = new IntEvent(); 
     
-    /// <summary>
-    /// underlying value of CurrentDurabillity property 
-    /// </summary>
-    private int _currentDurability = 0;
-
-    /// <summary>
-    /// set: limits to zero or greater, calls RPC with each set 
-    /// 
-    /// </summary>
-    public int CurrentDurability
-    {
-        get => _currentDurability;
-        set
-        {
-            _currentDurability = Mathf.Clamp(value, 0, int.MaxValue);
-            durabilityDisplay.text = _currentDurability.ToString(); 
-        }
-    }
-
-
-    public TextMeshPro durabilityDisplay; 
     private Rigidbody rb;
     
     #endregion
@@ -95,11 +56,9 @@ public class PlayerGravity : MonoBehaviourPun
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        CurrentDurability = gravDurability; 
+
         
         GetComponent<PlayerDeath>().OnDeath.AddListener(ResetOnDeath);
-        //placeholder, durabiilty text not final todo refactor 
-        durabilityDisplay.text = gravDurability.ToString();
     }
 
     private void Start()
@@ -118,14 +77,16 @@ public class PlayerGravity : MonoBehaviourPun
         //clamp velocity.y to negative or 0 
         if (!gravity)
             rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
-        
+
+        //clamp velocity matgnitude
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+
         //Debug Stuff 
         if (Input.GetKeyDown(KeyCode.V))
         {
             print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
         }
 
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -139,57 +100,31 @@ public class PlayerGravity : MonoBehaviourPun
             //todo polish
             bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum;
             
-            if (!hitInvulnerable && !isMyBullet)
+            if (!isMyBullet)
             {
-                
                 //todo move to projectileProfiles format 
-                int damageEndured = other.GetComponent<Projectile>().getDamage(); 
-                photonView.RPC("RPC_ProcessHit", RpcTarget.All, damageEndured, other.GetComponent<Projectile>().shooterActorNum);
+                photonView.RPC("RPC_ProcessHit", RpcTarget.All, other.GetComponent<Projectile>().shooterActorNum);
+
+                //todo move fortces to PlayerMovement
+                Vector3 hitDirection = other.transform.forward; //todo get force from projectile 
+                ApplyHitForce(hitDirection);
                 
-                if (!gravity)
-                {
-                    Vector3 hitDirection = other.transform.forward; //todo get force from projectile 
-                    ApplyHitForce(hitDirection);
-                }
             }
         }
     }
 
-    //to trigger gravity changes in debug 
-    //private void OnValidate()
-    //{
-        //!!!this will call gravity change twice if something else was edited
-        //OnGravityChange.Invoke(gravity);
-    //}
+
     #endregion
     
     #region RPC and related Methods 
 
     /// <summary>
-    /// RPC_RecordHit does three thing 
-    /// 1) tells other clients who hit them
-    /// 2) handles durability damage locally and updates peers 
-    /// 3) processes hit invulernability
+    /// RPC_RecordHit tells other clients who hit them
     /// </summary>
     /// <param name="attackerNum"></param>b
     [PunRPC]
-    void RPC_ProcessHit(int damageEndured, int attackerNum = -1)
+    void RPC_ProcessHit(int attackerNum = -1)
     {
-        if (gravity)
-        {
-            if (photonView.IsMine)
-            {
-                photonView.RPC("RPC_SetDurability", RpcTarget.All, CurrentDurability - damageEndured);
-                ProcessDurabilityDamage();
-            }
-        }
-        else
-        {
-            //process hit invulnerability 
-            hitInvulnerable = true;
-            this.Invoke(() => hitInvulnerable = false, hitInvulSec);
-        }
-        
         OnHit.Invoke(attackerNum);
     }
 
@@ -203,24 +138,7 @@ public class PlayerGravity : MonoBehaviourPun
         gravity = on;
         OnGravityChange.Invoke(on);
     }
-
-    [PunRPC]
-    private void RPC_SetDurability(int d)
-    {
-        CurrentDurability = d; 
-    }
     
-    /// <summary>
-    /// Handles recovery after the player has had their gravity broken. 
-    /// </summary>
-    [PunRPC]
-    private void RPC_RecoverGravity()
-    {
-        //todo onrecover 
-        CurrentDurability = gravDurability;
-    }
-    
-
     #endregion
 
     #region Public Methods
@@ -249,22 +167,10 @@ public class PlayerGravity : MonoBehaviourPun
 
         forceDirection += GetComponent<Rigidbody>().velocity;
         
+        //TODO network velocity
         rb.AddForce(forceDirection, ForceMode.Impulse);
     }
 
-    /// <summary>
-    /// Handles the durability break. Disables gravity and re-enables it when ready.
-    /// Calls RPC_SetGravity and RPC_RecoverGravity
-    /// </summary>
-    private void ProcessDurabilityDamage() //todo decide what to do with this, can be used for remove colliders on player if they die so they fall through platforms
-    {
-        if (_currentDurability <= 0)
-        {
-            photonView.RPC("RPC_SetGravity", RpcTarget.All, true);
-            this.Invoke(() => photonView.RPC("RPC_RecoverGravity", RpcTarget.All), gravBrokenTime);
-        }
-    }
-    
     /// <summary>
     /// resets values on death, to be added to OnDeath event
     /// called for ALL clients by PlayerDeath through event triggering  
@@ -272,7 +178,6 @@ public class PlayerGravity : MonoBehaviourPun
     private void ResetOnDeath()
     {
         RPC_SetGravity(false);
-        CurrentDurability = gravDurability;
     }
     #endregion
 
