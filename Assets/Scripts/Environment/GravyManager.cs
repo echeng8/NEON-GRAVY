@@ -130,7 +130,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         if (SYNC_gravyArray[platNum]) // gravy is there
         {
             //award the player
-            int newGravies = (int)info.Sender.CustomProperties["gravies"] + 1;
+            int newGravies = (int)info.Sender.CustomProperties["gravies"] + playerTPC.GetComponent<PlayerJetpack>().streak;
             Hashtable h  = new Hashtable{{"gravies", newGravies}};
             info.Sender.SetCustomProperties(h); 
             

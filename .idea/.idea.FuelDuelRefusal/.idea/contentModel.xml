@@ -24,7 +24,6 @@
           <e p="Mirror.cs" t="Include" />
           <e p="PlatformAppearance.cs" t="Include" />
           <e p="PlatformManager.cs" t="Include" />
-          <e p="PlatformPower.cs" t="Include" />
           <e p="Player" t="Include">
             <e p="CameraFacing.cs" t="Include" />
             <e p="DEBUGPlayer.cs" t="Include" />
@@ -38,6 +37,7 @@
             <e p="PlayerShoot.cs" t="Include" />
             <e p="ThirdPersonCharacter.cs" t="Include" />
           </e>
+          <e p="PlayerDetector.cs" t="Include" />
           <e p="Projectile.cs" t="Include" />
           <e p="SetAnimTime.cs" t="Include" />
           <e p="UI" t="Include">

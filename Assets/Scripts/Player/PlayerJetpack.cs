@@ -47,6 +47,18 @@ public class PlayerJetpack : MonoBehaviour
 
     public void ControlledUpdate()
     {
+        Vector3 pointToDash = new Vector3(0,0,0);
+        Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, transform.position); 
+        float rayLength;
+        
+        Debug.DrawRay(transform.position, Vector3.up * 3, Color.cyan);
+        if (groundPlane.Raycast(cameraRay, out rayLength))
+        {
+            pointToDash = cameraRay.GetPoint(rayLength);
+            Debug.DrawRay(pointToDash, (pointToDash - transform.position).normalized * 2f);
+        }
+        
         if (!GetComponent<PlayerGravity>().GetGravity()) //todo change to be based on alive/dead
         {
             if (Input.GetButtonDown("Fire1"))
@@ -55,21 +67,20 @@ public class PlayerJetpack : MonoBehaviour
 
                 if (platformBelow != null)
                 {
-                    Vector3 dashDirection = GetComponent<PlayerShoot>().shootPointPivot.transform.forward;
+                    Vector3 dashDirection = (pointToDash - transform.position).normalized;
+                    transform.forward = (pointToDash - transform.position).normalized;
 
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
-
-                    Vector3 vel = velMagnitude * dashDirection;
-                    Vector3 force = dashDirection * bounceForce;
-                    GetComponent<PlayerMoveSync>().UpdateMovementRPC(force, vel, transform.position); 
-
+                   
+                    //TODO move to PlayerMovement (cant PlayerJetpack just get renamed to PlayerMovement?)
+                    rb.velocity = velMagnitude * dashDirection; 
+                    rb.AddForce(dashDirection * bounceForce, ForceMode.Impulse);
+                    
                     streak++;
 
-                    //calls events  
+                    //calls events 
                     platformBelow.GetComponent<PlatformAppearance>().OnBounce.Invoke(); 
-                    OnBounce.Invoke();
-                    
-                    
+                    OnBounce.Invoke(); 
                 }
                 else
                 {
