@@ -80,7 +80,8 @@ public class PlayerJetpack : MonoBehaviourPun
                     Vector3 force = (dashDirection * bounceForce);
 
                     GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, force, transform.position);
-
+                    
+                    OnBounce.Invoke(); 
                     InvokeOnBouncePlatformRPC(); 
 
                     streak++;
