@@ -144,7 +144,7 @@ public class PlayerDeath : MonoBehaviourPun
     void RPC_SpawnPlayer()
     {
         alive = true; //todo move custom properties? 
-        GetComponent<PlayerMoveSync>().UpdateMovementRPC(Vector3.zero, Vector3.zero, GetSpawnLocation());  
+        GetComponent<PlayerMoveSync>().UpdateMovementRPC(Vector3.zero, GetSpawnLocation());  
         OnSpawn.Invoke();
     }
 

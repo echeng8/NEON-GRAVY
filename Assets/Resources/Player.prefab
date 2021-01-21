@@ -15293,7 +15293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adf7ff75a59c61438c78511a135da6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitForce: 5
+  hitVelocity: 1
   maxSpeed: 10.75
   OnGravityChange:
     m_PersistentCalls:
@@ -15337,8 +15337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008ead631bfae4d47b83e7556ab59a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounceForce: 5
-  bonusForce: 5
+  addedBounceVelocity: 3
   streak: 0
   streaksText: {fileID: 0}
   OnBounce:

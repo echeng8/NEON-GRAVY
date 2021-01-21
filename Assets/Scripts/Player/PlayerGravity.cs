@@ -18,9 +18,10 @@ public class PlayerGravity : MonoBehaviourPun
     #region Gameplay Fields
 
     /// <summary>
-    /// force added on impulse when player is hit 
+    /// velocity added when player is hit 
+    /// the player's direction is reset to the projectiles direction 
     /// </summary>
-    [SerializeField] private float hitForce;
+    [SerializeField] private float hitVelocity;
 
     
     /// <summary>
@@ -111,7 +112,7 @@ public class PlayerGravity : MonoBehaviourPun
 
                 //todo move fortces to PlayerMovement
                 Vector3 hitDirection = other.transform.forward; //todo get force from projectile 
-                ApplyHitForce(hitDirection);
+                ApplyHitVelocity(hitDirection);
                 
             }
         }
@@ -162,17 +163,13 @@ public class PlayerGravity : MonoBehaviourPun
     /// based on hits
     /// </summary>
     /// <param name="hitDirection"></param>
-    private void ApplyHitForce(Vector3 hitDirection)
+    private void ApplyHitVelocity(Vector3 hitDirection)
     {
-        float hitForce = this.hitForce;
-
         Vector3 hitDirSameY = new Vector3(hitDirection.x, 0, hitDirection.z);
-        Vector3 forceDirection = (hitDirSameY).normalized * hitForce;
+        Vector3 newVelocity = (hitDirSameY).normalized * (rb.velocity.magnitude + hitVelocity); 
 
-        forceDirection += GetComponent<Rigidbody>().velocity;
         
-        //TODO network velocity
-        GetComponent<PlayerMoveSync>().SetVelocityRPC(forceDirection, transform.position);
+        GetComponent<PlayerMoveSync>().UpdateMovementRPC(newVelocity, transform.position);
     }
 
     /// <summary>

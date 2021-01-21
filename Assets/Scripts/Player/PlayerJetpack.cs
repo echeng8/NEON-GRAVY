@@ -13,20 +13,19 @@ using Photon.Pun;
 /// </summary>
 public class PlayerJetpack : MonoBehaviourPun
 {
-    
+
     #region Implementation Values
+
     /// <summary>
-    /// Normal bounce force when above platforms
+    /// the velocity that is added with each bounce
+    /// *note a player's velocity caps out as determined by PlayerGravity
     /// </summary>
-    public float bounceForce;
-    
-    /// <summary>
-    /// Bonus force for special moves or moments 
-    /// </summary>
-    public float bonusForce;
+    public float addedBounceVelocity = 3; 
+
     public int streak;
 
     public TextMeshProUGUI streaksText;
+
 
     public UnityEvent OnBounce = new UnityEvent();
 
@@ -76,10 +75,9 @@ public class PlayerJetpack : MonoBehaviourPun
                     float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
                    
                     //TODO move to PlayerMovement (cant PlayerJetpack just get renamed to PlayerMovement?)
-                    Vector3 velocity = velMagnitude * dashDirection; 
-                    Vector3 force = (dashDirection * bounceForce);
+                    Vector3 velocity = dashDirection * (velMagnitude + addedBounceVelocity); 
 
-                    GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, force, transform.position);
+                    GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity,transform.position);
                     
                     OnBounce.Invoke(); 
                     InvokeOnBouncePlatformRPC(); 
