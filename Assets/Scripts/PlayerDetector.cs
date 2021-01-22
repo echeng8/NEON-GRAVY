@@ -1,18 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun; 
 
-public class PlayerDetector : MonoBehaviour
+/// <summary>
+/// keeps a running list of players in the collider in PlayersInside
+/// </summary>
+public class PlayerDetector : MonoBehaviourPun
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public List<GameObject> PlayersInside = new List<GameObject>(); 
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (!photonView.IsMine)
+            return; 
+
+        if(other.CompareTag("Player") && !PlayersInside.Contains(other.gameObject))
+        {
+            PlayersInside.Add(other.gameObject); 
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (!photonView.IsMine)
+            return;
+
+        if (other.CompareTag("Player") && PlayersInside.Contains(other.gameObject))
+        {
+            PlayersInside.Remove(other.gameObject);
+        }
     }
 }

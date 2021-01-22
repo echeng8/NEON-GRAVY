@@ -11,12 +11,27 @@ using UnityEngine.Animations;
 
 /// <summary>
 /// Handles player shooting: input, aiming, cooldown, instantiate projectile
+/// also melee now 
 /// </summary>
 public class PlayerShoot : MonoBehaviourPun
 {
+    #region Gameplay Fields
+    /// <summary>
+    /// Seconds until attack is ready 
+    /// </summary>
+    public float attackCooldown;
+
+    /// <summary>
+    /// TODO 
+    /// How many streaks the player must have before they unlock the projectile 
+    /// </summary>
+    public int streaksToUnlockProjectile; 
+
+
+    #endregion
 
     #region Implementation References
-    
+
     /// <summary>
     /// the forward distance from the spawning position that the projectile is spawned in 
     /// </summary>
@@ -24,6 +39,11 @@ public class PlayerShoot : MonoBehaviourPun
     
     [SerializeField] private GameObject projectile;
     [SerializeField] public Transform shootPointPivot, shootingPosition;
+
+    [SerializeField] public PlayerDetector meleeRangeColllider;
+
+
+    [HideInInspector] public bool canAttack = false; 
 
     private Vector3 _lookAtPosition;
     
@@ -48,8 +68,8 @@ public class PlayerShoot : MonoBehaviourPun
             shootPointPivot.LookAt(pointTolook);
         }
 
-        //Shooting Input Detection 
-        if (Input.GetButtonDown("Fire2")) //firing 
+        //attacking Input Detection 
+        if (Input.GetButtonDown("Fire2") && canAttack) //firing 
         {
             Fire();
         }
