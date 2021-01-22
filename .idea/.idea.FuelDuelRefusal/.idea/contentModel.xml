@@ -14,6 +14,7 @@
           <e p="ConsoleToGUI.cs" t="Include" />
           <e p="Environment" t="Include">
             <e p="GravyManager.cs" t="Include" />
+            <e p="PlatformSound.cs" t="Include" />
           </e>
           <e p="GameManager.cs" t="Include" />
           <e p="LockTransformWorld.cs" t="Include" />
@@ -33,9 +34,9 @@
             <e p="PlayerDeath.cs" t="Include" />
             <e p="PlayerGravity.cs" t="Include" />
             <e p="PlayerIdentity.cs" t="Include" />
-            <e p="PlayerJetpack.cs" t="Include" />
+            <e p="PlayerMovement.cs" t="Include" />
+            <e p="PlayerMoveSync.cs" t="Include" />
             <e p="PlayerShoot.cs" t="Include" />
-            <e p="ThirdPersonCharacter.cs" t="Include" />
           </e>
           <e p="PlayerDetector.cs" t="Include" />
           <e p="Projectile.cs" t="Include" />
@@ -44,6 +45,7 @@
             <e p="DeathScreen.cs" t="Include" />
             <e p="GravyBar.cs" t="Include" />
             <e p="Minimapcolorcode.cs" t="Include" />
+            <e p="OnMouseHover.cs" t="Include" />
             <e p="RotateGravIcon.cs" t="Include" />
           </e>
           <e p="Utility.cs" t="Include" />
