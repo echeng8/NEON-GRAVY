@@ -14731,20 +14731,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reverseFace: 1
   axis: 0
---- !u!136 &6906985377878469053
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1855892556707893830}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.13425021
-  m_Height: 0.26650903
-  m_Direction: 1
-  m_Center: {x: 0.16619319, y: 1.174382, z: -0.00000007660128}
 --- !u!1 &2018856538704818406
 GameObject:
   m_ObjectHideFlags: 0
@@ -15189,7 +15175,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6051251168168012507}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.30492663, y: 1.5661709, z: 0.33}
@@ -15293,7 +15279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adf7ff75a59c61438c78511a135da6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitVelocity: 1
+  hitVelocity: 5
   maxSpeed: 10.75
   OnGravityChange:
     m_PersistentCalls:
@@ -20975,12 +20961,6 @@ Transform:
 --- !u!137 &8713577211006978834 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5283702896890890727, guid: 988c3605d82ede849b3fb3bd23dce6f9,
-    type: 3}
-  m_PrefabInstance: {fileID: 3584763619144942325}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1855892556707893830 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2918007061440450739, guid: 988c3605d82ede849b3fb3bd23dce6f9,
     type: 3}
   m_PrefabInstance: {fileID: 3584763619144942325}
   m_PrefabAsset: {fileID: 0}

@@ -106,22 +106,22 @@ public class PlayerDeath : MonoBehaviourPun
     /// </summary>
     public void Spawn()
     {
+
         if (!alive)
         {
             if (PhotonNetwork.IsConnected)
             {
-                photonView.RPC("RPC_SpawnPlayer", RpcTarget.All);
+                photonView.RPC("RPC_SpawnPlayer", RpcTarget.All, GetSpawnLocation());
             }
             else
             {
-                RPC_SpawnPlayer();
+                RPC_SpawnPlayer(GetSpawnLocation());
             }
         }
     }
     
     /// <summary>
-    /// dying and debug teleport to back
-    /// clears velocity 
+    /// returns vector3 of a gravyless platform
     /// </summary>
     private Vector3 GetSpawnLocation()
     {
@@ -141,10 +141,10 @@ public class PlayerDeath : MonoBehaviourPun
     /// sets alive, moves player to spawn, triggers onalive events 
     /// </summary>
     [PunRPC]
-    void RPC_SpawnPlayer()
+    void RPC_SpawnPlayer(Vector3 spawnLocation)
     {
         alive = true; //todo move custom properties? 
-        GetComponent<PlayerMoveSync>().UpdateMovementRPC(Vector3.zero, GetSpawnLocation());  
+        GetComponent<PlayerMoveSync>().UpdateMovementRPC(Vector3.zero, spawnLocation);  
         OnSpawn.Invoke();
     }
 

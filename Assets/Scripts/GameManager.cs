@@ -22,13 +22,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region Implementation Values
 
+    //Component References
     public static GameManager instance;
+   
+    public PlatformManager platformManager; //quick ref 
+    public GravyManager gravyManager;
 
+    //UI (todo move out?) 
     public TextMeshProUGUI killFeed;
     public TextMeshProUGUI leaderBoardDisplay;
-    
-    //component references
-    public GravyManager gravyManager; 
+
 
     public List<Player> leaderBoard;
     public Player[] playerList;
@@ -50,9 +53,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        //init
         instance = this;
         gravyManager = GetComponent<GravyManager>();
-        
+        platformManager = GetComponent<PlatformManager>(); 
+
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1) // you're the first one in the game and gotta set it up 
         {
             //initialize custom properties for room 

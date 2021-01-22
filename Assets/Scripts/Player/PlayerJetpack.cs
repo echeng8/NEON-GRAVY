@@ -30,7 +30,7 @@ public class PlayerJetpack : MonoBehaviourPun
     public UnityEvent OnBounce = new UnityEvent();
 
     private Rigidbody rb;
-    
+    private ThirdPersonCharacter thirdPersonCharacter;
     #endregion
     
     #region Unity Callbacks
@@ -39,11 +39,13 @@ public class PlayerJetpack : MonoBehaviourPun
     /// </summary>
     private void Start()
     {
-        rb = GetComponent<Rigidbody>(); 
+        //initialize compponents
+        rb = GetComponent<Rigidbody>();
+        thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
 
+        //init misc
         streak = 0;
         streaksText = GameObject.Find("Streaks").GetComponent<TextMeshProUGUI>();
-
         
     }
 
@@ -78,7 +80,8 @@ public class PlayerJetpack : MonoBehaviourPun
                     Vector3 velocity = dashDirection * (velMagnitude + addedBounceVelocity); 
 
                     GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity,transform.position);
-                    
+                  
+                    //invoking bounce events
                     OnBounce.Invoke(); 
                     InvokeOnBouncePlatformRPC(); 
 
@@ -102,20 +105,27 @@ public class PlayerJetpack : MonoBehaviourPun
     #region Custom Methods
     void StreakCounter()
     {
-        streaksText.text = $"Streaks x{streak}";
+        if(streaksText != null)
+            streaksText.text = $"Streaks x{streak}";
     }
 
     //platform event rpcs
     [PunRPC]
-    void RPC_InvokeOnBouncePlatform()
+    void RPC_InvokeOnBouncePlatform(byte platformNum)
     {
-        GetComponent<ThirdPersonCharacter>().PlatformBelow.GetComponent<PlatformAppearance>().OnBounce.Invoke();
+        //we derive this from network to avoid standplatform desync issues
+        GameObject platformBelow = GameManager.instance.platformManager.GetPlatform(platformNum); 
+        platformBelow.GetComponent<PlatformAppearance>().OnBounce.Invoke();
         
     }
     
+    /// <summary>
+    /// invokes the platfrombelow's OnBounce event across all networks
+    /// </summary>
     void InvokeOnBouncePlatformRPC()
     {
-        photonView.RPC("RPC_InvokeOnBouncePlatform", RpcTarget.All); 
+        byte platNum = (byte)thirdPersonCharacter.PlatformBelow.transform.GetSiblingIndex(); 
+        photonView.RPC("RPC_InvokeOnBouncePlatform", RpcTarget.All, platNum); 
     }
 
 

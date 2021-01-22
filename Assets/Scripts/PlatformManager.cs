@@ -60,6 +60,11 @@ public class PlatformManager : MonoBehaviourPunCallbacks
         
     }
 
+    public GameObject GetPlatform(int index)
+    {
+        return platformParent.transform.GetChild(index).gameObject; 
+    }
+
     void AddPlayerListeners(GameObject player)
     {
         player.GetComponent<ThirdPersonCharacter>().OnPlatformBelowChange.AddListener(UpdatePlayerPlatformStatus);
@@ -82,4 +87,6 @@ public class PlatformManager : MonoBehaviourPunCallbacks
         
         //let everyone know that playActorNum touched platNum
     }
+
+
 }

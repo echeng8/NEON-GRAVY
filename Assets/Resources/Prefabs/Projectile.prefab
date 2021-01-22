@@ -4880,7 +4880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
-  duration: 1000
+  duration: 10
   gravOffDamage: 2
   gravOnDamage: 1
   shooterActorNum: -1
