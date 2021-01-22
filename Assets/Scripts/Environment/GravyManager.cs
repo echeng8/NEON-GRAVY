@@ -50,7 +50,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
 
     
     private PlatformManager platformManager;
-    private ThirdPersonCharacter playerTPC;
+    private PlayerMovement playerTPC;
     
     /// <summary>
     /// index refers to children platforms. true if theres a gravy there
@@ -130,7 +130,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         if (SYNC_gravyArray[platNum]) // gravy is there
         {
             //award the player
-            int newGravies = (int)info.Sender.CustomProperties["gravies"] + playerTPC.GetComponent<PlayerJetpack>().streak;
+            int newGravies = (int)info.Sender.CustomProperties["gravies"] + playerTPC.GetComponent<PlayerMovement>().streak;
             Hashtable h  = new Hashtable{{"gravies", newGravies}};
             info.Sender.SetCustomProperties(h); 
             
@@ -170,7 +170,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
     /// </summary>
     void AddPlayerListeners(GameObject localPlayer)
     {
-        playerTPC = localPlayer.GetComponent<ThirdPersonCharacter>();
+        playerTPC = localPlayer.GetComponent<PlayerMovement>();
         playerTPC.OnPlatformBelowChange.AddListener(CheckPlayerGetGravy);
     }
     /// <summary>
@@ -268,4 +268,5 @@ public class GravyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(h); 
     }
     #endregion
+    
 }

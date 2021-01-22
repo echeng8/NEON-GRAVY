@@ -67,7 +67,7 @@ public class PlatformManager : MonoBehaviourPunCallbacks
 
     void AddPlayerListeners(GameObject player)
     {
-        player.GetComponent<ThirdPersonCharacter>().OnPlatformBelowChange.AddListener(UpdatePlayerPlatformStatus);
+        player.GetComponent<PlayerMovement>().OnPlatformBelowChange.AddListener(UpdatePlayerPlatformStatus);
     }
 
     /// <summary>
