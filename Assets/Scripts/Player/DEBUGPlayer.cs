@@ -7,8 +7,22 @@ using UnityEngine;
 /// </summary>
 public class DEBUGPlayer : MonoBehaviour
 {
+
+    private Rigidbody rb;
+
+    private void Start()
+    {
+       rb = GetComponent<Rigidbody>(); 
+    }
+
     void ControlledUpdate()
     {
+        //Debug Stuff 
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
+        }
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             transform.position = GameManager.instance.GetComponent<GravyManager>().GetGraviedPlatformPosition() + Vector3.up * 5f; 

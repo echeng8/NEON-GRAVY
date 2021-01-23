@@ -9,14 +9,14 @@ public class ChargeAppearance : MonoBehaviour
     /// If this is false, then this binds to the local player (e.g. UI elements).
     /// </summary>
     //[SerializeField] private bool bindToParentPlayer; 
-    private PlayerShoot ps; 
+    private PlayerCombat playerCombat; 
     private Animator an; 
     // Start is called before the first frame update
     void Start()
     {
         if (transform.root.CompareTag("Player")) // binds to parent player 
         {
-            ps = GetComponentInParent<PlayerShoot>();
+            playerCombat = GetComponentInParent<PlayerCombat>();
         }
         else //binds to local player
         {
@@ -30,13 +30,13 @@ public class ChargeAppearance : MonoBehaviour
     // Update is called once per frame
     // void Update()
     // {
-    //     if (ps == null || ps._timeToCharge == 0)
+    //     if (playerCombat == null || playerCombat._timeToCharge == 0)
     //         return; 
-    //     float chargePercent = Mathf.Clamp01(ps.SYNC_timeHeld / ps._timeToCharge);  
+    //     float chargePercent = Mathf.Clamp01(playerCombat.SYNC_timeHeld / playerCombat._timeToCharge);  
     //     an.SetFloat("ChargePercentage", chargePercent );
     // }
     void InitializePlayerReference(GameObject plyr)
     {
-        ps = plyr.GetComponent<PlayerShoot>();
+        playerCombat = plyr.GetComponent<PlayerCombat>();
     }
 }

@@ -9,16 +9,22 @@ using Photon.Pun;
 public class PlayerDetector : MonoBehaviourPun
 {
 
-    public List<GameObject> PlayersInside = new List<GameObject>(); 
+    public List<PlayerCombat> PlayersInside;
+
+    private void Start()
+    {
+        PlayersInside = new List<PlayerCombat>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!photonView.IsMine)
             return; 
 
-        if(other.CompareTag("Player") && !PlayersInside.Contains(other.gameObject))
+        //TODO polish when the second hitbox is removed
+        if(other.CompareTag("Player") && !PlayersInside.Contains(other.GetComponentInParent<PlayerCombat>()))
         {
-            PlayersInside.Add(other.gameObject); 
+            PlayersInside.Add(other.GetComponentInParent<PlayerCombat>()); 
         }
     }
 
@@ -27,9 +33,11 @@ public class PlayerDetector : MonoBehaviourPun
         if (!photonView.IsMine)
             return;
 
-        if (other.CompareTag("Player") && PlayersInside.Contains(other.gameObject))
+        
+        if (other.CompareTag("Player") && PlayersInside.Contains(other.GetComponentInParent<PlayerCombat>()))
         {
-            PlayersInside.Remove(other.gameObject);
+            print("removed");
+            PlayersInside.Remove(other.GetComponentInParent<PlayerCombat>());
         }
     }
 }

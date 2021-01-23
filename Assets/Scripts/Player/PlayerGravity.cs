@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 using Photon.Pun;
-using TMPro;
 using UnityEngine.Animations;
 using UnityEngine.Events;
-using UnityStandardAssets.Characters.ThirdPerson;
 
 /// <summary>
 /// Handles vestigal gravity toggling and Damage force
@@ -17,13 +11,6 @@ public class PlayerGravity : MonoBehaviourPun
 
     #region Gameplay Fields
 
-    /// <summary>
-    /// velocity added when player is hit 
-    /// the player's direction is reset to the projectiles direction 
-    /// </summary>
-    [SerializeField] private float hitVelocity;
-
-    
     /// <summary>
     /// Set the maximum speed in the air
     /// </summary>
@@ -35,18 +22,11 @@ public class PlayerGravity : MonoBehaviourPun
     #region Implementation Fields
 
     private bool gravity = false;
-    
-
+   
 
     //unity events
     public BoolEvent OnGravityChange = new BoolEvent();
 
-    /// <summary>
-    /// passes the actor number of the attacker 
-    /// Triggers when the player recalls.
-    /// </summary>
-    public IntEvent OnHit = new IntEvent(); 
-    
     private Rigidbody rb;
     
     #endregion
@@ -68,70 +48,10 @@ public class PlayerGravity : MonoBehaviourPun
     }
 
 
-    private void Update()
-    {
-        //TODO convert the addforce to veloctiy and rmeove the need to clamp velocity 
-
-        //clamp velocity.y to negative or 0 
-        if (!gravity)
-            rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, float.MinValue, 0f), rb.velocity.z);
-
-        //clamp velocity matgnitude
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-    }
-
-    /// <summary>
-    /// its update but it only calls when you're the local player OR set so in inspector
-    /// playercontroller calls it 
-    /// </summary>
-    void ControlledUpdate()
-    {
-        //Debug Stuff 
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            print($"Velocity at Current Frame: {rb.velocity} magnitude {rb.velocity.magnitude}");
-        }
-
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (PhotonNetwork.IsConnected && !photonView.IsMine) //following code is only for the local client  
-            return;
-
-        //handle damage
-        if (other.CompareTag("Damage"))
-        {
-            //todo polish
-            bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum;
-            
-            if (!isMyBullet)
-            {
-                //todo move to projectileProfiles format 
-                photonView.RPC("RPC_ProcessHit", RpcTarget.All, other.GetComponent<Projectile>().shooterActorNum);
-
-                //todo move fortces to PlayerMovement
-                Vector3 hitDirection = other.transform.forward; //todo get force from projectile 
-                ApplyHitVelocity(hitDirection);
-                
-            }
-        }
-    }
-
-
     #endregion
     
     #region RPC and related Methods 
 
-    /// <summary>
-    /// RPC_RecordHit tells other clients who hit them
-    /// </summary>
-    /// <param name="attackerNum"></param>b
-    [PunRPC]
-    void RPC_ProcessHit(int attackerNum = -1)
-    {
-        OnHit.Invoke(attackerNum);
-    }
 
     /// <summary>
     /// sets gravity. if gravity is off, player is a physics object in space with previous velocity
@@ -157,20 +77,7 @@ public class PlayerGravity : MonoBehaviourPun
     #endregion
 
     #region Private Methods
-    
-    /// <summary>
-    /// applies impulse force on the player towards hit direction
-    /// based on hits
-    /// </summary>
-    /// <param name="hitDirection"></param>
-    private void ApplyHitVelocity(Vector3 hitDirection)
-    {
-        Vector3 hitDirSameY = new Vector3(hitDirection.x, 0, hitDirection.z);
-        Vector3 newVelocity = (hitDirSameY).normalized * (rb.velocity.magnitude + hitVelocity); 
 
-        
-        GetComponent<PlayerMoveSync>().UpdateMovementRPC(newVelocity, transform.position);
-    }
 
     /// <summary>
     /// resets values on death, to be added to OnDeath event

@@ -16,9 +16,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class PlayerMovement : MonoBehaviourPun
 	{
+		#region Gameplay Values
+		public float maxVelocity; 
 
-		#region Implementation Values
-		[Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;
+        #endregion
+        #region Implementation Values
+        [Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;
 
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
 		[SerializeField] private float groundCheckRaycastSpread;
@@ -44,6 +47,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			}
 			set
 			{
+				if(value == null && _platformBelow != null)
+                {
+					//onleave happens
+                }
+
 				if (value != _platformBelow)
 				{
 					_platformBelow = value;
@@ -51,8 +59,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				}
 			}
 		}
-
 		private GameObject _platformBelow;
+
 		/// <summary>
 		/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
 		/// </summary>
@@ -81,8 +89,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			pg = GetComponent<PlayerGravity>();
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-		
-	
 		}
 
 		private void Start()
@@ -94,12 +100,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			//init misc
 			streak = 0;
 			streaksText = GameObject.Find("Streaks").GetComponent<TextMeshProUGUI>();
-		}
-
-
-		public void FixedUpdate()
-		{
-			CheckGroundStatus();
 		}
 		
 		public void ControlledUpdate()
@@ -115,14 +115,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				pointToDash = cameraRay.GetPoint(rayLength);
 				Debug.DrawRay(pointToDash, (pointToDash - transform.position).normalized * 2f);
 			}
-        
+			
+			//Player Bounce
+
 			if (!GetComponent<PlayerGravity>().GetGravity()) //todo change to be based on alive/dead
 			{
 				if (Input.GetButtonDown("Fire1"))
 				{
-					GameObject platformBelow = PlatformBelow;
 
-					if (platformBelow != null) //THE BOUNCE
+					if (PlatformBelow != null) //THE BOUNCE
 					{
 						Vector3 dashDirection = (pointToDash - transform.position).normalized;
 						transform.forward = (pointToDash - transform.position).normalized;
@@ -153,6 +154,23 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			}
 			StreakCounter();
 		}
+
+		public void ControlledFixedUpdate()
+        {
+			CheckGroundStatus();
+		}
+
+		//universal callbacks 
+	
+		private void Update()
+		{
+			m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, maxVelocity);
+		}
+
+		//public void FixedUpdate()
+		//{
+		//	//CheckGroundStatus();
+		//}
 		#endregion
 
 		#region Custom Methods
@@ -216,8 +234,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void RPC_InvokeOnBouncePlatform(byte platformNum)
 		{
 			//we derive this from network to avoid standplatform desync issues
-			GameObject platformBelow = GameManager.instance.platformManager.GetPlatform(platformNum); 
-			platformBelow.GetComponent<PlatformAppearance>().OnBounce.Invoke();
+			GameObject otherPlayerPlatformBelow = GameManager.instance.platformManager.GetPlatform(platformNum); 
+			otherPlayerPlatformBelow.GetComponent<PlatformAppearance>().OnBounce.Invoke();
         
 		}
     
@@ -229,7 +247,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			byte platNum = (byte)PlatformBelow.transform.GetSiblingIndex(); 
 			photonView.RPC("RPC_InvokeOnBouncePlatform", RpcTarget.All, platNum); 
 		}
-
 
 		#endregion
 
