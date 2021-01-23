@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime; 
 using UnityEngine;
 using UnityEngine.PlayerLoop;
-using UnityStandardAssets.Characters.ThirdPerson;
+//using UnityStandardAssets.Characters.ThirdPerson;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>

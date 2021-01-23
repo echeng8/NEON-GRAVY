@@ -8,7 +8,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityStandardAssets.Characters.ThirdPerson;
+//using UnityStandardAssets.Characters.ThirdPerson;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;

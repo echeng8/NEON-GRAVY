@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.LowLevel;
-using UnityStandardAssets.Characters.ThirdPerson;
+//using UnityStandardAssets.Characters.ThirdPerson;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>
@@ -130,7 +130,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         if (SYNC_gravyArray[platNum]) // gravy is there
         {
             //award the player
-            int newGravies = (int)info.Sender.CustomProperties["gravies"] + playerTPC.GetComponent<PlayerMovement>().streak;
+            int newGravies = (int)info.Sender.CustomProperties["gravies"] + playerTPC.GetComponent<PlayerMovement>().Streaks;
             Hashtable h  = new Hashtable{{"gravies", newGravies}};
             info.Sender.SetCustomProperties(h); 
             

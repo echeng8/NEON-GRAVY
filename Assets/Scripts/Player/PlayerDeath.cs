@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityStandardAssets.Characters.ThirdPerson;
+//using UnityStandardAssets.Characters.ThirdPerson;
 
 /// <summary>
 /// Handles detecting player death, lasthit, and exposes events regarding and dying and respawning 

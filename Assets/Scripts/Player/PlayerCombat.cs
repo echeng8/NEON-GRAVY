@@ -23,7 +23,7 @@ public class PlayerCombat : MonoBehaviourPun
 
     /// <summary>
     /// TODO 
-    /// How many streaks the player must have before they unlock the projectile 
+    /// How many Streakss the player must have before they unlock the projectile 
     /// </summary>
     public int streaksToUnlockProjectile;
 
@@ -50,6 +50,8 @@ public class PlayerCombat : MonoBehaviourPun
     [SerializeField] private GameObject projectile;
     [SerializeField] public Transform shootPointPivot, shootingPosition;
     [SerializeField] public PlayerDetector meleeRangeCollider;
+    
+
 
     private Rigidbody rb;  
 
