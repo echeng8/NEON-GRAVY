@@ -153,6 +153,11 @@ public class PlayerCombat : MonoBehaviourPun
     /// </summary>
     void AttackRPC()
     {
+        //waste, 3 rpc's in one function, combine into 1 ? 
+
+        //event
+        InvokeOnAttackRPC(); 
+
         //melee
         foreach (PlayerCombat playerC in meleeRangeCollider.PlayersInside)
         {
@@ -210,6 +215,17 @@ public class PlayerCombat : MonoBehaviourPun
         {
             RPC_SpawnProj(projSpawn, shootPointPivot.forward);
         }
+    }
+
+    void InvokeOnAttackRPC()
+    {
+        photonView.RPC("RPC_InvokeOnAttack", RpcTarget.All); 
+    }
+
+    [PunRPC]
+    void RPC_InvokeOnAttack()
+    {
+        OnAttack.Invoke(); 
     }
 
     [PunRPC]
