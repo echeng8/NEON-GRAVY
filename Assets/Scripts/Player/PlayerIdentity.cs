@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>
 /// The high level player script.
@@ -42,7 +43,7 @@ public class PlayerIdentity : MonoBehaviourPun
             if (photonView.Owner == null)
                 Destroy(gameObject); // this is the offline character for offline testing. 
             else 
-                photonView.Owner.TagObject = gameObject; 
+                photonView.Owner.TagObject = gameObject;
         }
     }
     

@@ -15271,7 +15271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 0.5
-  streaksToUnlockProjectile: 5
+  graviesMeleeUnlock: 5
+  graviesRangedUnlock: 10
   hitVelocity: 50
   forwardProjectileOffset: 0.3
   projectile: {fileID: 7196295089048091762, guid: 3e0b285d3dcf92b42832ed5f8d3c1867,
@@ -15280,7 +15281,12 @@ MonoBehaviour:
   shootingPosition: {fileID: 161282208203047596}
   meleeRangeCollider: {fileID: 1257340967263627588}
   currentAttackCooldown: 0
-  canShoot: 0
+  OnStrikeUnlocked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnShootUnlocked:
+    m_PersistentCalls:
+      m_Calls: []
   OnAttack:
     m_PersistentCalls:
       m_Calls:

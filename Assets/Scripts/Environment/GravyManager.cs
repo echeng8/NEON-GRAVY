@@ -18,6 +18,9 @@ public class GravyManager : MonoBehaviourPunCallbacks
     
     #region Gameplay Values
     
+    /// <summary>
+    /// The percent of platforms that have gravies. 
+    /// </summary>
     public float gravyPercent; 
     
     #endregion
@@ -38,14 +41,14 @@ public class GravyManager : MonoBehaviourPunCallbacks
     [HideInInspector]
     public int CurrentGravyNum
     {
-        get => currentGravyNum;
+        get => _currentGravyNum;
         set
         {
-            currentGravyNum = value;
+            _currentGravyNum = value;
             OnGravyNumChanged.Invoke(value);
         }
     }
-    private int currentGravyNum;
+    private int _currentGravyNum;
     public IntEvent OnGravyNumChanged = new IntEvent(); 
 
     
@@ -112,7 +115,17 @@ public class GravyManager : MonoBehaviourPunCallbacks
         //todo optimize maybe 
         if (propertiesThatChanged.ContainsKey("gravy_array"))
         {
-            UpdateGravyObjects(); 
+            UpdateGravyObjects();
+
+
+            //regen gravies if empty 
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (CurrentGravyNum == 0)
+                {
+                    GenerateGravyArray();
+                }
+            }
         }
     }
     #endregion
@@ -173,9 +186,11 @@ public class GravyManager : MonoBehaviourPunCallbacks
         playerTPC = localPlayer.GetComponent<PlayerMovement>();
         playerTPC.OnPlatformBelowChange.AddListener(CheckPlayerGetGravy);
     }
+
+
     /// <summary>
     /// updates gravy variables AND spawns or deletes grav display based on Gravy Array 
-    /// updates gravyNum 
+    /// updates CurrentGravyNum 
     /// </summary>
     void UpdateGravyObjects()
     {

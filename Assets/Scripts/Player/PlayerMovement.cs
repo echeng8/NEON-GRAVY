@@ -89,6 +89,11 @@ public class PlayerMovement : MonoBehaviourPun
 	public TextMeshProUGUI streaksText;
 
 	public IntEvent OnStreakChange = new IntEvent(); 
+
+	/// <summary>
+	/// To be invoked when the player bounces, generally for local player effects.
+	/// Not to be confused with PlatformanAppearance.OnBounce, which is generally for networked univversal effects. 
+	/// </summary>
 	public UnityEvent OnBounce = new UnityEvent();
 	public UnityEvent OnLeave = new UnityEvent();
 	
