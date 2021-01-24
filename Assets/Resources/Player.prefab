@@ -15212,8 +15212,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   addedBounceVelocity: 3
-  streak: 0
   streaksText: {fileID: 0}
+  OnStreakChange:
+    m_PersistentCalls:
+      m_Calls: []
   OnBounce:
     m_PersistentCalls:
       m_Calls: []
@@ -15265,8 +15267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e9b115bca8bc54598e87578ede81d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 1
-  streaksToUnlockProjectile: 0
+  attackCooldown: 0.5
+  streaksToUnlockProjectile: 5
   hitVelocity: 50
   forwardProjectileOffset: 0.3
   projectile: {fileID: 7196295089048091762, guid: 3e0b285d3dcf92b42832ed5f8d3c1867,
@@ -15275,9 +15277,21 @@ MonoBehaviour:
   shootingPosition: {fileID: 161282208203047596}
   meleeRangeCollider: {fileID: 1257340967263627588}
   currentAttackCooldown: 0
+  canShoot: 0
   OnAttack:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4471533989259296774}
+        m_MethodName: Flash
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnShoot:
     m_PersistentCalls:
       m_Calls: []
@@ -20167,6 +20181,7 @@ GameObject:
   - component: {fileID: 4351911810853240094}
   - component: {fileID: 3089900245223011179}
   - component: {fileID: 1257340967263627588}
+  - component: {fileID: 4471533989259296774}
   m_Layer: 0
   m_Name: AttackArea
   m_TagString: Untagged
@@ -20261,6 +20276,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayersInside: []
+--- !u!114 &4471533989259296774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202108366880551570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 313d2c79720475c43baed882d9a0277c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1916194698947056373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20341,15 +20368,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1916194698947056373}
   m_PrefabAsset: {fileID: 0}
---- !u!23 &960996582287429233 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: d8d129177a2afea42b79b82bd995c383,
-    type: 3}
-  m_PrefabInstance: {fileID: 1916194698947056373}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2097843517140546846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d8d129177a2afea42b79b82bd995c383,
+    type: 3}
+  m_PrefabInstance: {fileID: 1916194698947056373}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &960996582287429233 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: d8d129177a2afea42b79b82bd995c383,
     type: 3}
   m_PrefabInstance: {fileID: 1916194698947056373}
   m_PrefabAsset: {fileID: 0}

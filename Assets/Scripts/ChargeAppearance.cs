@@ -26,7 +26,7 @@ public class ChargeAppearance : MonoBehaviour
         an = GetComponent<Animator>();
     }
 
-    //todo change the appearance based on the streaks or somethin 
+    //todo change the appearance based on the Streakss or somethin 
     // Update is called once per frame
     // void Update()
     // {

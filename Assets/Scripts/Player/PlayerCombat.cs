@@ -65,16 +65,7 @@ public class PlayerCombat : MonoBehaviourPun
     [HideInInspector] public float currentAttackCooldown = 0;
 
     //projectile
-    public bool CanShoot
-    {
-        get
-        {
-            //TODO
-            return false; 
-        } //TODO 
-
-    }
-
+    public bool canShoot; 
     //events
 
     /// <summary>
@@ -99,7 +90,8 @@ public class PlayerCombat : MonoBehaviourPun
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
+        GetComponent<PlayerMovement>().OnStreakChange.AddListener(RespondToStreakChange); 
     }
     private void ControlledUpdate()
     {
@@ -120,14 +112,14 @@ public class PlayerCombat : MonoBehaviourPun
 
 
         //ATTACK INPUT DETECTION
-        if (Input.GetButtonDown("Fire2") && attackCooldown  <= 0) //firing 
+        if (Input.GetButtonDown("Fire2") && currentAttackCooldown  <= 0) //firing 
         {
             AttackRPC();
             currentAttackCooldown = attackCooldown; 
         }
 
-        if(attackCooldown > 0)
-            attackCooldown -= Time.deltaTime; 
+        if(currentAttackCooldown > 0)
+           currentAttackCooldown -= Time.deltaTime; 
         
     }
 
@@ -167,7 +159,7 @@ public class PlayerCombat : MonoBehaviourPun
             playerC.BeHitRPC(PhotonNetwork.LocalPlayer.ActorNumber, shootPointPivot.transform.forward); 
         }
 
-        if (CanShoot)
+        if (canShoot)
             ShootRPC();
     }
 
@@ -239,7 +231,10 @@ public class PlayerCombat : MonoBehaviourPun
 
     #region Private Methods
 
-
+    void RespondToStreakChange(int newStreak)
+    {
+        canShoot = newStreak >= streaksToUnlockProjectile; 
+    }
     #endregion
 
 }
