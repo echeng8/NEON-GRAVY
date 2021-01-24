@@ -13,14 +13,12 @@ public class PlatformAppearance : MonoBehaviour
     /// Event invoked when players bounce off the platform. 
     /// </summary>
     public UnityEvent OnBounce = new UnityEvent();
-
     /// <summary>
     /// Camera used for slight jolt when players bounce off platform.
     /// </summary>
     private Animator camAnimator;
     
 
-    
     /// <summary>
     /// Event invoked when players leave platform
     /// </summary>
