@@ -36,12 +36,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<Player> leaderBoard;
     public Player[] playerList;
 
-    
-    /// <summary>
-    /// Invoked when someones becomes the new Gravy King. The king's actor number is passed. 
-    /// </summary>
-    public IntEvent OnGravyKingChange = new IntEvent();
-
     /// <summary>
     /// The person with ALL the gravies. 
     /// </summary>
@@ -168,11 +162,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         updateLeaderboard();
         if (PhotonNetwork.IsMasterClient)
         {
-            //CheckGravyKing(leaderBoard);
-            if (gravyManager.CurrentGravyNum == 0)
-            {
-                gravyManager.GenerateGravyArray();
-            }
+            CheckGravyKing(leaderBoard);
         }
     }
     
@@ -206,8 +196,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         if ((int) updatedLeaderboard[0].CustomProperties["gravies"] == gravyManager.StartingGravyNum)
         {
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable {{"gravy_king", leaderBoard[0].ActorNumber}});
-            OnGravyKingChange.Invoke(leaderBoard[0].ActorNumber);
-            print($"Gravy King set as {leaderBoard[0].ActorNumber}");
         }
     }
 
@@ -246,11 +234,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 yield return new WaitForSeconds(0.5f);
             }
-            PhotonNetwork.Instantiate("Player", Vector3.up, Quaternion.identity); 
+            PhotonNetwork.Instantiate("Player", Vector3.up, Quaternion.identity);
             
             //init local player properties 
-            Hashtable playerProps = new Hashtable {{"gravies", 0}};
-            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps); 
+            Hashtable playerProps = new Hashtable { { "gravies", 0 } };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
         }
 
         PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().Spawn();

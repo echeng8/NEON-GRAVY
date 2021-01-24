@@ -13,7 +13,7 @@ using UnityEngine.Animations;
 /// Handles player shooting: input, aiming, cooldown, instantiate projectile
 /// also melee now 
 /// </summary>
-public class PlayerCombat : MonoBehaviourPun
+public class PlayerCombat : MonoBehaviourPunCallbacks
 {
     #region Gameplay Fields
     /// <summary>
@@ -23,9 +23,13 @@ public class PlayerCombat : MonoBehaviourPun
 
     /// <summary>
     /// TODO 
-    /// How many Streakss the player must have before they unlock the projectile 
+    /// How many gravies the player must have before they unlock the melee or ranged 
     /// </summary>
-    public int streaksToUnlockProjectile;
+    public int graviesMeleeUnlock, graviesRangedUnlock; 
+
+
+
+
 
     /// <summary>
     /// velocity added when player is hit 
@@ -64,8 +68,42 @@ public class PlayerCombat : MonoBehaviourPun
     }
     [HideInInspector] public float currentAttackCooldown = 0;
 
-    //projectile
-    public bool canShoot; 
+    //whether the player has unlocked shooting or striking 
+
+    #region Unlocking Strike and Shoot and its Events 
+    public bool CanStrike
+    {
+        get => _canStrike;
+        set
+        {
+            _canStrike = value; 
+            if (value == true && _canStrike == false)
+            {
+                OnStrikeUnlocked.Invoke();
+                _canStrike = true; 
+            }
+        }
+    }
+    public bool CanShoot
+    {
+        get => _canShoot;
+        set
+        {
+            _canShoot = value;
+            if (value == true && _canShoot == false)
+            {
+                OnShootUnlocked.Invoke();
+                
+            }
+        }
+    }
+    bool _canStrike = false;
+    bool _canShoot = false; 
+    public UnityEvent OnStrikeUnlocked = new UnityEvent();
+    public UnityEvent OnShootUnlocked = new UnityEvent();
+
+    #endregion
+
     //events
 
     /// <summary>
@@ -91,8 +129,10 @@ public class PlayerCombat : MonoBehaviourPun
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        GetComponent<PlayerMovement>().OnStreakChange.AddListener(RespondToStreakChange); 
+        CanShoot = false;
+        CanStrike = false; 
     }
+
     private void ControlledUpdate()
     {
         //AIMING 
@@ -149,17 +189,24 @@ public class PlayerCombat : MonoBehaviourPun
     {
         //waste, 3 rpc's in one function, combine into 1 ? 
 
-        //event
-        InvokeOnAttackRPC(); 
+        if (!CanAttack)
+            return; 
 
         //melee
-        foreach (PlayerCombat playerC in meleeRangeCollider.PlayersInside)
+        if (CanStrike)
         {
-            print(playerC.photonView.OwnerActorNr); 
-            playerC.BeHitRPC(PhotonNetwork.LocalPlayer.ActorNumber, shootPointPivot.transform.forward); 
+            InvokeOnAttackRPC();
+            
+            foreach (PlayerCombat playerC in meleeRangeCollider.PlayersInside)
+            {
+                print(playerC.photonView.OwnerActorNr);
+                playerC.BeHitRPC(PhotonNetwork.LocalPlayer.ActorNumber, shootPointPivot.transform.forward);
+            }
         }
 
-        if (canShoot)
+
+
+        if (CanShoot)
             ShootRPC();
     }
 
@@ -229,12 +276,20 @@ public class PlayerCombat : MonoBehaviourPun
     }
     #endregion
 
-    #region Private Methods
+    #region Pun Callbacks
 
-    void RespondToStreakChange(int newStreak)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        canShoot = newStreak >= streaksToUnlockProjectile; 
+        if(changedProps.ContainsKey("gravies"))
+        {
+          
+            _canShoot = (int)changedProps["gravies"] >= graviesRangedUnlock;
+        
+            _canStrike = (int)changedProps["gravies"] >= graviesMeleeUnlock;
+
+        }
     }
+
     #endregion
 
 }
