@@ -15219,6 +15219,9 @@ MonoBehaviour:
   OnBounce:
     m_PersistentCalls:
       m_Calls: []
+  OnLeave:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &719885462788168250
 MonoBehaviour:
   m_ObjectHideFlags: 0

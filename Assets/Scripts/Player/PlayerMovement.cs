@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviourPun
 	public float maxVelocity; 
 
     #endregion
+    
     #region Implementation Values
     [Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;
 
@@ -46,9 +47,10 @@ public class PlayerMovement : MonoBehaviourPun
 		set
 		{
 			if(value == null && _platformBelow != null)
-            {
-				//onleave happens
-            }
+			{
+				_platformBelow.GetComponent<PlatformAppearance>().OnPlatLeave.Invoke();
+				InvokeOnLeavePlatformRPC();
+			}
 
 			if (value != _platformBelow)
 			{
@@ -93,6 +95,7 @@ public class PlayerMovement : MonoBehaviourPun
 	/// Not to be confused with PlatformanAppearance.OnBounce, which is generally for networked univversal effects. 
 	/// </summary>
 	public UnityEvent OnBounce = new UnityEvent();
+	public UnityEvent OnLeave = new UnityEvent();
 	
 	#endregion
 
@@ -302,6 +305,22 @@ public class PlayerMovement : MonoBehaviourPun
     {
 		photonView.RPC("RPC_InvokeOnTouchPlatform", RpcTarget.All); 
     }
+	
+	[PunRPC]
+	void RPC_InvokeOnLeavePlatform(int platformNum)
+	{ 
+		GameObject otherPlayerPlatformBelow = GameManager.instance.platformManager.GetPlatform(platformNum); 
+		otherPlayerPlatformBelow.GetComponent<PlatformAppearance>().OnPlatLeave.Invoke();
+	}
+    
+	/// <summary>
+	/// invokes the platfrombelow's OnLeave event across all networks
+	/// </summary>
+	void InvokeOnLeavePlatformRPC()
+	{
+		int platformNum = _platformBelow.transform.GetSiblingIndex();
+		photonView.RPC("RPC_InvokeOnLeavePlatform", RpcTarget.All, platformNum); 
+	}
 	#endregion
 		
 }

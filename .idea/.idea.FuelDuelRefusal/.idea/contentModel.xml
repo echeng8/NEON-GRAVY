@@ -22,6 +22,7 @@
             <e p="Launcher.cs" t="Include" />
             <e p="NameInput.cs" t="Include" />
           </e>
+          <e p="MeshFlash.cs" t="Include" />
           <e p="Mirror.cs" t="Include" />
           <e p="PlatformAppearance.cs" t="Include" />
           <e p="PlatformManager.cs" t="Include" />
@@ -31,12 +32,12 @@
             <e p="MuteScript.cs" t="Include" />
             <e p="PlayerAppearance.cs" t="Include" />
             <e p="PlayerCamera.cs" t="Include" />
+            <e p="PlayerCombat.cs" t="Include" />
             <e p="PlayerDeath.cs" t="Include" />
             <e p="PlayerGravity.cs" t="Include" />
             <e p="PlayerIdentity.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
             <e p="PlayerMoveSync.cs" t="Include" />
-            <e p="PlayerShoot.cs" t="Include" />
           </e>
           <e p="PlayerDetector.cs" t="Include" />
           <e p="Projectile.cs" t="Include" />
