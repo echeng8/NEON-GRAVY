@@ -36,7 +36,7 @@ public class PlayerDetector : MonoBehaviourPun
         
         if (other.CompareTag("Player") && PlayersInside.Contains(other.GetComponentInParent<PlayerCombat>()))
         {
-            print("removed");
+
             PlayersInside.Remove(other.GetComponentInParent<PlayerCombat>());
         }
     }

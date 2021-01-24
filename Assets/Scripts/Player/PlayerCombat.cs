@@ -76,12 +76,11 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
         get => _canStrike;
         set
         {
-            _canStrike = value; 
             if (value == true && _canStrike == false)
             {
                 OnStrikeUnlocked.Invoke();
-                _canStrike = true; 
             }
+            _canStrike = value;
         }
     }
     public bool CanShoot
@@ -89,12 +88,11 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
         get => _canShoot;
         set
         {
-            _canShoot = value;
             if (value == true && _canShoot == false)
             {
                 OnShootUnlocked.Invoke();
-                
             }
+            _canShoot = value;
         }
     }
     bool _canStrike = false;
@@ -199,7 +197,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
             
             foreach (PlayerCombat playerC in meleeRangeCollider.PlayersInside)
             {
-                print(playerC.photonView.OwnerActorNr);
+
                 playerC.BeHitRPC(PhotonNetwork.LocalPlayer.ActorNumber, shootPointPivot.transform.forward);
             }
         }
@@ -283,10 +281,9 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
         if(changedProps.ContainsKey("gravies"))
         {
           
-            _canShoot = (int)changedProps["gravies"] >= graviesRangedUnlock;
+            CanShoot = (int)changedProps["gravies"] >= graviesRangedUnlock;
         
-            _canStrike = (int)changedProps["gravies"] >= graviesMeleeUnlock;
-
+            CanStrike = (int)changedProps["gravies"] >= graviesMeleeUnlock;
         }
     }
 
