@@ -37,8 +37,6 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
     /// </summary>
     [SerializeField] private float hitVelocity;
 
-
-
     #endregion
 
     #region Implementation References
@@ -61,7 +59,10 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
 
     private Vector3 _lookAtPosition;
 
-    //attacking cooldowns
+   
+    /// <summary>
+    /// If attack is not on cooldown. 
+    /// </summary>
     public bool CanAttack 
     {
         get => currentAttackCooldown <= 0; 
@@ -83,6 +84,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
             _canStrike = value;
         }
     }
+
     public bool CanShoot
     {
         get => _canShoot;
@@ -163,14 +165,20 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
+
+        if (!photonView.IsMine)
+            return; 
+
         //detecting bullet hits
         if (other.CompareTag("Damage"))
         {
             //todo polish
-            bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum;
+            bool isMyBullet = PhotonNetwork.LocalPlayer.ActorNumber == other.GetComponent<Projectile>().shooterActorNum ||
+                                other.GetComponent<Projectile>().shooterActorNum == -1;
 
             if (!isMyBullet)
             {
+                print("I" + PhotonNetwork.LocalPlayer.ActorNumber + " was hit by bullet from " + other.GetComponent<Projectile>().shooterActorNum); 
                 BeHitRPC(other.GetComponent<Projectile>().shooterActorNum, other.transform.forward);
             }
         }
@@ -231,6 +239,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_SpawnProj(Vector3 position, Vector3 direction, PhotonMessageInfo info = new PhotonMessageInfo())
     {
+        print("Spawning projectile at " + position + info.ToString()); 
         GameObject p = Instantiate(projectile, position, Quaternion.LookRotation(direction));
         p.GetComponent<Projectile>().shooterActorNum = PhotonNetwork.IsConnected ? info.Sender.ActorNumber : -1;
 

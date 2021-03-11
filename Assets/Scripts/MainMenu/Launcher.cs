@@ -11,8 +11,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 {
     public UnityEvent OnConnectedSuccess = new UnityEvent();
     
-    //test
-    private double t; 
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -21,7 +19,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        Connect();
+        if(!PhotonNetwork.IsConnectedAndReady)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
     #region  Photon PUN Callbacks
@@ -34,10 +35,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         OnConnectedSuccess.Invoke();
-        
-        
-        //test
-        t = PhotonNetwork.Time; 
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -79,13 +76,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     #endregion
 
-    private void Update()
-    {
-        //test
-        t += Time.deltaTime; 
-//        print(t);
-    }
-
     #region Public Methods 
 
 
@@ -96,17 +86,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     /// </summary>
     public void Connect()
     {
-        
         // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
-        if (PhotonNetwork.IsConnected)
+        if (PhotonNetwork.IsConnectedAndReady)
         {
             // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
             PhotonNetwork.JoinRandomRoom();
-        }
-        else
-        {
-            // #Critical, we must first and foremost connect to Photon Online Server.
-            PhotonNetwork.ConnectUsingSettings();
         }
     }
 
