@@ -24,6 +24,12 @@ public class PlayerIdentity : MonoBehaviourPun
             else
                 return 0; //edge case when properties have not been initialized 
         }
+
+        set
+        {
+            Hashtable h = new Hashtable { { "gravies", value } };
+            photonView.Owner.SetCustomProperties(h);
+        }
     }
     #endregion
 

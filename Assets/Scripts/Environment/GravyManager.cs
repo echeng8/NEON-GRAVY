@@ -143,9 +143,8 @@ public class GravyManager : MonoBehaviourPunCallbacks
         if (SYNC_gravyArray[platNum]) // gravy is there
         {
             //award the player
-            int newGravies = (int)info.Sender.CustomProperties["gravies"] + playerTPC.GetComponent<PlayerMovement>().Streaks;
-            Hashtable h  = new Hashtable{{"gravies", newGravies}};
-            info.Sender.SetCustomProperties(h); 
+            GameObject senderGO = (GameObject)info.Sender.TagObject;
+            senderGO.GetComponent<PlayerIdentity>().Gravies++; 
             
             //delete the gravy 
             removeGravy(platNum);

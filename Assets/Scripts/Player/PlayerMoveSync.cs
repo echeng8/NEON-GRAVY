@@ -19,7 +19,6 @@ public class PlayerMoveSync : MonoBehaviourPun
     /// <summary>
     /// Adds force, sets veloctiy from the starting position on all clients via RPC. 
     /// </summary>
-    /// <param name="force"></param>
     /// <param name="velocity"></param>
     /// <param name="position"></param>
     public void UpdateMovementRPC(Vector3 velocity, Vector3 position)

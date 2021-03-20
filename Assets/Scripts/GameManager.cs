@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     #region Gameplay Values
     #endregion
+
     #region Implementation Values
 
     //Component References
