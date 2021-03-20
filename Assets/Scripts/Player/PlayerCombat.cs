@@ -27,10 +27,6 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
     /// </summary>
     public int graviesMeleeUnlock, graviesRangedUnlock; 
 
-
-
-
-
     /// <summary>
     /// velocity added when player is hit 
     /// the player's direction is reset to the attack's direction 
@@ -162,7 +158,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
            currentAttackCooldown -= Time.deltaTime; 
         
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
 

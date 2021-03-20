@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Realtime;
 
 /// <summary>
 /// The high level player script.
@@ -12,7 +13,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 ///  handles identifying and providing the PlayerGameObject 
 ///  provides access to photon custom properties
 /// </summary>
-public class PlayerIdentity : MonoBehaviourPun
+
+public class PlayerIdentity : MonoBehaviourPunCallbacks
 {
     #region Photon Custom Properties
     public int Gravies
@@ -29,8 +31,11 @@ public class PlayerIdentity : MonoBehaviourPun
         {
             Hashtable h = new Hashtable { { "gravies", value } };
             photonView.Owner.SetCustomProperties(h);
+            //OnGravyChange.Invoke(value); 
         }
     }
+
+    public IntEvent OnGravyChange = new IntEvent(); 
     #endregion
 
     #region Implementation Values
@@ -111,6 +116,17 @@ public class PlayerIdentity : MonoBehaviourPun
     }
     #endregion
 
+    #region Pun Callbacks
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+        if(targetPlayer.ActorNumber == photonView.OwnerActorNr)
+        {
+            if (changedProps.ContainsKey("gravies"))
+                OnGravyChange.Invoke((int)changedProps["gravies"]); 
+        }
+    }
+    #endregion
     #region Custom Methods
     /// <summary>
     /// set itself as LocalPlayerInstance

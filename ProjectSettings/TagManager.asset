@@ -8,6 +8,7 @@ TagManager:
   - Platform
   - Bullet
   - Gravy
+  - Body
   layers:
   - Default
   - TransparentFX

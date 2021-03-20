@@ -151,10 +151,19 @@ public class PlayerDeath : MonoBehaviourPun
     #endregion
     
     #region Death Methods
-    public void KillPlayer()
+    /// <summary>
+    /// Kills self. 
+    /// Note: the optional argument is the lastattacker, not the player to be killed. 
+    /// </summary>
+    /// <param name="lastAttacker"></param>
+    public void KillPlayer(int lastAttacker = -1)
     {
         if (alive)
         {
+            if (lastAttacker != -1)
+                UpdateLastAttacker(lastAttacker);
+
+            
             if (PhotonNetwork.IsConnected)
             {
                 photonView.RPC("RPC_KillPlayer", RpcTarget.All);
