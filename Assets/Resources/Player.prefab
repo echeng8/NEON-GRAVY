@@ -15203,10 +15203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTopSpeed: 30
-  baseSpeed: 3
-  graviesToMaxTopSpeed: 10
-  streaksToTopSpeed: 10
+  maxTopSpeed: 15
+  baseSpeed: 5
+  graviesToMaxTopSpeed: 20
+  streaksToTopSpeed: 20
   m_GravityMultiplier: 2
   m_GroundCheckDistance: 0.5
   groundCheckRaycastSpread: 0.05
