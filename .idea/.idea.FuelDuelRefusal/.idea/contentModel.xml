@@ -48,6 +48,7 @@
             <e p="Minimapcolorcode.cs" t="Include" />
             <e p="OnMouseHover.cs" t="Include" />
             <e p="RotateGravIcon.cs" t="Include" />
+            <e p="UpgradeAlerts.cs" t="Include" />
           </e>
           <e p="Utility.cs" t="Include" />
         </e>

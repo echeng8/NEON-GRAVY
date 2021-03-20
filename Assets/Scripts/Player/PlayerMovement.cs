@@ -98,8 +98,10 @@ public class PlayerMovement : MonoBehaviourPun
 			OnStreakChange.Invoke(value); 	
         }
 	}
-	private int _streaks; 
-
+	private int _streaks;
+	public int streakForgive; //The amount of clicks before losing your streak
+	private int streakmisses = 0; //Current amount of misses on bounces
+	
 	public TextMeshProUGUI streaksText;
 
 	public IntEvent OnStreakChange = new IntEvent(); 
@@ -175,7 +177,7 @@ public class PlayerMovement : MonoBehaviourPun
 				{
 					//update streak and calculate new velocity magnitude 
 					Streaks++;
-					float velMagnitude = GetCurrentSpeed(Streaks); 
+					float velMagnitude = GetCurrentSpeed(Streaks);
 
 					//apply velocity to new direction
 					Vector3 dashDirection = (pointToDash - transform.position).normalized;
@@ -190,6 +192,11 @@ public class PlayerMovement : MonoBehaviourPun
 				}
 				else
 				{
+					streakmisses++;
+				}
+				if (streakmisses >= streakForgive)
+				{
+					streakmisses = 0;
 					Streaks = 0;
 				}
 			}
