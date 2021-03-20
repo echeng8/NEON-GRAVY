@@ -9,11 +9,24 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// <summary>
 /// The high level player script.
 /// Handles enabling input signal transfer.
-/// Also handles identifying and providing the PlayerGameObject 
+///  handles identifying and providing the PlayerGameObject 
+///  provides access to photon custom properties
 /// </summary>
 public class PlayerIdentity : MonoBehaviourPun
-{    
-    
+{
+    #region Photon Custom Properties
+    public int Gravies
+    {
+        get
+        {
+            if (photonView.Owner.CustomProperties.ContainsKey("gravies"))
+                return (int)photonView.Owner.CustomProperties["gravies"];
+            else
+                return 0; //edge case when properties have not been initialized 
+        }
+    }
+    #endregion
+
     #region Implementation Values
     /// <summary>
     /// The number of hits a player can take until they are at axHitForce.

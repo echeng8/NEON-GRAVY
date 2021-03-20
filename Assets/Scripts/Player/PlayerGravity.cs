@@ -8,22 +8,10 @@ using UnityEngine.Events;
 /// </summary>
 public class PlayerGravity : MonoBehaviourPun
 {
-
-    #region Gameplay Fields
-
-    /// <summary>
-    /// Set the maximum speed in the air
-    /// </summary>
-    [SerializeField] private float maxSpeed;
-    
-    
-    #endregion
-
     #region Implementation Fields
 
     private bool gravity = false;
    
-
     //unity events
     public BoolEvent OnGravityChange = new BoolEvent();
 

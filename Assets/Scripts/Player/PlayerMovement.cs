@@ -15,12 +15,32 @@ using TMPro;
 public class PlayerMovement : MonoBehaviourPun
 {
 	#region Gameplay Values
-	public float maxVelocity; 
 
-    #endregion
-    
-    #region Implementation Values
-    [Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;
+	/// <summary>
+    /// The maximum top speed. Additional gravies do not increase the top speed beyond this point. 
+    /// </summary>
+	public float maxTopSpeed;
+
+	/// <summary>
+    /// The speed at zero streaks. 
+    /// </summary>
+	public float baseSpeed;
+
+	/// <summary>
+    /// How many gravies it takes to max out the top speed.
+    /// </summary>
+	public float graviesToMaxTopSpeed;
+
+	/// <summary>
+	/// How many streaks it takes to bounce at the current top speed. 
+	/// </summary>
+	public float streaksToTopSpeed; 
+	#endregion
+
+	#region Implementation Values
+
+
+	[Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;
 
 	[SerializeField] float m_GroundCheckDistance = 0.1f;
 	[SerializeField] private float groundCheckRaycastSpread;
@@ -65,12 +85,6 @@ public class PlayerMovement : MonoBehaviourPun
 	/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
 	/// </summary>
 	public GameObjectEvent OnPlatformBelowChange = new GameObjectEvent();
-		
-	/// <summary>
-	/// the velocity that is added with each bounce
-	/// *note a player's velocity caps out as determined by PlayerGravity
-	/// </summary>
-	public float addedBounceVelocity = 3; 
 
 	public int Streaks
 	{
@@ -123,20 +137,35 @@ public class PlayerMovement : MonoBehaviourPun
 		
 	public void ControlledUpdate()
 	{
-		Vector3 pointToDash = new Vector3(0,0,0);
+		ProcessBounce(); 
+	}
+
+	public void ControlledFixedUpdate()
+    {
+		CheckGroundStatus();
+	}
+
+	//universal callbacks 
+	#endregion
+
+	#region Custom Methods
+	void ProcessBounce() //le big function
+    {
+
+		//get direction
+		Vector3 pointToDash = new Vector3(0, 0, 0);
 		Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-		Plane groundPlane = new Plane(Vector3.up, transform.position); 
+		Plane groundPlane = new Plane(Vector3.up, transform.position);
 		float rayLength;
-        
+
 		Debug.DrawRay(transform.position, Vector3.up * 3, Color.cyan);
 		if (groundPlane.Raycast(cameraRay, out rayLength))
 		{
 			pointToDash = cameraRay.GetPoint(rayLength);
 			Debug.DrawRay(pointToDash, (pointToDash - transform.position).normalized * 2f);
 		}
-			
-		//Player Bounce
 
+		//Player Bounce
 		if (!GetComponent<PlayerGravity>().GetGravity()) //todo change to be based on alive/dead
 		{
 			if (Input.GetButtonDown("Fire1"))
@@ -144,22 +173,20 @@ public class PlayerMovement : MonoBehaviourPun
 
 				if (PlatformBelow != null) //THE BOUNCE
 				{
-					Vector3 dashDirection = (pointToDash - transform.position).normalized;
-					transform.forward = (pointToDash - transform.position).normalized;
-
-					float velMagnitude = Vector3.Magnitude(GetComponent<Rigidbody>().velocity);
-                   
-					//TODO move to PlayerMovement (cant PlayerJetpack just get renamed to PlayerMovement?)
-					Vector3 velocity = dashDirection * (velMagnitude + addedBounceVelocity); 
-
-					GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity,transform.position);
-                  
-					//invoking bounce events
-					OnBounce.Invoke(); 
-					InvokeOnBouncePlatformRPC(); 
-
+					//update streak and calculate new velocity magnitude 
 					Streaks++;
+					float velMagnitude = GetCurrentSpeed(Streaks); 
 
+					//apply velocity to new direction
+					Vector3 dashDirection = (pointToDash - transform.position).normalized;
+					transform.forward = (pointToDash - transform.position).normalized; //change facing direction
+					Vector3 velocity = dashDirection * (velMagnitude);
+
+					GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
+
+					//invoking bounce events
+					OnBounce.Invoke();
+					InvokeOnBouncePlatformRPC();
 				}
 				else
 				{
@@ -171,28 +198,20 @@ public class PlayerMovement : MonoBehaviourPun
 		{
 			Streaks = 0;
 		}
-		StreakCounter();
+		UpdateStreakCounter();
 	}
 
-	public void ControlledFixedUpdate()
+	float GetCurrentSpeed(int streaksNum)
     {
-		CheckGroundStatus();
+		float topSpeed = GetTopSpeed(GetComponent<PlayerIdentity>().Gravies); 
+		return Mathf.Clamp(baseSpeed + streaksNum * (topSpeed / streaksToTopSpeed), 0, maxTopSpeed);
 	}
 
-	//universal callbacks 
-	
-	private void Update()
-	{
-		m_Rigidbody.velocity = Vector3.ClampMagnitude(m_Rigidbody.velocity, maxVelocity);
+	float GetTopSpeed(int graviesNum)
+    {
+		float maxAdditionalSpeed = maxTopSpeed - baseSpeed;
+		return Mathf.Clamp(baseSpeed + graviesNum * (maxAdditionalSpeed / graviesToMaxTopSpeed),0, maxTopSpeed);
 	}
-
-	//public void FixedUpdate()
-	//{
-	//	//CheckGroundStatus();
-	//}
-	#endregion
-
-	#region Custom Methods
 
 	void CheckGroundStatus()
 	{
@@ -242,7 +261,7 @@ public class PlayerMovement : MonoBehaviourPun
 		}
 	}
 		
-	void StreakCounter()
+	void UpdateStreakCounter()
 	{
 		if(streaksText != null)
 			streaksText.text = $"Streaks x{Streaks}";

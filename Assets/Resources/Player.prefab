@@ -15203,7 +15203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 15
+  maxTopSpeed: 30
+  baseSpeed: 3
+  graviesToMaxTopSpeed: 10
+  streaksToTopSpeed: 10
   m_GravityMultiplier: 2
   m_GroundCheckDistance: 0.5
   groundCheckRaycastSpread: 0.05
@@ -15211,7 +15214,6 @@ MonoBehaviour:
   OnPlatformBelowChange:
     m_PersistentCalls:
       m_Calls: []
-  addedBounceVelocity: 3
   streaksText: {fileID: 0}
   OnStreakChange:
     m_PersistentCalls:
@@ -15334,7 +15336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adf7ff75a59c61438c78511a135da6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 10.75
   OnGravityChange:
     m_PersistentCalls:
       m_Calls: []
