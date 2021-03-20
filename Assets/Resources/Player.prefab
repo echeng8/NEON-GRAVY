@@ -15214,6 +15214,7 @@ MonoBehaviour:
   OnPlatformBelowChange:
     m_PersistentCalls:
       m_Calls: []
+  streakForgive: 2
   streaksText: {fileID: 0}
   OnStreakChange:
     m_PersistentCalls:
