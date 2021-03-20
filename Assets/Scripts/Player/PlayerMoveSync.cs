@@ -35,6 +35,7 @@ public class PlayerMoveSync : MonoBehaviourPun
         photonView.RPC("RPC_SetPositionRPC", RpcTarget.All, position);
     }
 
+    
     [PunRPC]
     private void RPC_UpdateMovementRPC(Vector3 velocity, Vector3 pos, PhotonMessageInfo info)
     {
