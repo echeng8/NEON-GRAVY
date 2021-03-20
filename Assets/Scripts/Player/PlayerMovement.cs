@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviourPun
 	}
 	private int _streaks;
 	public int streakForgive; //The amount of clicks before losing your streak
-	private int streakmisses = 0; //Current amount of misses on bounces
+	private int streakmisses; //Current amount of misses on bounces
 	
 	public TextMeshProUGUI streaksText;
 
@@ -134,6 +134,7 @@ public class PlayerMovement : MonoBehaviourPun
 
 		//init misc
 		Streaks = 0;
+		streakmisses = 0;
 		streaksText = GameObject.Find("Streaks").GetComponent<TextMeshProUGUI>();
 	}
 		
@@ -175,8 +176,9 @@ public class PlayerMovement : MonoBehaviourPun
 
 				if (PlatformBelow != null) //THE BOUNCE
 				{
-					//update streak and calculate new velocity magnitude 
+					//update streak and number of misses and calculate new velocity magnitude 
 					Streaks++;
+					streakmisses = 0;
 					float velMagnitude = GetCurrentSpeed(Streaks);
 
 					//apply velocity to new direction
