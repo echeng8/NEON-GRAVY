@@ -34,11 +34,11 @@ public class PlayerMovement : MonoBehaviourPun
 	/// <summary>
 	/// How many streaks it takes to bounce at the current top speed. 
 	/// </summary>
-	public float streaksToTopSpeed; 
+	public float streaksToTopSpeed;
 	#endregion
 
 	#region Implementation Values
-
+	public ObjectDetector platformDetector; 
 
 	[Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;
 
@@ -66,16 +66,18 @@ public class PlayerMovement : MonoBehaviourPun
 		}
 		set
 		{
-			if(value == null && _platformBelow != null)
-			{
-				_platformBelow.GetComponent<PlatformAppearance>().OnPlatLeave.Invoke();
-				InvokeOnLeavePlatformRPC();
-			}
-
 			if (value != _platformBelow)
 			{
+				if (_platformBelow != null)
+                {
+					_platformBelow.GetComponent<PlatformAppearance>().OnPlatLeave.Invoke();
+					InvokeOnLeavePlatformRPC(_platformBelow.transform.GetSiblingIndex());
+				}
+
+
 				_platformBelow = value;
 				OnPlatformBelowChange.Invoke(value);
+
 			}
 		}
 	}
@@ -131,21 +133,20 @@ public class PlayerMovement : MonoBehaviourPun
 		//listen to events
 		OnPlatformBelowChange.AddListener(InvokeOnTouchPlatformRPC); 
 		GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
+		platformDetector.OnObjectChange.AddListener(SetPlatformBelow); 
+		
 
 		//init misc
 		Streaks = 0;
 		streakmisses = 0;
 		streaksText = GameObject.Find("Streaks").GetComponent<TextMeshProUGUI>();
+		PlatformBelow = platformDetector.ObjectDetected; 
+		
 	}
 		
 	public void ControlledUpdate()
 	{
 		ProcessBounce(); 
-	}
-
-	public void ControlledFixedUpdate()
-    {
-		CheckGroundStatus();
 	}
 
 	//universal callbacks 
@@ -222,53 +223,10 @@ public class PlayerMovement : MonoBehaviourPun
 		return Mathf.Clamp(baseSpeed + graviesNum * (maxAdditionalSpeed / graviesToMaxTopSpeed),0, maxTopSpeed);
 	}
 
-	void CheckGroundStatus()
-	{
-
-		RaycastHit hitInfo = new RaycastHit(); //maybe optimization here? 
-
-		// 0.1f is a small offset to start the ray from inside the character
-		// it is also good to note that the transform position in the sample assets is at the base of the character
-
-		Vector3 extents = m_BoxCollider.bounds.extents;
-		Vector3 originPoint = transform.position + (Vector3.up * groundCheckRaycastHeightOffset);
-		Vector3[] rayCastPoints = new Vector3[4];
-
-
-		//todo decouple this from the boxcollider during run time (calculate and store these points on startup) 
-		rayCastPoints[0] = originPoint + new Vector3(extents.x, 0, extents.z) * (1 + groundCheckRaycastSpread);
-		rayCastPoints[1] = originPoint + new Vector3(-extents.x, 0, -extents.z) * (1 + groundCheckRaycastSpread);
-		rayCastPoints[2] = originPoint + new Vector3(extents.x, 0, -extents.z) * (1 + groundCheckRaycastSpread);
-		rayCastPoints[3] = originPoint + new Vector3(-extents.x, 0, extents.z) * (1 + groundCheckRaycastSpread);
-
-		foreach (Vector3 raycastPoint in rayCastPoints)
-		{
-
-			if (Physics.Raycast(raycastPoint, -transform.up, out hitInfo, m_GroundCheckDistance))
-			{
-				break;
-			}
-		}
-
-#if UNITY_EDITOR
-		// helper to visualise the ground check ray in the scene viewp
-		foreach (Vector3 raycastPoint in rayCastPoints)
-		{
-			Debug.DrawLine(raycastPoint, raycastPoint + (Vector3.down * m_GroundCheckDistance));
-		}
-		Debug.DrawLine(hitInfo.point, hitInfo.point + (Vector3.down * 50), Color.blue);
-
-#endif
-
-		if (hitInfo.collider != null) // theres something under you 
-		{
-			PlatformBelow = hitInfo.collider.gameObject;
-		}
-		else // if theres nothing under you 
-		{
-			PlatformBelow = null;
-		}
-	}
+	void SetPlatformBelow(GameObject platformBelow)
+    {
+		PlatformBelow = platformBelow; 
+    }
 		
 	void UpdateStreakCounter()
 	{
@@ -344,10 +302,9 @@ public class PlayerMovement : MonoBehaviourPun
 	/// <summary>
 	/// invokes the platfrombelow's OnLeave event across all networks
 	/// </summary>
-	void InvokeOnLeavePlatformRPC()
+	void InvokeOnLeavePlatformRPC(int platformSiblingIndex)
 	{
-		int platformNum = _platformBelow.transform.GetSiblingIndex();
-		photonView.RPC("RPC_InvokeOnLeavePlatform", RpcTarget.All, platformNum); 
+		photonView.RPC("RPC_InvokeOnLeavePlatform", RpcTarget.All, platformSiblingIndex); 
 	}
 	#endregion
 		

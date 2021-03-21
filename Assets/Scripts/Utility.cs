@@ -27,8 +27,25 @@ public static class Utility
         trans.localRotation = Quaternion.identity;
         trans.localScale = new Vector3(1, 1, 1);
     }
-    
-    
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="other"></param>
+    /// <param name="dpThreshold">the dot product must be higher than this number to return tru e</param>
+    /// <returns></returns>
+    public static bool IsFacingSameDirection(Vector3 selfDirection, Vector3 otherDirection, float dpThreshold = 0)
+    {
+        return Vector3.Dot(selfDirection, otherDirection) > dpThreshold;
+    }
+
+    public static bool IsBehind(Vector3 selfDirection, Vector3 selfPosition, Vector3 otherPosition)
+    {
+        return Vector3.Dot(selfDirection, selfPosition - otherPosition) < 0;
+    }
+
+
     /// <summary>
     /// Returns the universal time in seconds
     /// </summary>
