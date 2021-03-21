@@ -25,10 +25,6 @@ public class PlayerDeath : MonoBehaviourPun
     #endregion
     
     #region Implementation Values
-    /// <summary>
-    /// how high the player is from the center of the platform when they spawn 
-    /// </summary>
-    public float spawnYOffset = 0; 
     
     [HideInInspector] public bool alive = false; 
 
@@ -48,6 +44,10 @@ public class PlayerDeath : MonoBehaviourPun
     /// </summary>
     [SerializeField] private float dieZValue;
 
+    /// <summary>
+    /// the displacement above the platform that the player spawns from 
+    /// </summary>
+    public float spawnYOffset; 
     private Rigidbody rb;
     /// <summary>
     /// The last person to hit this player, by ActorNum.
@@ -131,7 +131,7 @@ public class PlayerDeath : MonoBehaviourPun
         else
         {
             int platIndex = GravyManager.GetGravylessPlatform(); 
-            spawnLoc = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform.GetChild(platIndex).position + Vector3.up * 0.25f;
+            spawnLoc = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform.GetChild(platIndex).position + Vector3.up * spawnYOffset;
         }
 
         return spawnLoc; 

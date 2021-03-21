@@ -234,7 +234,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 yield return new WaitForSeconds(0.5f);
             }
-            PhotonNetwork.Instantiate("Player", Vector3.up, Quaternion.identity);
+            PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
             
             //init local player properties 
             Hashtable playerProps = new Hashtable { { "gravies", 0 } };

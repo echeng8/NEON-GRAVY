@@ -15290,6 +15290,7 @@ MonoBehaviour:
   baseSpeed: 5
   graviesToMaxTopSpeed: 20
   streaksToTopSpeed: 20
+  platformDetector: {fileID: 9075148907173589944}
   m_GravityMultiplier: 2
   m_GroundCheckDistance: 0.5
   groundCheckRaycastSpread: 0.05
@@ -15466,11 +15467,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  spawnYOffset: 0.5
   alive: 1
   dieYValue: -10
   dieXValue: 125
   dieZValue: 75
+  spawnYOffset: -2.5
   lastAttacker: -1
 --- !u!114 &5682627859575082312
 MonoBehaviour:
@@ -20315,6 +20316,7 @@ GameObject:
   - component: {fileID: 4613526426332768209}
   - component: {fileID: 8464378970182540387}
   - component: {fileID: 8182838508393059206}
+  - component: {fileID: 9075148907173589944}
   m_Layer: 0
   m_Name: Body
   m_TagString: Body
@@ -20428,6 +20430,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startScale: 1
   maxScale: 3
+--- !u!114 &9075148907173589944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807153676664339353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e89b7aad13d02749b03798a3e7c14e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDetected: {fileID: 0}
+  ObjectTag: Platform
+  ObjectsDetected: []
+  OnObjectChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7945162037936499061
 GameObject:
   m_ObjectHideFlags: 0
