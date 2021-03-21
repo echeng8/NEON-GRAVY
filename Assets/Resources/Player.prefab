@@ -15469,8 +15469,8 @@ MonoBehaviour:
   spawnYOffset: 0.5
   alive: 1
   dieYValue: -10
-  dieXValue: 125
-  dieZValue: 75
+  dieXValue: 100
+  dieZValue: 100
   lastAttacker: -1
 --- !u!114 &5682627859575082312
 MonoBehaviour:

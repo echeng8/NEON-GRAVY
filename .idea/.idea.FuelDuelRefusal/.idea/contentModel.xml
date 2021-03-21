@@ -31,9 +31,11 @@
             <e p="DEBUGPlayer.cs" t="Include" />
             <e p="MuteScript.cs" t="Include" />
             <e p="PlayerAppearance.cs" t="Include" />
+            <e p="PlayerBodyGrow.cs" t="Include" />
             <e p="PlayerCamera.cs" t="Include" />
             <e p="PlayerCombat.cs" t="Include" />
             <e p="PlayerDeath.cs" t="Include" />
+            <e p="PlayerEating.cs" t="Include" />
             <e p="PlayerGravity.cs" t="Include" />
             <e p="PlayerIdentity.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />

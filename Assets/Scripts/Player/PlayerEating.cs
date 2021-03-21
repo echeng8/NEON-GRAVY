@@ -39,20 +39,25 @@ public class PlayerEating : MonoBehaviourPun
             {
                 int myGravies = playerIdentity.Gravies;
 
-                if (IsHittingFromBehind(MyBody, other.transform)) //they eat us 
+                if (IsBehind(MyBody, other.transform)) //they eat us 
                 {
-                    playerDeath.KillPlayer(otherPV.OwnerActorNr); 
+                    playerDeath.KillPlayer(otherPV.OwnerActorNr);
                 }
             }
 
         }
     }
 
-    bool IsHittingFromBehind(Transform selfBodyTrans, Transform theirBodyTrans)
+    
+    public bool IsFacingSameDirection(Transform selfBodyTrans, Transform theirBodyTrans)
     {
-        return Vector3.Dot(transform.forward, theirBodyTrans.forward) > LethalDotProduct;  
+        return Vector3.Dot(selfBodyTrans.forward, theirBodyTrans.forward) > LethalDotProduct;
     }
 
+    public bool IsBehind(Transform selfBodyTrans, Transform theirBodyTrans)
+    {
+        return Vector3.Dot(selfBodyTrans.forward, selfBodyTrans.position - theirBodyTrans.position) > 0;
+    }
 
     #endregion
 }
