@@ -211,6 +211,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     int comparePlayerGravies(Player p1, Player p2)
     {
+        ///tood null reference here sometimes 
+        if (!p1.CustomProperties.ContainsKey("gravies") || !p2.CustomProperties.ContainsKey("gravies"))
+        {
+            print("ERROR: gravies not intialized");
+            return 0; 
+        }
+
         return (int) p2.CustomProperties["gravies"] - (int) p1.CustomProperties["gravies"];
     }
 
