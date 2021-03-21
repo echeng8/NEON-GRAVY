@@ -9,8 +9,16 @@ using Photon.Pun;
 /// </summary>
 public class PlayerEating : MonoBehaviourPun
 {
+    /// <summary>
+    /// Dot product of forward vectors on collision must be greater than this amount to trigger a kill. 
+    /// </summary>
+    public float LethalDotProduct; 
+
     PlayerDeath playerDeath;
-    PlayerIdentity playerIdentity; 
+    PlayerIdentity playerIdentity;
+
+    public Transform MyBody; 
+
     private void Awake()
     {
         playerDeath = GetComponentInParent<PlayerDeath>();
@@ -31,13 +39,18 @@ public class PlayerEating : MonoBehaviourPun
             {
                 int myGravies = playerIdentity.Gravies;
 
-                if (other.GetComponentInParent<PlayerIdentity>().Gravies > myGravies) //they eat us 
+                if (IsHittingFromBehind(MyBody, other.transform)) //they eat us 
                 {
                     playerDeath.KillPlayer(otherPV.OwnerActorNr); 
                 }
             }
 
         }
+    }
+
+    bool IsHittingFromBehind(Transform selfBodyTrans, Transform theirBodyTrans)
+    {
+        return Vector3.Dot(transform.forward, theirBodyTrans.forward) > LethalDotProduct;  
     }
 
 
