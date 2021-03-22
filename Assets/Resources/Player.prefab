@@ -15330,7 +15330,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4926659754991069527}
-  viewIdField: 1
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &8771859865254495249
@@ -15454,8 +15454,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 8300000, guid: 0ddd4606ec6ab5043b2600f844bd0b5d, type: 3}
-        m_MethodName: 
+      - m_Target: {fileID: 6133908360611972176}
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15552,7 +15552,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2eeb6d5085bbf0845821358e7250636e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0ddd4606ec6ab5043b2600f844bd0b5d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.36
   m_Pitch: 1
