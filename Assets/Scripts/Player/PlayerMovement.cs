@@ -47,7 +47,6 @@ public class PlayerMovement : MonoBehaviourPun
 	[SerializeField] private float groundCheckRaycastHeightOffset;
 
 	Rigidbody m_Rigidbody;
-	private BoxCollider m_BoxCollider;
 
 	/// <summary>
 	/// the collider that is only on when the grav is off for hitting into walls 
@@ -122,7 +121,6 @@ public class PlayerMovement : MonoBehaviourPun
 	{
 		m_Animator = GetComponent<Animator>();
 		m_Rigidbody = GetComponent<Rigidbody>();
-		m_BoxCollider = GetComponent<BoxCollider>();
 		pg = GetComponent<PlayerGravity>();
 
 		m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
@@ -263,7 +261,6 @@ public class PlayerMovement : MonoBehaviourPun
 	void respondToGravity(bool gravityOn)
 	{
 		m_Animator.enabled = gravityOn;
-		m_BoxCollider.isTrigger = !gravityOn;
 	}
 
 	/// <summary>

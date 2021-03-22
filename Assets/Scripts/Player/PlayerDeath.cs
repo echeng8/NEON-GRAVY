@@ -68,7 +68,6 @@ public class PlayerDeath : MonoBehaviourPun
     private void Start()
     {
         OnSpawn.AddListener(ResetLastAttacker);
-        GetComponent<PlayerCombat>().OnAttacked.AddListener(UpdateLastAttacker);
     }
 
     // Update is called once per frame
