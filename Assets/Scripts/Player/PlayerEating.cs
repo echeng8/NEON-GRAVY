@@ -35,17 +35,14 @@ public class PlayerEating : MonoBehaviourPun
         {
             PhotonView otherPV = other.GetComponentInParent<PhotonView>(); 
 
-            if(!otherPV.IsMine)
-            {
-                int myGravies = playerIdentity.Gravies;
-
-                if (Utility.IsFacingSameDirection(MyBody.forward, other.transform.forward, LethalDotProduct) &&
-                    !Utility.IsBehind(MyBody.forward, MyBody.position, other.transform.position))
+            if(!otherPV.IsMine && 
+               other.GetComponentInParent<PlayerDeath>().alive &&
+               Utility.IsFacingSameDirection(MyBody.forward, other.transform.forward, LethalDotProduct) &&
+               !Utility.IsBehind(MyBody.forward, MyBody.position, other.transform.position))
                 {
+                    Camera.main.GetComponent<FreezeFrame>().FreezeCamera();
                     playerDeath.KillPlayer(otherPV.OwnerActorNr); //kill self 
                 }
-            }
-
         }
     }
     #endregion

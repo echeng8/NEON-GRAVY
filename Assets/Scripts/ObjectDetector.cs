@@ -19,7 +19,6 @@ public class ObjectDetector : MonoBehaviourPun
     {
         if (other.CompareTag(ObjectTag) && !ObjectsDetected.Contains(other.gameObject))
         {
-            print("detected " + other.name); 
             ObjectDetected = other.gameObject;
             ObjectsDetected.Add(other.gameObject); 
             OnObjectChange.Invoke(ObjectDetected); 
@@ -30,7 +29,6 @@ public class ObjectDetector : MonoBehaviourPun
     {
         if (other.CompareTag(ObjectTag) && ObjectsDetected.Contains(other.gameObject))
         {
-            print("left " + other.name); 
             ObjectsDetected.Remove(other.gameObject); 
             if(ObjectsDetected.Count > 0)
             {

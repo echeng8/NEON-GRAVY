@@ -16,6 +16,7 @@
             <e p="GravyManager.cs" t="Include" />
             <e p="PlatformSound.cs" t="Include" />
           </e>
+          <e p="FreezeFrame.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="LockTransformWorld.cs" t="Include" />
           <e p="MainMenu" t="Include">
@@ -24,6 +25,7 @@
           </e>
           <e p="MeshFlash.cs" t="Include" />
           <e p="Mirror.cs" t="Include" />
+          <e p="ObjectDetector.cs" t="Include" />
           <e p="PlatformAppearance.cs" t="Include" />
           <e p="PlatformManager.cs" t="Include" />
           <e p="Player" t="Include">
@@ -44,6 +46,9 @@
           <e p="PlayerDetector.cs" t="Include" />
           <e p="Projectile.cs" t="Include" />
           <e p="SetAnimTime.cs" t="Include" />
+          <e p="Test" t="Include">
+            <e p="DirectionTest.cs" t="Include" />
+          </e>
           <e p="UI" t="Include">
             <e p="DeathScreen.cs" t="Include" />
             <e p="GravyBar.cs" t="Include" />
