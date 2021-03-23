@@ -235,7 +235,7 @@ public class PlayerCombat : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_SpawnProj(Vector3 position, Vector3 direction, PhotonMessageInfo info = new PhotonMessageInfo())
     {
-        print("Spawning projectile at " + position + info.ToString()); 
+        //print("Spawning projectile at " + position + info.ToString()); 
         GameObject p = Instantiate(projectile, position, Quaternion.LookRotation(direction));
         p.GetComponent<Projectile>().shooterActorNum = PhotonNetwork.IsConnected ? info.Sender.ActorNumber : -1;
 
