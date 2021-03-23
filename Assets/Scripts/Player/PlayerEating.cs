@@ -24,6 +24,7 @@ public class PlayerEating : MonoBehaviourPun
         playerDeath = GetComponentInParent<PlayerDeath>();
         playerIdentity = GetComponentInParent<PlayerIdentity>(); 
     }
+
     #region Unity Callbacks
     private void OnTriggerEnter(Collider other)
     {
@@ -35,14 +36,25 @@ public class PlayerEating : MonoBehaviourPun
         {
             PhotonView otherPV = other.GetComponentInParent<PhotonView>(); 
 
-            if(!otherPV.IsMine && 
-               other.GetComponentInParent<PlayerDeath>().alive &&
-               Utility.IsFacingSameDirection(MyBody.forward, other.transform.forward, LethalDotProduct) &&
+            if (otherPV.IsMine || !other.GetComponentInParent<PlayerDeath>().alive) //quit if colliding with self or a dead person 
+            {
+                return;
+            }
+
+            //This player is eaten. 
+            if(Utility.IsFacingSameDirection(MyBody.forward, other.transform.forward, LethalDotProduct) &&
                !Utility.IsBehind(MyBody.forward, MyBody.position, other.transform.position))
-                {
-                    Camera.main.GetComponent<FreezeFrame>().FreezeCamera();
-                    playerDeath.KillPlayer(otherPV.OwnerActorNr); //kill self 
-                }
+            {
+                Camera.main.GetComponent<FreezeFrame>().FreezeCamera();
+                playerDeath.KillPlayer(otherPV.OwnerActorNr); //kill self
+                return;  
+            }
+
+            //We bounce off if they have more gravies
+            if(other.GetComponentInParent<PlayerIdentity>().Gravies > playerIdentity.Gravies)
+            {
+                GetComponent<PlayerMoveSync>().UpdateMovementRPC(GetComponent<PlayerMovement>().Velocity * -1, transform.position); 
+            }
         }
     }
     #endregion

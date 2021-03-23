@@ -38,6 +38,15 @@ public class PlayerMovement : MonoBehaviourPun
 	#endregion
 
 	#region Implementation Values
+
+	public Vector3 Velocity
+    {
+		get
+        {
+			return GetComponent<Rigidbody>().velocity; 
+        }
+    }
+	
 	public ObjectDetector platformDetector; 
 
 	[Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;
@@ -262,19 +271,6 @@ public class PlayerMovement : MonoBehaviourPun
 	{
 		m_Animator.enabled = gravityOn;
 	}
-
-	/// <summary>
-	/// For player falling
-	/// </summary>
-	void HandleAirborneMovement()
-	{
-		if (!m_Animator.enabled) // don't apply gravity if animator is down 
-			return;
-
-		Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-		m_Rigidbody.AddForce(extraGravityForce);
-	}
-
 
 	//platform event invoking 
 	[PunRPC]
