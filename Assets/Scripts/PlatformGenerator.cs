@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class GeneratePlatforms : EditorWindow
 {
-    [MenuItem("Custom/Generate Walls %g")]
+    [MenuItem("Custom/Generate Platforms %g")]
     public static void OpenWindow()
     {
         GetWindow<GeneratePlatforms>();
@@ -20,9 +20,9 @@ public class GeneratePlatforms : EditorWindow
     void OnGUI()
     {
         //Draw things here. Same as custom inspectors, EditorGUILayout and GUILayout has most of the things you need
-        if (GUILayout.Button("Generate Platforms"))
+        if (GUILayout.Button("UpdatePlatforms"))
         {
-            GameObject.Find("Platforms").GetComponent<PlatformGenerator>().SetPlatformsToPositions();
+            GameObject.Find("Platforms").GetComponent<PlatformGenerator>().UpdatePlatforms();
         }
 
     }
@@ -68,10 +68,13 @@ public class PlatformGenerator : MonoBehaviour
     public void spawnPlatforms()
     {
         for (int i = 0; i < numPoints; i++)
-            Instantiate(PlatformPrefab, transform); 
+        {
+            GameObject spawnedPlatform = Instantiate(PlatformPrefab, transform);
+            spawnedPlatform.GetComponentInChildren<PlatformAppearance>().InitalizeState(); 
+        }
     }
   
-    public void SetPlatformsToPositions()
+    public void UpdatePlatforms()
     {
 
         for (int i = 0; i < transform.childCount; i++)

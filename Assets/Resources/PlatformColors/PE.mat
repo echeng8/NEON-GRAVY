@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Platform Emissive
+  m_Name: PE
   m_Shader: {fileID: -6465566751694194690, guid: f1777bb4f048da045ab4a0947d6073a3,
     type: 3}
   m_ShaderKeywords: _EMISSION
