@@ -41,7 +41,8 @@ public class PlayerMoveSync : MonoBehaviourPun
     {
         transform.position = pos;
         rb.velocity = velocity;
-        transform.forward = velocity.normalized; 
+        if(velocity.normalized != Vector3.zero) 
+            transform.forward = velocity.normalized; 
 
         //lag compensation
         if (velocity != Vector3.zero)

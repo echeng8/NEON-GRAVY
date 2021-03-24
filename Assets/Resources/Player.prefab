@@ -15229,7 +15229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTopSpeed: 15
-  baseSpeed: 10
+  baseSpeed: 12
   graviesToMaxTopSpeed: 20
   streaksToTopSpeed: 3
   platformDetector: {fileID: 9075148907173589944}
@@ -20347,6 +20347,7 @@ GameObject:
   - component: {fileID: 8464378970182540387}
   - component: {fileID: 8182838508393059206}
   - component: {fileID: 9075148907173589944}
+  - component: {fileID: 2021211949701209320}
   m_Layer: 0
   m_Name: Body
   m_TagString: Body
@@ -20428,7 +20429,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.61
   m_Center: {x: 0, y: 0.00000005960465, z: 0}
 --- !u!54 &8464378970182540387
 Rigidbody:
@@ -20478,6 +20479,22 @@ MonoBehaviour:
   OnObjectChange:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2021211949701209320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807153676664339353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb820c5454c9ffd45a49bc0e27a07921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorsRGB:
+  - {fileID: 2100000, guid: cabbb809fe22bc741abea8ba93c944d9, type: 2}
+  - {fileID: 2100000, guid: f8b5c8020549cac458e1239452cf6031, type: 2}
+  - {fileID: 2100000, guid: 19ce5841c3c056b4e925169ff226a011, type: 2}
 --- !u!1 &7945162037936499061
 GameObject:
   m_ObjectHideFlags: 0

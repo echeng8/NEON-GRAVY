@@ -47,7 +47,6 @@ public class PlatformAppearance : MonoBehaviour
 
     public void InitalizeState()
     {
-        print(transform.GetSiblingIndex()); 
         CurrentState = (PlatformState)(transform.GetSiblingIndex() % 3); 
     }
 
