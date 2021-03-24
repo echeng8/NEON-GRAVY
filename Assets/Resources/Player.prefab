@@ -15291,6 +15291,7 @@ MonoBehaviour:
   baseSpeed: 5
   graviesToMaxTopSpeed: 20
   streaksToTopSpeed: 20
+  directionDrag: 0.5
   platformDetector: {fileID: 9075148907173589944}
   m_GravityMultiplier: 2
   m_GroundCheckDistance: 0.5
@@ -15310,6 +15311,7 @@ MonoBehaviour:
   OnLeave:
     m_PersistentCalls:
       m_Calls: []
+  Body: {fileID: 7807153676664339353}
 --- !u!114 &719885462788168250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15481,8 +15483,8 @@ MonoBehaviour:
         m_CallState: 2
   alive: 1
   dieYValue: -10
-  dieXValue: 100
-  dieZValue: 100
+  dieXValue: 110
+  dieZValue: 110
   spawnYOffset: -2.5
   lastAttacker: -1
 --- !u!114 &5682627859575082312
@@ -15553,8 +15555,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0ddd4606ec6ab5043b2600f844bd0b5d, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.36
+  m_PlayOnAwake: 1
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
