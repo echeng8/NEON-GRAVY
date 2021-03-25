@@ -2,17 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Change the color of the player when the last 3 platforms are the same state.
+/// </summary>
 public class PlayerColorChange : MonoBehaviour
 {
-
-    Queue<PlatformState> last3Plats = new Queue<PlatformState>();
+    public BodyColor bodyColor; 
     
-    public void RecordNewBounce(PlatformState state)
+    public int platStreak;
+    /// <summary>
+    /// The platfrom state of the last bounce
+    /// </summary>
+    PlatformState lastPlatState = PlatformState.FIRE;
+
+    private void Start()
     {
-        last3Plats.Enqueue(state); 
-        if(last3Plats.Count == 3)
-        {
-            return; 
-        }
+        GetComponent<PlayerMovement>().OnBounce.AddListener(RespondToBounce);
+
+        //init 
+        platStreak = 0; 
+    }
+
+    void RespondToBounce()
+    {
+        PlatformState state = GetPlatformBelowState();
+        ProcessNewBounce(state); 
+    }
+
+    PlatformState GetPlatformBelowState()
+    {
+        return GetComponent<PlayerMovement>().PlatformBelow.GetComponent<PlatformAppearance>().CurrentState;
     } 
+
+    /// <summary>
+    /// Updates platStreak to reflect new bounce state
+    /// </summary>
+    /// <param name="state"></param>
+    void ProcessNewBounce(PlatformState state)
+    {
+        
+        if (state == lastPlatState)
+            platStreak++;
+        else
+            platStreak = 1; 
+
+        if(platStreak == 3)
+        {
+            bodyColor.SetColor(state); 
+        }
+
+        lastPlatState = state;
+    }
 }

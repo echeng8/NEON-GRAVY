@@ -22,6 +22,7 @@ public class GeneratePlatforms : EditorWindow
         //Draw things here. Same as custom inspectors, EditorGUILayout and GUILayout has most of the things you need
         if (GUILayout.Button("UpdatePlatforms"))
         {
+            
             GameObject.Find("Platforms").GetComponent<PlatformGenerator>().UpdatePlatforms();
         }
 

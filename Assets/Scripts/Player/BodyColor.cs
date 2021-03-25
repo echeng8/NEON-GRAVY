@@ -8,15 +8,15 @@ using UnityEngine;
 /// </summary>
 public class BodyColor : MonoBehaviour
 {
+    public Material[] ColorsRGB;
 
     private void Start()
     {
-        SetColor(PlatformState.GRASS); 
+        SetColor(PlatformState.WATER); 
     }
-    public Material[] ColorsRGB; 
-
     public void SetColor(PlatformState state)
     {
+        print("trying to set color to: " + state); 
         switch (state)
         {
             case PlatformState.FIRE:

@@ -21,6 +21,7 @@ public class PlatformAppearance : MonoBehaviour
         }
     }
 
+    [SerializeField]
     PlatformState _currentState; 
 
     /// <summary>
