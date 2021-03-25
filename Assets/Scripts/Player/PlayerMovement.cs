@@ -35,6 +35,12 @@ public class PlayerMovement : MonoBehaviourPun
 	/// How many streaks it takes to bounce at the current top speed. 
 	/// </summary>
 	public float streaksToTopSpeed;
+
+	/// <summary>
+	/// How much does speed reduce when changing directions
+	/// </summary>
+	public float directionDrag;
+		
 	#endregion
 
 	#region Implementation Values
@@ -122,6 +128,8 @@ public class PlayerMovement : MonoBehaviourPun
 	/// </summary>
 	public UnityEvent OnBounce = new UnityEvent();
 	public UnityEvent OnLeave = new UnityEvent();
+
+	public GameObject Body;
 	
 	#endregion
 
@@ -191,8 +199,9 @@ public class PlayerMovement : MonoBehaviourPun
 
 					//apply velocity to new direction
 					Vector3 dashDirection = (pointToDash - transform.position).normalized;
+					float dashAngle = Math.Abs(Vector3.SignedAngle(transform.forward,dashDirection,transform.up));
 					transform.forward = (pointToDash - transform.position).normalized; //change facing direction
-					Vector3 velocity = dashDirection * (velMagnitude);
+					Vector3 velocity = dashDirection * velMagnitude * (1-(dashAngle * Body.transform.localScale.magnitude * directionDrag/1080));
 
 					GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
 

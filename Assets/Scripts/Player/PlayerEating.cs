@@ -53,7 +53,7 @@ public class PlayerEating : MonoBehaviourPun
             //We bounce off if they have more gravies
             if(other.GetComponentInParent<PlayerIdentity>().Gravies > playerIdentity.Gravies)
             {
-                GetComponent<PlayerMoveSync>().UpdateMovementRPC(GetComponent<PlayerMovement>().Velocity * -1, transform.position); 
+                GetComponent<PlayerMoveSync>().UpdateMovementRPC(GetComponent<PlayerMovement>().Velocity.normalized * -GetComponent<PlayerMovement>().maxTopSpeed, transform.position); 
             }
         }
     }
