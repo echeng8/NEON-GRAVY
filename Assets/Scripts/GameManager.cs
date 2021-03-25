@@ -237,7 +237,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
             
             //init local player properties 
-            Hashtable playerProps = new Hashtable { { "gravies", 0 } };
+            Hashtable playerProps = new Hashtable { { "gravies", 0 }, { "plat_state", 0 } };
+
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
         }
 

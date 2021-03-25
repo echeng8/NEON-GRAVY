@@ -1,8 +1,12 @@
-﻿using System.Collections;
+﻿
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor; 
 
+
+#if UNITY_EDITOR 
+using UnityEditor;
 public class GeneratePlatforms : EditorWindow
 {
     [MenuItem("Custom/Generate Platforms %g")]
@@ -28,7 +32,7 @@ public class GeneratePlatforms : EditorWindow
 
     }
 }
-
+#endif
 
 
 public class PlatformGenerator : MonoBehaviour
@@ -89,5 +93,5 @@ public class PlatformGenerator : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).position = new Vector3(positions[i].x, transform.position.y, positions[i].y); 
         }
-    } 
+    }
 }

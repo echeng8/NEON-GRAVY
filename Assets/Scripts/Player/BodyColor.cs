@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 /// <summary>
-/// Adjusts body color by platform change 
+/// Adjusts body color by plat state change on PlayColorChange
 /// </summary>
 public class BodyColor : MonoBehaviour
 {
@@ -12,8 +12,10 @@ public class BodyColor : MonoBehaviour
 
     private void Start()
     {
-        SetColor(PlatformState.WATER); 
+        SetColor(PlatformState.WATER);
+        GetComponentInParent<PlayerColorChange>().OnPlatStateChange.AddListener(SetColor); 
     }
+
     public void SetColor(PlatformState state)
     {
         print("trying to set color to: " + state); 

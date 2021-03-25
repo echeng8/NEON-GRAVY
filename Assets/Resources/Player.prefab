@@ -15418,7 +15418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bfcd47c903ddd046807cd7c3acf7005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyColor: {fileID: 2021211949701209320}
+  OnPlatStateChange:
+    m_PersistentCalls:
+      m_Calls: []
   platStreak: 0
 --- !u!1 &7017516848957949939
 GameObject:
