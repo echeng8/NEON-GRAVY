@@ -37,6 +37,7 @@ public class GeneratePlatforms : EditorWindow
 
 public class PlatformGenerator : MonoBehaviour
 {
+    //todo change to poisson disc parameters 
     public int numPoints;
     public float circleRadius; 
     public float minDistanceBetweenPoints;
@@ -88,7 +89,7 @@ public class PlatformGenerator : MonoBehaviour
         }
 
         spawnPlatforms(); 
-
+        //TODO change poisson disc 
         List<Vector2> positions = GeneratePoints(transform.childCount,circleRadius, minDistanceBetweenPoints);
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).position = new Vector3(positions[i].x, transform.position.y, positions[i].y); 

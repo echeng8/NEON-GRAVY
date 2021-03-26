@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be905c39d77df5641bbc4541e4f999a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentState: 0
   OnTouch:
     m_PersistentCalls:
       m_Calls:
@@ -358,6 +359,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ac500d2c3b268814d9b754c69973e09f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ac500d2c3b268814d9b754c69973e09f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ac500d2c3b268814d9b754c69973e09f,
         type: 3}

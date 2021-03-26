@@ -5725,6 +5725,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platforms
       objectReference: {fileID: 0}
+    - target: {fileID: 3130818623044691709, guid: 2ee01c12203bee94487d26ba5de299b6,
+        type: 3}
+      propertyPath: numPoints
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3130818623044691709, guid: 2ee01c12203bee94487d26ba5de299b6,
+        type: 3}
+      propertyPath: minDistanceBetweenPoints
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3130818623044691710, guid: 2ee01c12203bee94487d26ba5de299b6,
         type: 3}
       propertyPath: m_RootOrder
@@ -6151,7 +6161,7 @@ PrefabInstance:
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.598392
+      value: 23.597807
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
@@ -6261,7 +6271,7 @@ PrefabInstance:
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.598392
+      value: 23.597807
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
