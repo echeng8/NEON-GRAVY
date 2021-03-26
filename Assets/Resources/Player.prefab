@@ -15404,7 +15404,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba3a23f57ee02b47b200c4fdee8e21b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LethalDotProduct: 0.5
   MyBody: {fileID: 1481987720892966327}
 --- !u!114 &8882556797778993069
 MonoBehaviour:
