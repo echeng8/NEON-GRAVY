@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,43 +35,15 @@ public class GeneratePlatforms : EditorWindow
 
 public class PlatformGenerator : MonoBehaviour
 {
-    //todo change to poisson disc parameters 
-    public int numPoints;
-    public float circleRadius; 
     public float minDistanceBetweenPoints;
+    public Vector2 sampleRegionSize;
+    public GameObject MinimapCamera;
 
-    public GameObject PlatformPrefab; 
+    public GameObject PlatformPrefab;
 
-    public List<Vector2> GeneratePoints(int numP, float circleRad, float minDistBetweenPoints)
+    public void spawnPlatforms(int numPlatforms)
     {
-        List<Vector2> positions = new List<Vector2>();
-
-        bool positionTooClose = false; 
-        for(int i = 0; i < numP; i++)
-        {
-            Vector2 position = Vector2.zero;
-            do
-            {
-                position = Random.insideUnitCircle * circleRad;
-                positionTooClose = false;
-                foreach (Vector2 pos in positions)
-                {
-                    if (Vector2.Distance(pos, position) < minDistBetweenPoints)
-                    {
-                        positionTooClose = true;
-                        break;
-                    }
-                }
-                
-            } while (positionTooClose);
-            positions.Add(position);
-        }
-        return positions; 
-    }
-
-    public void spawnPlatforms()
-    {
-        for (int i = 0; i < numPoints; i++)
+        for (int i = 0; i < numPlatforms; i++)
         {
             GameObject spawnedPlatform = Instantiate(PlatformPrefab, transform);
             spawnedPlatform.GetComponentInChildren<PlatformAppearance>().InitalizeState(); 
@@ -82,17 +52,14 @@ public class PlatformGenerator : MonoBehaviour
   
     public void UpdatePlatforms()
     {
-
         for (int i = 0; i < transform.childCount; i++)
         {
             DestroyImmediate(transform.GetChild(i).gameObject); 
         }
-
-        spawnPlatforms(); 
-        //TODO change poisson disc 
-        List<Vector2> positions = GeneratePoints(transform.childCount,circleRadius, minDistanceBetweenPoints);
+        List<Vector2> positions = PoissonDiscSampling.GeneratePoints(minDistanceBetweenPoints,sampleRegionSize);
+        spawnPlatforms(positions.Count); 
         for (int i = 0; i < transform.childCount; i++) {
-            transform.GetChild(i).position = new Vector3(positions[i].x, transform.position.y, positions[i].y); 
+            transform.GetChild(i).position = new Vector3(positions[i].x - sampleRegionSize.x/2 + MinimapCamera.transform.position.x, transform.position.y, positions[i].y - sampleRegionSize.y/2 + MinimapCamera.transform.position.z); 
         }
     }
 }

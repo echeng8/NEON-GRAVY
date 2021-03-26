@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcea981b77464740bbdbaa45f3ec841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numPoints: 30
-  circleRadius: 50
-  minDistanceBetweenPoints: 10
+  minDistanceBetweenPoints: 12
+  sampleRegionSize: {x: 100, y: 100}
+  MinimapCamera: {fileID: 0}
   PlatformPrefab: {fileID: 4849132750273546606, guid: 109bc9b19d05831419fad30e76d35a6b,
     type: 3}
