@@ -14,11 +14,14 @@ public class ObjectDetector : MonoBehaviourPun
 
     public List<GameObject> ObjectsDetected = new List<GameObject>(); 
 
-    public GameObjectEvent OnObjectChange = new GameObjectEvent(); 
+    public GameObjectEvent OnObjectChange = new GameObjectEvent();
+    public GameObjectEvent OnObjectLeave = new GameObjectEvent();
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(ObjectTag) && !ObjectsDetected.Contains(other.gameObject))
         {
+            
             ObjectDetected = other.gameObject;
             ObjectsDetected.Add(other.gameObject); 
             OnObjectChange.Invoke(ObjectDetected); 
@@ -29,6 +32,7 @@ public class ObjectDetector : MonoBehaviourPun
     {
         if (other.CompareTag(ObjectTag) && ObjectsDetected.Contains(other.gameObject))
         {
+
             ObjectsDetected.Remove(other.gameObject); 
             if(ObjectsDetected.Count > 0)
             {
@@ -37,7 +41,7 @@ public class ObjectDetector : MonoBehaviourPun
             {
                 ObjectDetected = null;
             }
-            
+            OnObjectLeave.Invoke(other.gameObject); 
             OnObjectChange.Invoke(ObjectDetected);
         }
     }

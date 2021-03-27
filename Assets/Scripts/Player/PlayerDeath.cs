@@ -184,7 +184,8 @@ public class PlayerDeath : MonoBehaviourPun
     {
         alive = false;
         OnDeath.Invoke();
-        GetComponent<PlayerMovement>().Streaks = 0;
+        //TODO change to kills
+        //GetComponent<PlayerMovement>().Streaks = 0; 
     }
     
     #endregion

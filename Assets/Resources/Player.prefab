@@ -15229,24 +15229,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTopSpeed: 15
-  baseSpeed: 12
-  graviesToMaxTopSpeed: 20
-  streaksToTopSpeed: 3
+  topSpeed: 25
+  baseSpeed: 15
+  streaksToTopSpeed: 10
   directionDrag: 0
+  coyoteTime: 0.05
   platformDetector: {fileID: 9075148907173589944}
   m_GravityMultiplier: 2
-  m_GroundCheckDistance: 0.5
-  groundCheckRaycastSpread: 0.05
-  groundCheckRaycastHeightOffset: 0.05
-  OnPlatformBelowChange:
-    m_PersistentCalls:
-      m_Calls: []
   streakForgive: 2
   streaksText: {fileID: 0}
-  OnStreakChange:
-    m_PersistentCalls:
-      m_Calls: []
   OnBounce:
     m_PersistentCalls:
       m_Calls: []
@@ -15254,6 +15245,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   Body: {fileID: 7807153676664339353}
+  OnPlatformBelowChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &719885462788168250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15420,7 +15414,7 @@ MonoBehaviour:
   OnPlatStateChange:
     m_PersistentCalls:
       m_Calls: []
-  platStreak: 0
+  colorStreak: 0
 --- !u!1 &7017516848957949939
 GameObject:
   m_ObjectHideFlags: 0
@@ -20447,7 +20441,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.61
+  m_Radius: 1
   m_Center: {x: 0, y: 0.00000005960465, z: 0}
 --- !u!54 &8464378970182540387
 Rigidbody:
@@ -20495,6 +20489,9 @@ MonoBehaviour:
   ObjectTag: Platform
   ObjectsDetected: []
   OnObjectChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnObjectLeave:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &2021211949701209320

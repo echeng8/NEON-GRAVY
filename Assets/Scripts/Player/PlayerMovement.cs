@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun; 
@@ -17,19 +18,14 @@ public class PlayerMovement : MonoBehaviourPun
 	#region Gameplay Values
 
 	/// <summary>
-    /// The maximum top speed. Additional gravies do not increase the top speed beyond this point. 
+    /// The top speed. 
     /// </summary>
-	public float maxTopSpeed;
+	public float topSpeed;
 
 	/// <summary>
     /// The speed at zero streaks. 
     /// </summary>
 	public float baseSpeed;
-
-	/// <summary>
-    /// How many gravies it takes to max out the top speed.
-    /// </summary>
-	public float graviesToMaxTopSpeed;
 
 	/// <summary>
 	/// How many streaks it takes to bounce at the current top speed. 
@@ -40,6 +36,12 @@ public class PlayerMovement : MonoBehaviourPun
 	/// How much does speed reduce when changing directions
 	/// </summary>
 	public float directionDrag;
+
+	/// <summary>
+	/// time until platfromBelow is set to null after leaving a platform
+	/// (NOTE: error prone if too long, use with caution
+	/// </summary>
+	public float coyoteTime; 
 		
 	#endregion
 
@@ -57,10 +59,6 @@ public class PlayerMovement : MonoBehaviourPun
 
 	[Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;
 
-	[SerializeField] float m_GroundCheckDistance = 0.1f;
-	[SerializeField] private float groundCheckRaycastSpread;
-	[SerializeField] private float groundCheckRaycastHeightOffset;
-
 	Rigidbody m_Rigidbody;
 
 	/// <summary>
@@ -69,58 +67,12 @@ public class PlayerMovement : MonoBehaviourPun
 	private PlayerGravity pg;
 	Animator m_Animator;
 
-	/// <summary>
-	/// the platform the player is standing on
-	/// </summary>
-	public GameObject PlatformBelow
-	{
-		get
-		{
-			return _platformBelow;
-		}
-		set
-		{
-			if (value != _platformBelow)
-			{
-				if (_platformBelow != null)
-                {
-					_platformBelow.GetComponent<PlatformAppearance>().OnPlatLeave.Invoke();
-					InvokeOnLeavePlatformRPC(_platformBelow.transform.GetSiblingIndex());
-				}
 
-
-				_platformBelow = value;
-				OnPlatformBelowChange.Invoke(value);
-
-			}
-		}
-	}
-	private GameObject _platformBelow;
-
-	/// <summary>
-	/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
-	/// </summary>
-	public GameObjectEvent OnPlatformBelowChange = new GameObjectEvent();
-
-	public int Streaks
-	{
-		get
-		{
-			return _streaks;
-		}
-		set
-        {
-			_streaks = value;
-			OnStreakChange.Invoke(value); 	
-        }
-	}
-	private int _streaks;
 	public int streakForgive; //The amount of clicks before losing your streak
-	private int streakmisses; //Current amount of misses on bounces
-	
+	private int streakMisses; //Current amount of misses on bounces
+
 	public TextMeshProUGUI streaksText;
 
-	public IntEvent OnStreakChange = new IntEvent(); 
 
 	/// <summary>
 	/// To be invoked when the player bounces, generally for local player effects.
@@ -130,13 +82,45 @@ public class PlayerMovement : MonoBehaviourPun
 	public UnityEvent OnLeave = new UnityEvent();
 
 	public GameObject Body;
+
+
+	/// <summary>
+	/// the platform the player is standing on
+	/// </summary>
+	public GameObject PlatformBelow
+	{
+		get
+		{
+			return _platformBelow; 
+		}
+		set
+		{
+			if (value != _platformBelow)
+			{
+				if(value == null)
+                {
+					this.Invoke(() => _platformBelow = value, coyoteTime); 
+                } else
+                {
+					print("I entered " + value.gameObject.name + "  " + value.transform.GetSiblingIndex());
+					_platformBelow = value;
+					OnPlatformBelowChange.Invoke(value);
+				}
+			}
+		}
+	}
+	private GameObject _platformBelow;
+
+	/// <summary>
+	/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
+	/// </summary>
+	public GameObjectEvent OnPlatformBelowChange = new GameObjectEvent();
 	
 	#endregion
 
 	#region Unity Callbacks
 	void Awake()
 	{
-		m_Animator = GetComponent<Animator>();
 		m_Rigidbody = GetComponent<Rigidbody>();
 		pg = GetComponent<PlayerGravity>();
 
@@ -147,21 +131,24 @@ public class PlayerMovement : MonoBehaviourPun
 	{
 		//listen to events
 		OnPlatformBelowChange.AddListener(InvokeOnTouchPlatformRPC); 
-		GetComponent<PlayerGravity>().OnGravityChange.AddListener(respondToGravity);
-		platformDetector.OnObjectChange.AddListener(SetPlatformBelow); 
-		
+		platformDetector.OnObjectChange.AddListener(SetPlatformBelow);
+		platformDetector.OnObjectLeave.AddListener(ProcessOnLeavePlatform); 
 
 		//init misc
-		Streaks = 0;
-		streakmisses = 0;
+		streakMisses = 0;
 		streaksText = GameObject.Find("Streaks").GetComponent<TextMeshProUGUI>();
 		PlatformBelow = platformDetector.ObjectDetected; 
-		
 	}
-		
-	public void ControlledUpdate()
+	void SetPlatformBelow(GameObject platformBelow)
 	{
-		ProcessBounce(); 
+		PlatformBelow = platformBelow;
+	}
+
+
+	public void Update()
+	{
+		if(photonView.IsMine)
+			ProcessBounce(); 
 	}
 
 	//universal callbacks 
@@ -185,69 +172,48 @@ public class PlayerMovement : MonoBehaviourPun
 		}
 
 		//Player Bounce
-		if (!GetComponent<PlayerGravity>().GetGravity()) //todo change to be based on alive/dead
+		if (Input.GetButtonDown("Fire1"))
 		{
-			if (Input.GetButtonDown("Fire1"))
+			if (PlatformBelow != null) //THE BOUNCE
 			{
+				//invoking bounce events
+				OnBounce.Invoke();
+				InvokeOnBouncePlatformRPC();
 
-				if (PlatformBelow != null) //THE BOUNCE
-				{
-					//update streak and number of misses and calculate new velocity magnitude 
-					Streaks++;
-					streakmisses = 0;
-					float velMagnitude = GetCurrentSpeed(Streaks);
+				//update streak and number of misses and calculate new velocity magnitude 
+				streakMisses = 0;
+				float velMagnitude = GetCurrentSpeed(GetComponent<PlayerColorChange>().colorStreak);
 
-					//apply velocity to new direction
-					Vector3 dashDirection = (pointToDash - transform.position).normalized;
-					float dashAngle = Math.Abs(Vector3.SignedAngle(transform.forward,dashDirection,transform.up));
-					transform.forward = (pointToDash - transform.position).normalized; //change facing direction
-					Vector3 velocity = dashDirection * velMagnitude * (1-(dashAngle * Body.transform.localScale.magnitude * directionDrag/1080));
+				//apply velocity to new direction
+				Vector3 dashDirection = (pointToDash - transform.position).normalized;
+				float dashAngle = Math.Abs(Vector3.SignedAngle(transform.forward,dashDirection,transform.up));
+				transform.forward = (pointToDash - transform.position).normalized; //change facing direction
+				Vector3 velocity = dashDirection * velMagnitude * (1-(dashAngle * Body.transform.localScale.magnitude * directionDrag/1080));
 
-					GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
-
-					//invoking bounce events
-					OnBounce.Invoke();
-					InvokeOnBouncePlatformRPC();
-				}
-				else
-				{
-					streakmisses++;
-				}
-				if (streakmisses >= streakForgive)
-				{
-					streakmisses = 0;
-					Streaks = 0;
-				}
+				GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
 			}
-		}
-		if (GetComponent<PlayerGravity>().GetGravity()) //todo change to be based on alive/dead
-		{
-			Streaks = 0;
 		}
 		UpdateStreakCounter();
 	}
 
 	float GetCurrentSpeed(int streaksNum)
     {
-		float topSpeed = GetTopSpeed(GetComponent<PlayerIdentity>().Gravies); 
-		return Mathf.Clamp(baseSpeed + streaksNum * (topSpeed / streaksToTopSpeed), 0, maxTopSpeed);
+		return Mathf.Clamp(baseSpeed + streaksNum * (topSpeed / streaksToTopSpeed), 0, topSpeed);
 	}
 
-	float GetTopSpeed(int graviesNum)
+	void ProcessOnLeavePlatform(GameObject plat)
     {
-		float maxAdditionalSpeed = maxTopSpeed - baseSpeed;
-		return Mathf.Clamp(baseSpeed + graviesNum * (maxAdditionalSpeed / graviesToMaxTopSpeed),0, maxTopSpeed);
+		if (photonView.IsMine)
+		{
+			print("I exited " + plat.gameObject.name + "  " + plat.transform.GetSiblingIndex());
+			InvokeOnLeavePlatformRPC(plat.transform.GetSiblingIndex());
+		}
 	}
-
-	void SetPlatformBelow(GameObject platformBelow)
-    {
-		PlatformBelow = platformBelow; 
-    }
 		
 	void UpdateStreakCounter()
 	{
 		if(streaksText != null)
-			streaksText.text = $"Streaks x{Streaks}";
+			streaksText.text = $"Streaks x{GetComponent<PlayerColorChange>().colorStreak}";
 	}
 
 	//platform event rpcs
@@ -270,30 +236,29 @@ public class PlayerMovement : MonoBehaviourPun
 	}
 
 	#endregion
-
-	#region Gravity Methods
-
-	/// <summary>
-	/// For gravity change
-	/// </summary>
-	void respondToGravity(bool gravityOn)
-	{
-		m_Animator.enabled = gravityOn;
-	}
-
-	//platform event invoking 
-	[PunRPC]
-	void RPC_InvokeOnTouchPlatform()
-    {
-		if(PlatformBelow != null)
-			PlatformBelow.GetComponent<PlatformAppearance>().OnTouch.Invoke(); 
-    }
-
 	void InvokeOnTouchPlatformRPC(GameObject _obj)
     {
 		photonView.RPC("RPC_InvokeOnTouchPlatform", RpcTarget.All); 
     }
-	
+
+	//platform event invoking 
+	[PunRPC]
+	void RPC_InvokeOnTouchPlatform()
+	{
+		if (PlatformBelow != null)
+			PlatformBelow.GetComponent<PlatformAppearance>().OnTouch.Invoke();
+	}
+
+
+	/// <summary>
+	/// invokes the platfrombelow's OnLeave event across all networks
+	/// </summary>
+	void InvokeOnLeavePlatformRPC(int platformSiblingIndex)
+	{
+		photonView.RPC("RPC_InvokeOnLeavePlatform", RpcTarget.All, platformSiblingIndex);
+	}
+
+
 	[PunRPC]
 	void RPC_InvokeOnLeavePlatform(int platformNum)
 	{ 
@@ -301,15 +266,7 @@ public class PlayerMovement : MonoBehaviourPun
 		otherPlayerPlatformBelow.GetComponent<PlatformAppearance>().OnPlatLeave.Invoke();
 	}
     
-	/// <summary>
-	/// invokes the platfrombelow's OnLeave event across all networks
-	/// </summary>
-	void InvokeOnLeavePlatformRPC(int platformSiblingIndex)
-	{
-		photonView.RPC("RPC_InvokeOnLeavePlatform", RpcTarget.All, platformSiblingIndex); 
-	}
-	#endregion
-		
+
 }
 	
 

@@ -18,7 +18,6 @@ public class BodyColor : MonoBehaviour
 
     public void SetColor(PlatformState state)
     {
-        print("trying to set color to: " + state); 
         switch (state)
         {
             case PlatformState.FIRE:

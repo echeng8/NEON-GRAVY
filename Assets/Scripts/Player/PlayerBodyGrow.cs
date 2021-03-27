@@ -23,12 +23,5 @@ public class PlayerBodyGrow : MonoBehaviour
         playerMovement = GetComponentInParent<PlayerMovement>();
         playerIdentity = GetComponentInParent<PlayerIdentity>(); 
 
-        playerIdentity.OnGravyChange.AddListener(UpdateScale);
-        UpdateScale(playerIdentity.Gravies); 
-    }
-
-    public void UpdateScale(int currentGravyNum)
-    {
-        transform.localScale = Vector3.Lerp(Vector3.one * startScale, Vector3.one * maxScale, currentGravyNum / playerMovement.graviesToMaxTopSpeed); 
     }
 }

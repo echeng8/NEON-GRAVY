@@ -15,7 +15,6 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
     {
         get
         {
-            print(photonView.Owner.CustomProperties["plat_state"]); 
             return (PlatformState) Convert.ToInt32(photonView.Owner.CustomProperties["plat_state"] ); 
         } 
         set
@@ -27,8 +26,10 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
 
     public PlatformStateEvent OnPlatStateChange = new PlatformStateEvent();
 
-
-    public int platStreak;
+    /// <summary>
+    /// The number of times the player has bounced on the same platform color (lastPlatState) in a row. 
+    /// </summary>
+    public int colorStreak;
     /// <summary>
     /// The platfrom state of the last bounce
     /// </summary>
@@ -37,8 +38,6 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
     #region Unity Callbacks 
     private void Start()
     {
-
-
         //initalize color of other players that have loaded
         if (!photonView.IsMine)
         {
@@ -48,7 +47,7 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
             GetComponent<PlayerMovement>().OnBounce.AddListener(RespondToBounce);
 
             //init vars
-            platStreak = 0;
+            colorStreak = 0;
         }
     }
 
@@ -78,18 +77,18 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
     } 
 
     /// <summary>
-    /// Updates platStreak to reflect new bounce state.
+    /// Updates colorStreak to reflect new bounce state.
     /// LOCAL 
     /// </summary>
     /// <param name="state"></param>
     void ProcessNewBounce(PlatformState state)
     {
         if (state == lastPlatState)
-            platStreak++;
+            colorStreak++;
         else
-            platStreak = 1; 
+            colorStreak = 1; 
 
-        if(platStreak == 3)
+        if(colorStreak == 3)
         {
             PlatState = state; //photon custom property 
         }

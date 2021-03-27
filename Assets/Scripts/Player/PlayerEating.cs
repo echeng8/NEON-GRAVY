@@ -45,7 +45,7 @@ public class PlayerEating : MonoBehaviourPun
 
             if(myState == theirState) //bounce off
             {
-                GetComponent<PlayerMoveSync>().UpdateMovementRPC(GetComponent<PlayerMovement>().Velocity.normalized * -GetComponent<PlayerMovement>().maxTopSpeed, transform.position);
+                GetComponent<PlayerMoveSync>().UpdateMovementRPC(GetComponent<PlayerMovement>().Velocity.normalized * -GetComponent<PlayerMovement>().topSpeed, transform.position);
             } else if (IsEatenBy(myState, theirState)) {
                 //This player is eaten. 
                 Camera.main.GetComponent<FreezeFrame>().FreezeCamera();
