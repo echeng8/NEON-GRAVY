@@ -15039,7 +15039,7 @@ MonoBehaviour:
   baseSpeed: 15
   streaksToTopSpeed: 10
   directionDrag: 0
-  coyoteTime: 0
+  coyoteTime: 0.05
   platformDetector: {fileID: 9075148907173589944}
   m_GravityMultiplier: 2
   streakForgive: 2
@@ -15428,7 +15428,7 @@ Transform:
   m_GameObject: {fileID: 7807153676664339353}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.06, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 6051251168168255327}
   m_RootOrder: 3
@@ -15491,7 +15491,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.69
   m_Center: {x: 0, y: 0.00000005960465, z: 0}
 --- !u!54 &8464378970182540387
 Rigidbody:

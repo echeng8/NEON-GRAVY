@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviourPun
 					StartCoroutine(ProcessCoyoteTime(_platformBelow)); 
                 } else
                 {
-					print("I entered " + value.gameObject.name + "  " + value.transform.GetSiblingIndex());
+					//print("I entered " + value.gameObject.name + "  " + value.transform.GetSiblingIndex());
 					_platformBelow = value;
 					OnPlatformBelowChange.Invoke(value);
 				}
@@ -201,10 +201,18 @@ public class PlayerMovement : MonoBehaviourPun
 
 	IEnumerator ProcessCoyoteTime(GameObject platformReference)
     {
+		print("trying to coyote time"); 
 		yield return new WaitForSeconds(coyoteTime); 
 
 		if (PlatformBelow == platformReference)
-			PlatformBelow = null; 
+        {
+			print("its the  same"); 
+		    _platformBelow = null;
+		} else
+        {
+			print("its dif"); 
+        }
+
     }
 
 	float GetCurrentSpeed(int streaksNum)
