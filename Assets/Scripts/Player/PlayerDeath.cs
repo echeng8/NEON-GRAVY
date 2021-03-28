@@ -130,8 +130,9 @@ public class PlayerDeath : MonoBehaviourPun
             spawnLoc = Vector3.zero;
         else
         {
-            int platIndex = GravyManager.GetGravylessPlatform(); 
-            spawnLoc = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform.GetChild(platIndex).position + Vector3.up * spawnYOffset;
+            Transform platformParent = GameManager.instance.GetComponent<PlatformManager>().platformParent.transform;
+            int platIndex = Random.Range(0, platformParent.childCount);
+            spawnLoc = platformParent.GetChild(platIndex).position + Vector3.up * spawnYOffset;
         }
 
         return spawnLoc; 

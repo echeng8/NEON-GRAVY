@@ -36,8 +36,6 @@ public class PlatformManager : MonoBehaviourPunCallbacks
         }
         
         PlayerIdentity.CallOnLocalPlayerSet(AddPlayerListeners);
-        
-        GetComponent<GravyManager>().LoadGravies();
     }
 
 

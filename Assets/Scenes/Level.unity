@@ -5594,6 +5594,16 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 93499084}
+    - target: {fileID: 5447383398661435991, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -64.600006
+      objectReference: {fileID: 0}
+    - target: {fileID: 5447383398661435991, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 29.380997
+      objectReference: {fileID: 0}
     - target: {fileID: 6259071829736142683, guid: 2ba96de9a24e9e74eb194fbaf657bee2,
         type: 3}
       propertyPath: m_Color.a
@@ -6584,7 +6594,8 @@ PrefabInstance:
       propertyPath: gravyPercent
       value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3795716947706820217, guid: 1b156acf67789de4784431a983d0e62b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1b156acf67789de4784431a983d0e62b, type: 3}
 --- !u!1001 &2556321313826327918
 PrefabInstance:
@@ -6716,7 +6727,7 @@ PrefabInstance:
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.598877
+      value: 23.598742
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789434960663, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
@@ -6826,7 +6837,7 @@ PrefabInstance:
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.598877
+      value: 23.598742
       objectReference: {fileID: 0}
     - target: {fileID: 3254583789565895626, guid: d5548912fa8818845b5ed9f46e2435a2,
         type: 3}

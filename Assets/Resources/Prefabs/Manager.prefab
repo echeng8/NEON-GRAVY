@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 404525293491802402}
   - component: {fileID: 404525293491802412}
   - component: {fileID: 404525293491802403}
-  - component: {fileID: 3795716947706820217}
   - component: {fileID: 404525291925151462}
   m_Layer: 0
   m_Name: Manager
@@ -68,30 +67,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b73884f71810a40aead2b172e1b642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platformManager: {fileID: 0}
+  gravyManager: {fileID: 0}
   killFeed: {fileID: 0}
   leaderBoardDisplay: {fileID: 0}
-  gravyManager: {fileID: 0}
-  OnGravyKingChange:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &3795716947706820217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 404525293491802401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 642ff2c25fb5c7e4293004537b9abfe0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravyPercent: 0.1
-  gravyPrefab: {fileID: 2218740844897392649, guid: 912d579a0b89ba3468727f7278a6bb25,
-    type: 3}
-  OnGravyNumChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &404525291925151462
 MonoBehaviour:
   m_ObjectHideFlags: 0

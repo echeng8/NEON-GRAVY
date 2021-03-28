@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager instance;
    
     public PlatformManager platformManager; //quick ref 
-    public GravyManager gravyManager;
 
     //UI (todo move out?) 
     public TextMeshProUGUI killFeed;
@@ -52,14 +51,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         //init
         instance = this;
-        gravyManager = GetComponent<GravyManager>();
         platformManager = GetComponent<PlatformManager>(); 
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SetSpawn());
+        SetSpawn(); 
     }
 
     private void Update()
@@ -182,21 +180,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         killFeed.text = s;
     }
 
-    IEnumerator SetSpawn()
+    void SetSpawn()
     {
-        if (PhotonNetwork.IsConnected)
-        {
-            while (PhotonNetwork.CurrentRoom.CustomProperties["gravy_array"] == null) //ensures that gravy_array is loaded
-            {
-                yield return new WaitForSeconds(0.5f);
-            }
-            PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-            
-            //init local player properties 
-            Hashtable playerProps = new Hashtable { { "gravies", 0 }, { "plat_state", 0 }, { "kills", 0 } };
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+          
+        //init local player properties 
+        Hashtable playerProps = new Hashtable {{ "plat_state", 0 }, { "kills", 0 } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
 
-            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
-        }
 
         PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().Spawn();
         PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(ReportFallRPC);
