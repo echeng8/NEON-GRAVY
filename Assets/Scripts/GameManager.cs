@@ -15,7 +15,8 @@ using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
-/// handles scoreboard: kills and gravy transfer 
+/// handles scoreboard to display and increments kills on killers 
+/// and other misc things
 /// </summary>
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -53,12 +54,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         instance = this;
         gravyManager = GetComponent<GravyManager>();
         platformManager = GetComponent<PlatformManager>(); 
-
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 1) // you're the first one in the game and gotta set it up 
-        {
-            //initialize custom properties for room 
-            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable {{"gravy_king", -1}});
-        }
     }
 
     // Start is called before the first frame update
@@ -86,15 +81,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ReportFallRPC()
     {
-        if (PhotonNetwork.IsConnected)
-        {
-            photonView.RPC("RPC_ReportFall", RpcTarget.All,
-                PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().lastAttacker);
-        }
-        else
-        {
-            SetKillFeed("I died");
-        }
+        photonView.RPC("RPC_ReportFall", RpcTarget.All,
+            PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().lastAttacker);
     }
         
     
@@ -111,37 +99,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         Player deadPlayer = info.Sender;
         Player killer = PhotonNetwork.CurrentRoom.GetPlayer(killerActorNumber);
 
-        bool deadPlayerIsKing =
-            deadPlayer.ActorNumber == (int) PhotonNetwork.CurrentRoom.CustomProperties["gravy_king"];
-
-        //setting dead player gravies
-        int deadPlayerGravies = (int)deadPlayer.CustomProperties["gravies"];
-        deadPlayer.SetCustomProperties(new Hashtable() { { "gravies", 0 } }); //decrease dead person gravy
-
-
-
         if (killerActorNumber == -1 || killer == null) // if they fell without being attacked
         {
             SetKillFeed($"{deadPlayer.NickName} is gone.");
         }
         else
         {
-            // process kill 
-           
-      
-            //HOST CLIENT ONLY 
-            if (PhotonNetwork.IsMasterClient)
+            //increment kill on killer 
+            if (PhotonNetwork.LocalPlayer.ActorNumber == killerActorNumber)
             {
-                //transfer gravy 
-                int newKillerGravies = deadPlayerGravies +
-                                        (int) killer.CustomProperties["gravies"];
-                
-                killer.SetCustomProperties(new Hashtable() {{"gravies", newKillerGravies}});
-
+                PlayerIdentity.localPlayerInstance.Kills++; 
             }
-            
+
             //tell people who died via killfeed
-            SetKillFeed($"{killer.NickName} killed {deadPlayer.NickName} for {deadPlayerGravies} gravies");
+            SetKillFeed($"{killer.NickName} ended {deadPlayer.NickName}.");
         }  
     }
 
@@ -152,13 +123,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        updateLeaderboard();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            CheckGravyKing(leaderBoard);
-        }
+        if(changedProps.ContainsKey("kills"))
+            updateLeaderboard();
     }
-    
 
     //room roster changes
     
@@ -180,17 +147,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region  Private Methods
-    
-    /// <summary>
-    /// Checks to see if a player has all the gravies in the match. If so, set them to be GravyKing in custom properties. 
-    /// </summary>
-    void CheckGravyKing(List<Player> updatedLeaderboard)
-    {
-        if ((int) updatedLeaderboard[0].CustomProperties["gravies"] == gravyManager.StartingGravyNum)
-        {
-            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable {{"gravy_king", leaderBoard[0].ActorNumber}});
-        }
-    }
 
     /// <summary>
     /// Sorts players by kills and outputs the text to the leaderBoardDisplay.
@@ -198,27 +154,27 @@ public class GameManager : MonoBehaviourPunCallbacks
     void updateLeaderboard()
     {
         leaderBoard = playerList.ToList();
-        leaderBoard.Sort(comparePlayerGravies);
+        leaderBoard.Sort(ComparePlayerKills);
 
         string lbString = "";
         foreach (Player p in leaderBoard)
         {
-            lbString += $"{p.NickName} {p.CustomProperties["gravies"]}\n";
+            lbString += $"{p.NickName} {p.CustomProperties["kills"]}\n";
         }
 
         leaderBoardDisplay.text = lbString;
     }
 
-    int comparePlayerGravies(Player p1, Player p2)
+    int ComparePlayerKills(Player p1, Player p2)
     {
         ///tood null reference here sometimes 
-        if (!p1.CustomProperties.ContainsKey("gravies") || !p2.CustomProperties.ContainsKey("gravies"))
+        if (!p1.CustomProperties.ContainsKey("kills") || !p2.CustomProperties.ContainsKey("kills"))
         {
-            print("ERROR: gravies not intialized");
+            print("ERROR: kills not intialized");
             return 0; 
         }
 
-        return (int) p2.CustomProperties["gravies"] - (int) p1.CustomProperties["gravies"];
+        return (int) p2.CustomProperties["kills"] - (int) p1.CustomProperties["kills"];
     }
 
     void SetKillFeed(string s)
@@ -237,7 +193,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
             
             //init local player properties 
-            Hashtable playerProps = new Hashtable { { "gravies", 0 }, { "plat_state", 0 } };
+            Hashtable playerProps = new Hashtable { { "gravies", 0 }, { "plat_state", 0 }, { "kills", 0 } };
 
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
         }

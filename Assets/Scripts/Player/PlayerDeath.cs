@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Events;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 //using UnityStandardAssets.Characters.ThirdPerson;
 
 /// <summary>
@@ -184,10 +185,9 @@ public class PlayerDeath : MonoBehaviourPun
     {
         alive = false;
         OnDeath.Invoke();
-        //TODO change to kills
-        //GetComponent<PlayerMovement>().Streaks = 0; 
     }
-    
+
+
     #endregion
 
     #region Last Attacker Methods

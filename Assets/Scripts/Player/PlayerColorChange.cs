@@ -48,6 +48,8 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
 
             //init vars
             colorStreak = 0;
+
+            GetComponent<PlayerDeath>().OnDeath.AddListener(ClearStreaks); 
         }
     }
 
@@ -95,6 +97,11 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
 
         lastPlatState = state;
     }
+
+    void ClearStreaks()
+    {
+        colorStreak = 0; 
+    } 
 
     #endregion
 }

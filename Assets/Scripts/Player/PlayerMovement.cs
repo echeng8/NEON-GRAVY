@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviourPun
 					this.Invoke(() => _platformBelow = value, coyoteTime); 
                 } else
                 {
-					print("I entered " + value.gameObject.name + "  " + value.transform.GetSiblingIndex());
+//					print("I entered " + value.gameObject.name + "  " + value.transform.GetSiblingIndex());
 					_platformBelow = value;
 					OnPlatformBelowChange.Invoke(value);
 				}
@@ -205,7 +205,7 @@ public class PlayerMovement : MonoBehaviourPun
     {
 		if (photonView.IsMine)
 		{
-			print("I exited " + plat.gameObject.name + "  " + plat.transform.GetSiblingIndex());
+//			print("I exited " + plat.gameObject.name + "  " + plat.transform.GetSiblingIndex());
 			InvokeOnLeavePlatformRPC(plat.transform.GetSiblingIndex());
 		}
 	}

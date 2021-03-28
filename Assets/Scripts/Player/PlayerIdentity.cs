@@ -11,7 +11,7 @@ using Photon.Realtime;
 /// The high level player script.
 /// Handles enabling input signal transfer.
 ///  handles identifying and providing the PlayerGameObject 
-///  provides access to photon custom properties
+///  provides access to photon custom properties: gravies and kills
 /// </summary>
 
 public class PlayerIdentity : MonoBehaviourPunCallbacks
@@ -35,7 +35,26 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
         }
     }
 
-    public IntEvent OnGravyChange = new IntEvent(); 
+    public IntEvent OnGravyChange = new IntEvent();
+
+
+    public int Kills
+    {
+        get
+        {
+            if (photonView.Owner.CustomProperties.ContainsKey("kills"))
+                return (int)photonView.Owner.CustomProperties["kills"];
+            else
+                return 0; //edge case when properties have not been initialized 
+        }
+
+        set
+        {
+            Hashtable h = new Hashtable { { "kills", value } };
+            photonView.Owner.SetCustomProperties(h);
+        }
+    }
+
     #endregion
 
     #region Implementation Values
@@ -70,7 +89,15 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
                 photonView.Owner.TagObject = gameObject;
         }
     }
-    
+
+    private void Start()
+    {
+        if(photonView.IsMine)
+        {
+            GetComponent<PlayerDeath>().OnDeath.AddListener(ClearGraviesAndKillsRPC); 
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -138,6 +165,15 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
         OnLocalPlayerSet.Invoke(gameObject);
         gameObject.name = "Local Player"; 
     }
+
+    /// <summary>
+    /// clears the gravies and kills custom properites  
+    /// </summary>
+    void ClearGraviesAndKillsRPC()
+    {
+        photonView.Owner.SetCustomProperties(new Hashtable() { { "gravies", 0 }, { "kills", 0 } });
+    }
+
     #endregion
-    
+
 }
