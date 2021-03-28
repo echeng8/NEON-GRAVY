@@ -15233,7 +15233,7 @@ MonoBehaviour:
   baseSpeed: 15
   streaksToTopSpeed: 10
   directionDrag: 0
-  coyoteTime: 0.05
+  coyoteTime: 0
   platformDetector: {fileID: 9075148907173589944}
   m_GravityMultiplier: 2
   streakForgive: 2

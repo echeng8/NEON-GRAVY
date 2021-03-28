@@ -99,10 +99,10 @@ public class PlayerMovement : MonoBehaviourPun
 			{
 				if(value == null)
                 {
-					this.Invoke(() => _platformBelow = value, coyoteTime); 
+					StartCoroutine(ProcessCoyoteTime(_platformBelow)); 
                 } else
                 {
-//					print("I entered " + value.gameObject.name + "  " + value.transform.GetSiblingIndex());
+					print("I entered " + value.gameObject.name + "  " + value.transform.GetSiblingIndex());
 					_platformBelow = value;
 					OnPlatformBelowChange.Invoke(value);
 				}
@@ -191,10 +191,21 @@ public class PlayerMovement : MonoBehaviourPun
 				Vector3 velocity = dashDirection * velMagnitude * (1-(dashAngle * Body.transform.localScale.magnitude * directionDrag/1080));
 
 				GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
-			}
+			} else
+            {
+				print("pressed but no plat"); 
+            }
 		}
 		UpdateStreakCounter();
 	}
+
+	IEnumerator ProcessCoyoteTime(GameObject platformReference)
+    {
+		yield return new WaitForSeconds(coyoteTime); 
+
+		if (PlatformBelow == platformReference)
+			PlatformBelow = null; 
+    }
 
 	float GetCurrentSpeed(int streaksNum)
     {
