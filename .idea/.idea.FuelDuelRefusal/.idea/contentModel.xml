@@ -112,10 +112,12 @@
             <e p="DirectionTest.cs" t="Include" />
           </e>
           <e p="UI" t="Include">
+            <e p="ColorTriangleSwap.cs" t="Include" />
             <e p="DeathScreen.cs" t="Include" />
             <e p="GravyBar.cs" t="Include" />
             <e p="Minimapcolorcode.cs" t="Include" />
             <e p="OnMouseHover.cs" t="Include" />
+            <e p="RoomCode.cs" t="Include" />
             <e p="RotateGravIcon.cs" t="Include" />
             <e p="UpgradeAlerts.cs" t="Include" />
           </e>
