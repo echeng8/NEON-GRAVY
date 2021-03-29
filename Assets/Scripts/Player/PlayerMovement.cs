@@ -138,7 +138,6 @@ public class PlayerMovement : MonoBehaviourPun
 
 		//init misc
 		streakMisses = 0;
-		streaksText = GameObject.Find("Streaks").GetComponent<TextMeshProUGUI>();
 		PlatformBelow = platformDetector.ObjectDetected; 
 	}
 	void SetPlatformBelow(GameObject platformBelow)
@@ -195,7 +194,6 @@ public class PlayerMovement : MonoBehaviourPun
 				Vector3 velocity = dashDirection * velMagnitude * (1-(dashAngle * Body.transform.localScale.magnitude * directionDrag/1080));
 
 				GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
-				UpdateStreakCounter();
 			} else
             {
 				print("pressed but no plat"); 
@@ -210,7 +208,7 @@ public class PlayerMovement : MonoBehaviourPun
 
 		if (PlatformBelow == platformReference)
         {
-			print("its the  same"); 
+			print("its the same"); 
 		    _platformBelow = null;
 		} else
         {
@@ -231,27 +229,6 @@ public class PlayerMovement : MonoBehaviourPun
 //			print("I exited " + plat.gameObject.name + "  " + plat.transform.GetSiblingIndex());
 			InvokeOnLeavePlatformRPC(plat.transform.GetSiblingIndex());
 		}
-	}
-		
-	void UpdateStreakCounter()
-	{
-		if(streaksText != null)
-			streaksText.text = $"Streaks x{GetComponent<PlayerColorChange>().colorStreak}";
-			streaksText.color = SetStreakColor(GetComponent<PlayerColorChange>().GetPlatformBelowState());
-	}
-
-	Color SetStreakColor(PlatformState state)
-	{
-		switch (state)
-		{
-			case PlatformState.FIRE:
-				return Color.red;
-			case PlatformState.GRASS:
-				return Color.green;
-			case PlatformState.WATER:
-				return Color.blue;
-		}
-		return Color.white;
 	}
 
 	//platform event rpcs
