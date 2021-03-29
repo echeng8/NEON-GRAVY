@@ -187,7 +187,7 @@ public class PlayerMovement : MonoBehaviourPun
 				//apply velocity to new direction
 				Vector3 dashDirection = (pointToDash - transform.position).normalized;
 				float dashAngle = Math.Abs(Vector3.SignedAngle(transform.forward,dashDirection,transform.up));
-				transform.forward = (pointToDash - transform.position).normalized; //change facing direction
+				// transform.forward = (pointToDash - transform.position).normalized; //change facing direction
 				Vector3 velocity = dashDirection * velMagnitude * (1-(dashAngle * Body.transform.localScale.magnitude * directionDrag/1080));
 
 				GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
@@ -284,7 +284,6 @@ public class PlayerMovement : MonoBehaviourPun
 		GameObject otherPlayerPlatformBelow = GameManager.instance.platformManager.GetPlatform(platformNum); 
 		otherPlayerPlatformBelow.GetComponent<PlatformAppearance>().OnPlatLeave.Invoke();
 	}
-    
 
 }
 	
