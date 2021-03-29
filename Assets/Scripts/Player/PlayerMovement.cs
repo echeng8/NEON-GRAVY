@@ -277,7 +277,6 @@ public class PlayerMovement : MonoBehaviourPun
 		photonView.RPC("RPC_InvokeOnLeavePlatform", RpcTarget.All, platformSiblingIndex);
 	}
 
-
 	[PunRPC]
 	void RPC_InvokeOnLeavePlatform(int platformNum)
 	{ 
