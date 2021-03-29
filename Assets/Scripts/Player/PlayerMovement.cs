@@ -111,6 +111,8 @@ public class PlayerMovement : MonoBehaviourPun
 	}
 	private GameObject _platformBelow;
 
+
+	private GameObject lastPlatformBounce; 
 	/// <summary>
 	/// event that is called with the new platform that the player is now under. null if the new platform is no platform at all 
 	/// </summary>
@@ -174,8 +176,10 @@ public class PlayerMovement : MonoBehaviourPun
 		//Player Bounce
 		if (Input.GetButtonDown("Fire1"))
 		{
-			if (PlatformBelow != null) //THE BOUNCE
+			if (PlatformBelow != null && PlatformBelow != lastPlatformBounce) //THE BOUNCE
 			{
+				lastPlatformBounce = PlatformBelow; 
+
 				//invoking bounce events
 				OnBounce.Invoke();
 				InvokeOnBouncePlatformRPC();
