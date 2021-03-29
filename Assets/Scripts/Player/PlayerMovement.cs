@@ -165,15 +165,15 @@ public class PlayerMovement : MonoBehaviourPun
 		Plane groundPlane = new Plane(Vector3.up, transform.position);
 		float rayLength;
 
-		Debug.DrawRay(transform.position, Vector3.up * 3, Color.cyan);
+		//Debug.DrawRay(transform.position, Vector3.up * 3, Color.cyan);
 		if (groundPlane.Raycast(cameraRay, out rayLength))
 		{
 			pointToDash = cameraRay.GetPoint(rayLength);
-			Debug.DrawRay(pointToDash, (pointToDash - transform.position).normalized * 2f);
+			//Debug.DrawRay(pointToDash, (pointToDash - transform.position).normalized * 2f);
 		}
 
 		//Player Bounce
-		if (Input.GetButtonDown("Fire1"))
+		if (Input.GetButton("Fire1"))
 		{
 			if (PlatformBelow != null && PlatformBelow != lastPlatformBounce) //THE BOUNCE
 			{
@@ -196,7 +196,7 @@ public class PlayerMovement : MonoBehaviourPun
 				GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
 			} else
             {
-				print("pressed but no plat"); 
+				//print("pressed but no plat"); 
             }
 		}
 	}
