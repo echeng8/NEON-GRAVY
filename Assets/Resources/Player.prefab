@@ -15176,8 +15176,8 @@ MonoBehaviour:
         m_CallState: 2
   alive: 1
   dieYValue: -10
-  dieXValue: 100
-  dieZValue: 100
+  dieXValue: 110
+  dieZValue: 110
   spawnYOffset: -2.5
   lastAttacker: -1
 --- !u!114 &5682627859575082312
@@ -15263,8 +15263,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0ddd4606ec6ab5043b2600f844bd0b5d, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.36
+  m_PlayOnAwake: 1
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -15557,9 +15557,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ColorsRGB:
-  - {fileID: 2100000, guid: cabbb809fe22bc741abea8ba93c944d9, type: 2}
-  - {fileID: 2100000, guid: f8b5c8020549cac458e1239452cf6031, type: 2}
-  - {fileID: 2100000, guid: 19ce5841c3c056b4e925169ff226a011, type: 2}
+  - {fileID: 2100000, guid: 9e1c42307470c794e810b10bdbc3452d, type: 2}
+  - {fileID: 2100000, guid: b329250652a23df4284a8dd671731d6a, type: 2}
+  - {fileID: 2100000, guid: b2f9d283e01f85c4eb63864473f51bd9, type: 2}
 --- !u!1001 &1916194698947056373
 PrefabInstance:
   m_ObjectHideFlags: 0
