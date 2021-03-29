@@ -13,12 +13,13 @@ public class ColorTriangleSwap : MonoBehaviour
     /// <summary>
     /// Follow RGB order. 
     /// </summary>
-    public Sprite[] triangleVersions = new Image[3]; 
+    public Sprite[] triangleVersions = new Sprite[3]; 
     // Start is called before the first frame update
     void Start()
     {
-        
+        PlayerIdentity.CallOnLocalPlayerSet((GameObject p) => p.GetComponent<PlayerColorChange>().OnPlatStateChange.AddListener(RespondToPlayerColorChange));
     }
+
 
     void RespondToPlayerColorChange(PlatformState state)
     {
