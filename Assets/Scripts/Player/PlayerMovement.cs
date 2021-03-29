@@ -195,8 +195,8 @@ public class PlayerMovement : MonoBehaviourPun
             {
 				print("pressed but no plat"); 
             }
+			UpdateStreakCounter();
 		}
-		UpdateStreakCounter();
 	}
 
 	IEnumerator ProcessCoyoteTime(GameObject platformReference)
@@ -233,6 +233,21 @@ public class PlayerMovement : MonoBehaviourPun
 	{
 		if(streaksText != null)
 			streaksText.text = $"Streaks x{GetComponent<PlayerColorChange>().colorStreak}";
+			streaksText.color = SetStreakColor(GetComponent<PlayerColorChange>().GetPlatformBelowState());
+	}
+
+	Color SetStreakColor(PlatformState state)
+	{
+		switch (state)
+		{
+			case PlatformState.FIRE:
+				return Color.red;
+			case PlatformState.GRASS:
+				return Color.green;
+			case PlatformState.WATER:
+				return Color.blue;
+		}
+		return Color.white;
 	}
 
 	//platform event rpcs

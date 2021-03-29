@@ -73,7 +73,7 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
         ProcessNewBounce(state); 
     }
 
-    PlatformState GetPlatformBelowState()
+    public PlatformState GetPlatformBelowState()
     {
         return GetComponent<PlayerMovement>().PlatformBelow.GetComponent<PlatformAppearance>().CurrentState;
     } 
