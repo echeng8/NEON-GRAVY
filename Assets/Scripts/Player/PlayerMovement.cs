@@ -195,11 +195,11 @@ public class PlayerMovement : MonoBehaviourPun
 				Vector3 velocity = dashDirection * velMagnitude * (1-(dashAngle * Body.transform.localScale.magnitude * directionDrag/1080));
 
 				GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
+				UpdateStreakCounter();
 			} else
             {
 				print("pressed but no plat"); 
             }
-			UpdateStreakCounter();
 		}
 	}
 
