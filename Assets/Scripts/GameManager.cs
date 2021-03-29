@@ -16,7 +16,7 @@ using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
 /// handles scoreboard to display and increments kills on killers 
-/// and other misc things
+/// Hides room when it is half capacity so that only code joiners can enter
 /// </summary>
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -130,13 +130,23 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         playerList = PhotonNetwork.PlayerList; //refresh player name list
+
+        if (PhotonNetwork.IsMasterClient)
+            HideRoomIfHalfFull(); 
+
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         playerList = PhotonNetwork.PlayerList;
+
+        if (PhotonNetwork.IsMasterClient)
+            HideRoomIfHalfFull();
+
     }
-    
+
+
+
     public override void OnLeftRoom()
     {
         SceneManager.LoadScene(0);
@@ -180,6 +190,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         killFeed.text = s;
     }
 
+    
     void SetSpawn()
     {
         PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
@@ -193,6 +204,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(ReportFallRPC);
 
         playerList = PhotonNetwork.PlayerList;
+    }
+
+    void HideRoomIfHalfFull()
+    {
+        if (playerList.Length > PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
     }
     #endregion
    
