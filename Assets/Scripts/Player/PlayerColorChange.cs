@@ -26,10 +26,29 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
 
     public PlatformStateEvent OnPlatStateChange = new PlatformStateEvent();
 
+
+    public int ColorStreak
+    {
+        get
+        {
+            return colorStreak; 
+        }
+        set
+        {
+            colorStreak = value;
+            OnColorStreakChange.Invoke(value); 
+        }
+    }
+
+    public IntEvent OnColorStreakChange = new IntEvent(); 
+    
     /// <summary>
     /// The number of times the player has bounced on the same platform color (lastPlatState) in a row. 
     /// </summary>
     public int colorStreak;
+    
+    
+
     /// <summary>
     /// The platfrom state of the last bounce
     /// </summary>
@@ -73,9 +92,17 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
         ProcessNewBounce(state); 
     }
 
+    /// <summary>
+    /// returns platformstate.NULL if there is no platform below 
+    /// </summary>
+    /// <returns></returns>
     public PlatformState GetPlatformBelowState()
     {
-        return GetComponent<PlayerMovement>().PlatformBelow.GetComponent<PlatformAppearance>().CurrentState;
+        GameObject plat = GetComponent<PlayerMovement>().PlatformBelow;
+        if (plat == null)
+            return PlatformState.NULL; 
+        else 
+            return plat.GetComponent<PlatformAppearance>().CurrentState;
     } 
 
     /// <summary>
@@ -86,11 +113,11 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
     void ProcessNewBounce(PlatformState state)
     {
         if (state == lastPlatState)
-            colorStreak++;
+            ColorStreak++;
         else
-            colorStreak = 1; 
+            ColorStreak = 1; 
 
-        if(colorStreak == 3)
+        if(ColorStreak == 3)
         {
             PlatState = state; //photon custom property 
         }
@@ -100,7 +127,7 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
 
     void ClearStreaks()
     {
-        colorStreak = 0; 
+        ColorStreak = 0; 
     } 
 
     #endregion

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Cinemachine;
 
-public enum PlatformState {FIRE, WATER, GRASS}; 
+public enum PlatformState {FIRE, WATER, GRASS, NULL}; 
 
 public class PlatformAppearance : MonoBehaviour
 {
