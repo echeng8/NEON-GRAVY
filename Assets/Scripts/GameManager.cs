@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void HideRoomIfHalfFull()
     {
-        if (playerList.Length > PhotonNetwork.CurrentRoom.MaxPlayers)
+        if (playerList.Length > (PhotonNetwork.CurrentRoom.MaxPlayers/2))
         {
             PhotonNetwork.CurrentRoom.IsVisible = false;
         }
