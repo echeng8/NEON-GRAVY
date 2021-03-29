@@ -10,7 +10,10 @@ using UnityEngine.Events;
 public class Launcher : MonoBehaviourPunCallbacks
 {
     public UnityEvent OnConnectedSuccess = new UnityEvent();
-    
+
+
+    private const String randomCharacterString = "123456789ABCDEFGHIJKLMNPQRSTUVWXYZ";
+
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -47,7 +50,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = 16; 
 
         int roomID = (int)(Random.value * 10); 
-        PhotonNetwork.CreateRoom($"TestRoom-{roomID}",roomOptions);
+        PhotonNetwork.CreateRoom(GenerateRandomRoomCode(),roomOptions);
     }
     
     public override void OnJoinedRoom()
@@ -109,4 +112,20 @@ public class Launcher : MonoBehaviourPunCallbacks
         PlayerPrefs.SetString("Name", name);
     }
     #endregion
+
+
+    /// <summary>
+    /// returns a random string of 4 numbers
+    /// </summary>
+    /// <returns></returns>
+    private string GenerateRandomRoomCode(int length = 4)
+    {
+        string code = "";
+        for(int i = 0; i < length; i++)
+        {
+            code += randomCharacterString[Random.Range(0, randomCharacterString.Length)]; 
+        }
+        return code; 
+        
+    }
 }
