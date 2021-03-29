@@ -46,6 +46,6 @@ public class StreakDisplay : MonoBehaviour
             case PlatformState.WATER:
                 return Color.blue;
         }
-        return Color.white;
+        return Color.black; 
     }
 }

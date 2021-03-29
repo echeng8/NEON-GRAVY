@@ -92,9 +92,17 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
         ProcessNewBounce(state); 
     }
 
+    /// <summary>
+    /// returns platformstate.NULL if there is no platform below 
+    /// </summary>
+    /// <returns></returns>
     public PlatformState GetPlatformBelowState()
     {
-        return GetComponent<PlayerMovement>().PlatformBelow.GetComponent<PlatformAppearance>().CurrentState;
+        GameObject plat = GetComponent<PlayerMovement>().PlatformBelow;
+        if (plat == null)
+            return PlatformState.NULL; 
+        else 
+            return plat.GetComponent<PlatformAppearance>().CurrentState;
     } 
 
     /// <summary>
