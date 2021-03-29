@@ -29,6 +29,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        print("Current region is: " + PhotonNetwork.CloudRegion);  
         PhotonNetwork.JoinLobby();
     }
 
@@ -42,6 +43,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsVisible = true;
+        roomOptions.IsOpen = true;
+        roomOptions.MaxPlayers = 16; 
 
         int roomID = (int)(Random.value * 10); 
         PhotonNetwork.CreateRoom($"TestRoom-{roomID}",roomOptions);
@@ -78,7 +81,13 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     #region Public Methods 
 
-
+    /// <summary>
+    /// todo support multiple regions
+    /// </summary>
+    public void ConnectToRegion()
+    {
+        PhotonNetwork.ConnectToRegion("usw"); 
+    }
     /// <summary>
     /// Start the connection process.
     /// - If already connected, we attempt joining a random room

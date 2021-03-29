@@ -51,7 +51,6 @@ public class PlayerMoveSync : MonoBehaviourPun
             transform.position += velocity * lag;
             //todo lerp to this position maybe?  
         }
-
     }
 
     [PunRPC] 
