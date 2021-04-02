@@ -144,7 +144,7 @@ public class GravyManager : MonoBehaviourPunCallbacks
         {
             //award the player
             GameObject senderGO = (GameObject)info.Sender.TagObject;
-            senderGO.GetComponent<PlayerIdentity>().Gravies++; 
+//            senderGO.GetComponent<PlayerIdentity>().Gravies++; 
             
             //delete the gravy 
             removeGravy(platNum);

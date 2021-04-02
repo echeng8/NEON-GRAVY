@@ -12,57 +12,42 @@ using Photon.Realtime;
 /// Handles enabling input signal transfer.
 ///  handles identifying and providing the PlayerGameObject 
 ///  provides access to photon custom properties: gravies and kills
+///  identifies bot status 
 /// </summary>
 
 public class PlayerIdentity : MonoBehaviourPunCallbacks
 {
     #region Photon Custom Properties
-    public int Gravies
-    {
-        get
-        {
-            if (photonView.Owner.CustomProperties.ContainsKey("gravies"))
-                return (int)photonView.Owner.CustomProperties["gravies"];
-            else
-                return 0; //edge case when properties have not been initialized 
-        }
-
-        set
-        {
-            Hashtable h = new Hashtable { { "gravies", value } };
-            photonView.Owner.SetCustomProperties(h);
-            //OnGravyChange.Invoke(value); 
-        }
-    }
-
-    public IntEvent OnGravyChange = new IntEvent();
-
-
     public int Kills
     {
         get
         {
-            if (photonView.Owner.CustomProperties.ContainsKey("kills"))
-                return (int)photonView.Owner.CustomProperties["kills"];
-            else
-                return 0; //edge case when properties have not been initialized 
+            if(isBot)
+            {
+                return 0; 
+            } else
+            {
+                if (photonView.Owner.CustomProperties.ContainsKey("kills"))
+                    return (int)photonView.Owner.CustomProperties["kills"];
+                else
+                    return 0; //edge case when properties have not been initialized 
+            }
         }
 
         set
         {
-            Hashtable h = new Hashtable { { "kills", value } };
-            photonView.Owner.SetCustomProperties(h);
+            if(!isBot)
+            {
+                Hashtable h = new Hashtable { { "kills", value } };
+                photonView.Owner.SetCustomProperties(h);
+            }
         }
     }
-
     #endregion
 
     #region Implementation Values
-    /// <summary>
-    /// The number of hits a player can take until they are at axHitForce.
-    /// The force for any given hit is calculated as hits / maxHits * maxHitForce
-    /// The force will not exceed max hit force. 
-    /// </summary>
+
+    public bool isBot = false; 
     [SerializeField] public bool debugControlled;
     
     public static PlayerIdentity localPlayerInstance;
@@ -84,9 +69,14 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
         {
             if (photonView.Owner == null)
-                Destroy(gameObject); // this is the offline character for offline testing. 
-            else 
+            {
+                isBot = true;
+                gameObject.AddComponent<BotPlayer>(); 
+            }
+            else
+            {
                 photonView.Owner.TagObject = gameObject;
+            }
         }
     }
 
@@ -94,7 +84,7 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
     {
         if(photonView.IsMine)
         {
-            GetComponent<PlayerDeath>().OnDeath.AddListener(ClearGraviesAndKillsRPC); 
+            GetComponent<PlayerDeath>().OnDeath.AddListener(ClearKillsRPC); 
         }
     }
 
@@ -143,17 +133,8 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    #region Pun Callbacks
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-        if(targetPlayer.ActorNumber == photonView.OwnerActorNr)
-        {
-            if (changedProps.ContainsKey("gravies"))
-                OnGravyChange.Invoke((int)changedProps["gravies"]); 
-        }
-    }
-    #endregion
+
+    
     #region Custom Methods
     /// <summary>
     /// set itself as LocalPlayerInstance
@@ -169,9 +150,9 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
     /// <summary>
     /// clears the gravies and kills custom properites  
     /// </summary>
-    void ClearGraviesAndKillsRPC()
+    void ClearKillsRPC()
     {
-        photonView.Owner.SetCustomProperties(new Hashtable() { { "gravies", 0 }, { "kills", 0 } });
+        photonView.Owner.SetCustomProperties(new Hashtable() {{ "kills", 0 } });
     }
 
     #endregion

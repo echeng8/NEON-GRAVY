@@ -10,17 +10,29 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// </summary>
 public class PlayerColorChange : MonoBehaviourPunCallbacks
 {
+    PlayerIdentity pIdentity; 
+
     //Photon Custom Properties 
     public PlatformState PlatState
     {
         get
         {
-            return (PlatformState) Convert.ToInt32(photonView.Owner.CustomProperties["plat_state"] ); 
+            if(pIdentity.isBot)
+                return (PlatformState)Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["plat_state"]);
+            else
+                return (PlatformState)Convert.ToInt32(photonView.Owner.CustomProperties["plat_state"] ); 
         } 
         set
         {
             Hashtable h = new Hashtable { { "plat_state", Convert.ToByte((int)value) } };
-            photonView.Owner.SetCustomProperties(h);
+
+            if (pIdentity.isBot)
+            {
+                PhotonNetwork.CurrentRoom.SetCustomProperties(h); 
+            } else
+            {
+                photonView.Owner.SetCustomProperties(h);
+            }
         }
     }
 
@@ -57,6 +69,8 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
     #region Unity Callbacks 
     private void Start()
     {
+
+        pIdentity = GetComponent<PlayerIdentity>();
         //initalize color of other players that have loaded
         if (!photonView.IsMine)
         {
@@ -64,11 +78,12 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
         } else //init yourself 
         {
             GetComponent<PlayerMovement>().OnBounce.AddListener(RespondToBounce);
+            GetComponent<PlayerDeath>().OnDeath.AddListener(ClearStreaks);
+
+
 
             //init vars
             colorStreak = 0;
-
-            GetComponent<PlayerDeath>().OnDeath.AddListener(ClearStreaks); 
         }
     }
 

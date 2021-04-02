@@ -148,72 +148,65 @@ public class PlayerMovement : MonoBehaviourPun
 
 	public void Update()
 	{
-		if(photonView.IsMine)
-			ProcessBounce(); 
+		if(photonView.Owner == PhotonNetwork.LocalPlayer)
+        {
+			if (Input.GetButton("Fire1"))
+			{
+				Bounce(GetPointerPosInWorld());
+			}
+		}
 	}
-
-	//universal callbacks 
 	#endregion
 
 	#region Custom Methods
-	void ProcessBounce() //le big function
+	/// <summary>
+	/// bounce in the given direction if there is a valid PlatformBelow
+	/// </summary>
+	/// <param name="direction"></param>
+	public void Bounce(Vector3 direction)
     {
+		if (PlatformBelow != null && PlatformBelow != lastPlatformBounce) //THE BOUNCE
+		{
+			lastPlatformBounce = PlatformBelow;
 
-		//get direction
-		Vector3 pointToDash = new Vector3(0, 0, 0);
+			//invoking bounce events
+			OnBounce.Invoke();
+			InvokeOnBouncePlatformRPC();
+
+			//update streak and number of misses and calculate new velocity magnitude 
+			float velMagnitude = GetCurrentSpeed(GetComponent<PlayerColorChange>().colorStreak);
+
+			//apply velocity to new direction
+			Vector3 dashDirection = (direction - transform.position).normalized;
+			float dashAngle = Math.Abs(Vector3.SignedAngle(transform.forward, dashDirection, transform.up));
+			// transform.forward = (pointToDash - transform.position).normalized; //change facing direction
+			Vector3 velocity = dashDirection * velMagnitude * (1 - (dashAngle * Body.transform.localScale.magnitude * directionDrag / 1080));
+
+			GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
+		}
+	} 
+
+	Vector3 GetPointerPosInWorld()
+    {
 		Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Plane groundPlane = new Plane(Vector3.up, transform.position);
 		float rayLength;
 
-		//Debug.DrawRay(transform.position, Vector3.up * 3, Color.cyan);
+
 		if (groundPlane.Raycast(cameraRay, out rayLength))
 		{
-			pointToDash = cameraRay.GetPoint(rayLength);
-			//Debug.DrawRay(pointToDash, (pointToDash - transform.position).normalized * 2f);
+			return cameraRay.GetPoint(rayLength);
 		}
-
-		//Player Bounce
-		if (Input.GetButton("Fire1"))
-		{
-			if (PlatformBelow != null && PlatformBelow != lastPlatformBounce) //THE BOUNCE
-			{
-				lastPlatformBounce = PlatformBelow; 
-
-				//invoking bounce events
-				OnBounce.Invoke();
-				InvokeOnBouncePlatformRPC();
-
-				//update streak and number of misses and calculate new velocity magnitude 
-				streakMisses = 0;
-				float velMagnitude = GetCurrentSpeed(GetComponent<PlayerColorChange>().colorStreak);
-
-				//apply velocity to new direction
-				Vector3 dashDirection = (pointToDash - transform.position).normalized;
-				float dashAngle = Math.Abs(Vector3.SignedAngle(transform.forward,dashDirection,transform.up));
-				// transform.forward = (pointToDash - transform.position).normalized; //change facing direction
-				Vector3 velocity = dashDirection * velMagnitude * (1-(dashAngle * Body.transform.localScale.magnitude * directionDrag/1080));
-
-				GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
-			} else
-            {
-				//print("pressed but no plat"); 
-            }
-		}
+		return Vector3.zero; 
 	}
-
 	IEnumerator ProcessCoyoteTime(GameObject platformReference)
     {
-		print("trying to coyote time"); 
 		yield return new WaitForSeconds(coyoteTime); 
 
 		if (PlatformBelow == platformReference)
         {
-			print("its the same"); 
 		    _platformBelow = null;
-		} else
-        {
-			print("its dif"); 
-        }
+		} 
 
     }
 

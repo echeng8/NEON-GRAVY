@@ -69,6 +69,9 @@ public class PlayerDeath : MonoBehaviourPun
     private void Start()
     {
         OnSpawn.AddListener(ResetLastAttacker);
+
+        if(photonView.IsMine)
+            Spawn();
     }
 
     // Update is called once per frame

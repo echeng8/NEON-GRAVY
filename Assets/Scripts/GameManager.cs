@@ -193,14 +193,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     
     void SetSpawn()
     {
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-          
+
         //init local player properties 
-        Hashtable playerProps = new Hashtable {{ "plat_state", 0 }, { "kills", 0 } };
+        Hashtable playerProps = new Hashtable { { "plat_state", 0 }, { "kills", 0 } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
 
 
-        PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().Spawn();
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+
+        //todo make this suitable for bots update 
         PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(ReportFallRPC);
 
         playerList = PhotonNetwork.PlayerList;

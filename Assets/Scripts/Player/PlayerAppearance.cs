@@ -10,15 +10,15 @@ using UnityEngine;
 /// </summary>
 public class PlayerAppearance : MonoBehaviourPun
 {
-    public Renderer head;
-    public Renderer cube;
-
     public TextMeshPro nameTag;
 
     private void Start()
     {
-        if (PhotonNetwork.IsConnected)
+        if (PhotonNetwork.IsConnected && !GetComponent<PlayerIdentity>().isBot)
+        {
             nameTag.GetComponent<TextMeshPro>().text = photonView.Owner.NickName;
+        }
+
     }
 }
 

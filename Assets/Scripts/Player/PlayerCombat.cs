@@ -11,7 +11,7 @@ using UnityEngine.Animations;
 
 /// <summary>
 /// Handles player shooting: input, aiming, cooldown, instantiate projectile
-/// also melee now 
+/// OUTDATED AND BROKEN 
 /// </summary>
 public class PlayerCombat : MonoBehaviourPunCallbacks
 {

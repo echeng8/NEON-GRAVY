@@ -14590,7 +14590,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: JIMMY
+  m_text: '[BOT] Jimmy'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa85a4915113d33408cceb595bfddbe5, type: 2}
   m_sharedMaterial: {fileID: -7021612806183709329, guid: aa85a4915113d33408cceb595bfddbe5,
@@ -14884,9 +14884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8428fefc0bd75f43b318938897f4c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnGravyChange:
-    m_PersistentCalls:
-      m_Calls: []
+  isBot: 0
   debugControlled: 1
 --- !u!114 &-8979177202457268418
 MonoBehaviour:
@@ -14900,8 +14898,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da965b6c42647b4dafacb767791a8f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 0}
-  cube: {fileID: 960996582287429233}
   nameTag: {fileID: 6269928818321386271}
 --- !u!114 &-5546343269976252249
 MonoBehaviour:
@@ -15416,12 +15412,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8d129177a2afea42b79b82bd995c383, type: 3}
---- !u!23 &960996582287429233 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: d8d129177a2afea42b79b82bd995c383,
-    type: 3}
-  m_PrefabInstance: {fileID: 1916194698947056373}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2097843517140546846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d8d129177a2afea42b79b82bd995c383,
