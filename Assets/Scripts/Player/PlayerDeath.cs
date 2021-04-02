@@ -145,8 +145,12 @@ public class PlayerDeath : MonoBehaviourPun
     void RPC_SpawnPlayer(Vector3 spawnLocation)
     {
         alive = true; //todo move custom properties? 
-        GetComponent<PlayerMoveSync>().UpdateMovementRPC(Vector3.zero, spawnLocation);  
         OnSpawn.Invoke();
+
+        if(photonView.IsMine)
+        {
+            GetComponent<PlayerMoveSync>().UpdateMovementRPC(Vector3.zero, spawnLocation);
+        }
     }
 
     #endregion
