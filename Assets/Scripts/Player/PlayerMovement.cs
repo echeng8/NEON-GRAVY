@@ -203,16 +203,16 @@ public class PlayerMovement : MonoBehaviourPun
 
 	IEnumerator ProcessCoyoteTime(GameObject platformReference)
     {
-		print("trying to coyote time"); 
+//		print("trying to coyote time"); 
 		yield return new WaitForSeconds(coyoteTime); 
 
 		if (PlatformBelow == platformReference)
         {
-			print("its the same"); 
+//			print("its the same"); 
 		    _platformBelow = null;
 		} else
         {
-			print("its dif"); 
+//			print("its dif"); 
         }
 
     }
