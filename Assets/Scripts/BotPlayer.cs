@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using System;
+using ExitGames.Client.Photon.StructWrapping;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// <summary>
 /// main bot component
@@ -23,12 +25,13 @@ public class BotPlayer : MonoBehaviour
             );
         
     }
+    
 
     void BotBounce(GameObject platformBelow)
     {
         if(platformBelow != null)
         {
-            pMovement.Bounce(GetRandomDirection()); 
+            pMovement.Bounce(GetTopPlayerDirection()); 
         }
     } 
     void InitBotCustomProperties()
@@ -39,9 +42,19 @@ public class BotPlayer : MonoBehaviour
     Vector3 GetRandomDirection()
     {
         Vector2 randomVec = UnityEngine.Random.insideUnitCircle;
-        return new Vector3(randomVec.x, transform.position.y, randomVec.y); 
+        return new Vector3(randomVec.x, 0, randomVec.y); 
     }
 
-    
+    Vector3 GetTopPlayerDirection()
+    {
+        List<Player> players = GameManager.instance.leaderBoard;
+        if (players == null)
+        {
+            return GetRandomDirection();
+        }
+        Vector3 topPlayerPosition = (players[0].TagObject as GameObject).transform.position;
+        Vector2 topPlayerDirection = new Vector2(topPlayerPosition.x - transform.position.x,topPlayerPosition.z - transform.position.z).normalized;
+        return new Vector3(topPlayerDirection.x,0,topPlayerDirection.y);
+    }
 }
 

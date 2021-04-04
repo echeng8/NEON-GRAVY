@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviourPun
         {
 			if (Input.GetButton("Fire1"))
 			{
-				Bounce(GetPointerPosInWorld());
+				Bounce(GetPointerPosInWorld()-transform.position);
 			}
 		}
 	}
@@ -163,7 +163,7 @@ public class PlayerMovement : MonoBehaviourPun
 	/// bounce in the given direction if there is a valid PlatformBelow
 	/// </summary>
 	/// <param name="direction"></param>
-	public void Bounce(Vector3 direction)
+	public void Bounce(Vector3 dashDirection)
     {
 		if (PlatformBelow != null && PlatformBelow != lastPlatformBounce) //THE BOUNCE
 		{
@@ -177,10 +177,10 @@ public class PlayerMovement : MonoBehaviourPun
 			float velMagnitude = GetCurrentSpeed(GetComponent<PlayerColorChange>().colorStreak);
 
 			//apply velocity to new direction
-			Vector3 dashDirection = (direction - transform.position).normalized;
-			float dashAngle = Math.Abs(Vector3.SignedAngle(transform.forward, dashDirection, transform.up));
+			//Vector3 dashDirection = (direction - transform.position).normalized;
+			float dashAngle = Math.Abs(Vector3.SignedAngle(transform.forward, dashDirection.normalized, transform.up));
 			// transform.forward = (pointToDash - transform.position).normalized; //change facing direction
-			Vector3 velocity = dashDirection * velMagnitude * (1 - (dashAngle * Body.transform.localScale.magnitude * directionDrag / 1080));
+			Vector3 velocity = dashDirection.normalized * velMagnitude * (1 - (dashAngle * Body.transform.localScale.magnitude * directionDrag / 1080));
 
 			GetComponent<PlayerMoveSync>().UpdateMovementRPC(velocity, transform.position);
 		}
