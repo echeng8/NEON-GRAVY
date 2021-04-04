@@ -95,6 +95,14 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
             OnPlatStateChange.Invoke(PlatState); 
     }
 
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        if (pIdentity.isBot && propertiesThatChanged.ContainsKey("plat_state"))
+            OnPlatStateChange.Invoke(PlatState);
+    }
+
+
+
 
     #region Custom Methods 
 

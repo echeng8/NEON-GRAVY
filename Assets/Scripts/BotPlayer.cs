@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 /// <summary>
 /// main bot component
 /// controls player behavior to act as a bot 
@@ -11,7 +12,14 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class BotPlayer : MonoBehaviour
 {
     PlayerMovement pMovement;
-    float respawnDelay = 5f; 
+    float respawnDelay = 5f;
+
+
+    private void Awake()
+    {
+        if(PhotonNetwork.CurrentRoom.PlayerCount == 1)  
+            InitBotCustomProperties(); 
+    }
 
     private void Start()
     {
