@@ -8,6 +8,7 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
+          <e p="BotPlayer.cs" t="Include" />
           <e p="ChargeAppearance.cs" t="Include" />
           <e p="ConsoleToGUI.cs" t="Include" />
           <e p="Environment" t="Include">
@@ -28,6 +29,9 @@
           <e p="PlatformGenerator.cs" t="Include" />
           <e p="PlatformManager.cs" t="Include" />
           <e p="Player" t="Include">
+            <e p="Archive" t="Include">
+              <e p="PlayerCombat.cs" t="Include" />
+            </e>
             <e p="BodyColor.cs" t="Include" />
             <e p="CameraFacing.cs" t="Include" />
             <e p="DEBUGPlayer.cs" t="Include" />
@@ -36,7 +40,6 @@
             <e p="PlayerBodyGrow.cs" t="Include" />
             <e p="PlayerCamera.cs" t="Include" />
             <e p="PlayerColorChange.cs" t="Include" />
-            <e p="PlayerCombat.cs" t="Include" />
             <e p="PlayerDeath.cs" t="Include" />
             <e p="PlayerEating.cs" t="Include" />
             <e p="PlayerGravity.cs" t="Include" />
