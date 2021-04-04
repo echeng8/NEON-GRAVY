@@ -24,7 +24,7 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
         {
             if(isBot)
             {
-                return 0; 
+                return (int)PhotonNetwork.CurrentRoom.CustomProperties["kills"];
             } else
             {
                 if (photonView.Owner.CustomProperties.ContainsKey("kills"))
@@ -36,10 +36,29 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
 
         set
         {
-            if(!isBot)
+            if(isBot)
+            {
+                Hashtable h = new Hashtable { { "kills", value } };
+                PhotonNetwork.CurrentRoom.SetCustomProperties(h);
+            } else
             {
                 Hashtable h = new Hashtable { { "kills", value } };
                 photonView.Owner.SetCustomProperties(h);
+            }
+        }
+    }
+
+    public String NickName
+    {
+        get
+        {
+            if(isBot)
+            {
+                //todo multi bot support 
+                return "[Bot] Jimmy"; 
+            } else
+            {
+                return photonView.Owner.NickName;
             }
         }
     }
@@ -132,10 +151,46 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
         }
     }
     #endregion
-
-
     
     #region Custom Methods
+
+    /// <summary>
+    /// returns the player identity of the players with the given ID including bots
+    /// </summary>
+    /// <returns></returns>
+    public static PlayerIdentity GetPlayer(int id)
+    {
+        if(id > -1)
+        {
+            return (PhotonNetwork.CurrentRoom.GetPlayer(id).TagObject as GameObject).GetComponent<PlayerIdentity>();
+        } else
+        {
+            //TODO support multiple bots
+            return GameObject.Find("BOT (1)").GetComponent<PlayerIdentity>(); 
+        }
+    }
+
+    /// <summary>
+    /// returns the playerID if its a player and the botID (neg) if its a bot
+    /// </summary>
+    /// <returns></returns>
+    public int GetID()
+    {
+        if(isBot)
+        {
+            //todo support multiple bots
+            return -2; 
+        } else
+        {
+            return photonView.OwnerActorNr; 
+        }
+    }
+
+    public bool IsMyPlayer()
+    {
+        return PhotonNetwork.LocalPlayer.ActorNumber == photonView.OwnerActorNr;
+    }
+
     /// <summary>
     /// set itself as LocalPlayerInstance
     /// invokes OnLocalPlayerSet event
@@ -152,9 +207,10 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
     /// </summary>
     void ClearKillsRPC()
     {
-        photonView.Owner.SetCustomProperties(new Hashtable() {{ "kills", 0 } });
+        Kills = 0; 
     }
 
+    
     #endregion
 
 }

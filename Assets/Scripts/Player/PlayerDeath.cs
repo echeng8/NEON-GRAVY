@@ -80,24 +80,24 @@ public class PlayerDeath : MonoBehaviourPun
         //Checking to see if below die point
         if (transform.position.y < dieYValue && alive) //death 
         {
-            KillPlayer();
+            KillPlayerRPC();
             transform.position = new Vector3(1000,transform.position.y,1000); //todo pan camera or something
         }
         if ((transform.position.x < GameObject.Find("MiniMapCamera").transform.position.x-dieXValue || transform.position.x > GameObject.Find("MiniMapCamera").transform.position.x+dieXValue) && alive) //death 
         {
-            KillPlayer();
+            KillPlayerRPC();
             transform.position = new Vector3(1000,transform.position.y,1000); //todo pan camera or something
         }
         
         if ((transform.position.z < GameObject.Find("MiniMapCamera").transform.position.z-dieZValue || transform.position.z > GameObject.Find("MiniMapCamera").transform.position.z+dieZValue) && alive) //death 
         {
-            KillPlayer();
+            KillPlayerRPC();
             transform.position = new Vector3(1000,transform.position.y,1000); //todo pan camera or something
         }
         
         if (Input.GetKeyDown(KeyCode.R))
         {
-            KillPlayer(); 
+            KillPlayerRPC(); 
         }
 
     }
@@ -109,7 +109,6 @@ public class PlayerDeath : MonoBehaviourPun
     /// </summary>
     public void Spawn()
     {
-
         if (!alive)
         {
             if (PhotonNetwork.IsConnected)
@@ -164,21 +163,17 @@ public class PlayerDeath : MonoBehaviourPun
     /// Note: the optional argument is the lastattacker, not the player to be killed. 
     /// </summary>
     /// <param name="lastAttacker"></param>
-    public void KillPlayer(int lastAttacker = -1)
+    public void KillPlayerRPC(int lAttacker = -1)
     {
         if (alive)
         {
-            if (lastAttacker != -1)
-                UpdateLastAttacker(lastAttacker);
-
-            
             if (PhotonNetwork.IsConnected)
             {
-                photonView.RPC("RPC_KillPlayer", RpcTarget.All);
+                photonView.RPC("RPC_KillPlayer", RpcTarget.All, lAttacker);
             }
             else
             {
-                RPC_KillPlayer();
+                RPC_KillPlayer(lAttacker);
             }
         }
 
@@ -189,9 +184,14 @@ public class PlayerDeath : MonoBehaviourPun
     /// sets alive and triggers ondeath events
     /// </summary>
     [PunRPC]
-    void RPC_KillPlayer()
+    void RPC_KillPlayer(int lastAttackerNum)
     {
+        if (lastAttacker != -1)
+            lastAttacker = lastAttackerNum;
+
         alive = false;
+
+        GameManager.instance.ReportFall(GetComponent<PlayerIdentity>().GetID(), lastAttackerNum); 
         OnDeath.Invoke();
     }
 
@@ -199,11 +199,6 @@ public class PlayerDeath : MonoBehaviourPun
     #endregion
 
     #region Last Attacker Methods
-    void UpdateLastAttacker(int attackerNum)
-    {
-        lastAttacker = attackerNum; 
-    }
-    
     private void ResetLastAttacker()
     {
         lastAttacker = -1; 

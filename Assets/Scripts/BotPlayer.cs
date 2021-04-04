@@ -10,13 +10,18 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// </summary>
 public class BotPlayer : MonoBehaviour
 {
-
     PlayerMovement pMovement;
+    float respawnDelay = 5f; 
 
     private void Start()
     {
         pMovement = GetComponent<PlayerMovement>();
-        pMovement.OnPlatformBelowChange.AddListener(BotBounce); 
+        pMovement.OnPlatformBelowChange.AddListener(BotBounce);
+        PlayerDeath pDeath = GetComponent<PlayerDeath>();
+        pDeath.OnDeath.AddListener(
+            () => this.Invoke(pDeath.Spawn, respawnDelay)
+            );
+        
     }
 
     void BotBounce(GameObject platformBelow)
@@ -36,5 +41,7 @@ public class BotPlayer : MonoBehaviour
         Vector2 randomVec = UnityEngine.Random.insideUnitCircle;
         return new Vector3(randomVec.x, transform.position.y, randomVec.y); 
     }
+
+    
 }
 

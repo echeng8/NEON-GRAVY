@@ -26,7 +26,7 @@ public class PlayerGravity : MonoBehaviourPun
     {
         rb = GetComponent<Rigidbody>();
 
-        GetComponent<PlayerDeath>().OnDeath.AddListener(ResetOnDeath);
+        //GetComponent<PlayerDeath>().OnDeath.AddListener(ResetOnDeath);
     }
 
     private void Start()

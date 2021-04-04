@@ -38,11 +38,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<Player> leaderBoard;
     public Player[] playerList;
 
-    /// <summary>
-    /// The person with ALL the gravies. 
-    /// </summary>
-    private Player _gravyKing;
-    
+
     #endregion
 
     #region Unity Callbacks
@@ -73,38 +69,26 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region RPCs
-    
-        /// <summary>
-    /// Optional RPC report fall. Reports the fall through RPC if online, otherwise, simply set KillFeed to "i died". 
-    /// </summary>
-    private void ReportFallRPC()
-    {
-        photonView.RPC("RPC_ReportFall", RpcTarget.All,
-            PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().lastAttacker);
-    }
-        
-    
+
     /// <summary>
-    /// Tell people who died.
-    /// Transfer Gravy from death to killer.
-    /// Reset the game when the gravy king is killed. 
+    /// Announces that the local player was killed 
     /// </summary>
     /// <param name="killerActorNumber"></param>
     /// <param name="info"></param>
-    [PunRPC]
-    private void RPC_ReportFall(int killerActorNumber, PhotonMessageInfo info)
+    public void ReportFall(int killedNumber, int killerNumber)
     {
-        Player deadPlayer = info.Sender;
-        Player killer = PhotonNetwork.CurrentRoom.GetPlayer(killerActorNumber);
+        PlayerIdentity deadPlayer = PlayerIdentity.GetPlayer(killedNumber); 
+        PlayerIdentity killer = PlayerIdentity.GetPlayer(killerNumber);
 
-        if (killerActorNumber == -1 || killer == null) // if they fell without being attacked
+        if (killer == null) // if they fell without being attacked
         {
             SetKillFeed($"{deadPlayer.NickName} is gone.");
         }
         else
         {
+            //todo support bot kill incrementation later 
             //increment kill on killer 
-            if (PhotonNetwork.LocalPlayer.ActorNumber == killerActorNumber)
+            if (PhotonNetwork.LocalPlayer.ActorNumber == killerNumber) //if local player is killer 
             {
                 PlayerIdentity.localPlayerInstance.Kills++; 
             }
@@ -122,7 +106,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         if(changedProps.ContainsKey("kills"))
-            updateLeaderboard();
+            UpdateLeaderboard();
     }
 
     //room roster changes
@@ -159,7 +143,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <summary>
     /// Sorts players by kills and outputs the text to the leaderBoardDisplay.
     /// </summary>
-    void updateLeaderboard()
+    void UpdateLeaderboard()
     {
         leaderBoard = playerList.ToList();
         leaderBoard.Sort(ComparePlayerKills);
@@ -202,8 +186,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
 
         //todo make this suitable for bots update 
-        PlayerIdentity.localPlayerInstance.GetComponent<PlayerDeath>().OnDeath.AddListener(ReportFallRPC);
-
         playerList = PhotonNetwork.PlayerList;
     }
 

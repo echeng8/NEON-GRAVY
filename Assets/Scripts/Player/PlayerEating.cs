@@ -33,9 +33,7 @@ public class PlayerEating : MonoBehaviourPun
 
         if(other.CompareTag("Body"))
         {
-            PhotonView otherPV = other.GetComponentInParent<PhotonView>(); 
-
-            if (otherPV.IsMine || !other.GetComponentInParent<PlayerDeath>().alive) //quit if colliding with self or a dead person 
+            if (!other.GetComponentInParent<PlayerDeath>().alive) //quit if colliding with a dead person 
             {
                 return;
             }
@@ -47,9 +45,16 @@ public class PlayerEating : MonoBehaviourPun
             {
                 GetComponent<PlayerMoveSync>().UpdateMovementRPC(GetComponent<PlayerMovement>().Velocity.normalized * -GetComponent<PlayerMovement>().topSpeed, transform.position);
             } else if (IsEatenBy(myState, theirState)) {
-                //This player is eaten. 
-                Camera.main.GetComponent<FreezeFrame>().FreezeCamera();
-                playerDeath.KillPlayer(otherPV.OwnerActorNr); //kill self
+
+                int otherIndex = other.GetComponentInParent<PlayerIdentity>().GetID(); 
+
+                //This player is eaten.
+                playerDeath.KillPlayerRPC(otherIndex); //kill self
+
+                if(photonView.Owner == PhotonNetwork.LocalPlayer)
+                {
+                    Camera.main.GetComponent<FreezeFrame>().FreezeCamera(); 
+                }
             }
         }
     }
@@ -70,6 +75,7 @@ public class PlayerEating : MonoBehaviourPun
 
         return false; 
     }
+
     #endregion
 }
 
