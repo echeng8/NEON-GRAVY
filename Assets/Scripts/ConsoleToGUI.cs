@@ -72,4 +72,9 @@ public class ConsoleToGUI : MonoBehaviour
             new Vector3(Screen.width / 1200.0f, Screen.height / 800.0f, 1.0f));
         GUI.TextArea(new Rect(10, 10, 540, 370), myLog);
     }
+
+    void PrintPlatbelow()
+    {
+        
+    }
 }

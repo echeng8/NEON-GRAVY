@@ -155,6 +155,8 @@ public class PlayerMovement : MonoBehaviourPun
 				Bounce(GetPointerPosInWorld()-transform.position);
 			}
 		}
+		if(PlatformBelow != null)
+			Debug.DrawLine(transform.position,PlatformBelow.transform.position);
 	}
 	#endregion
 
@@ -168,7 +170,6 @@ public class PlayerMovement : MonoBehaviourPun
 		if (PlatformBelow != null && PlatformBelow != lastPlatformBounce) //THE BOUNCE
 		{
 			lastPlatformBounce = PlatformBelow;
-
 			//invoking bounce events
 			OnBounce.Invoke();
 			InvokeOnBouncePlatformRPC();

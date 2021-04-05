@@ -66,11 +66,14 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
     /// </summary>
     PlatformState lastPlatState = PlatformState.FIRE;
 
-    #region Unity Callbacks 
+    #region Unity Callbacks
+
+    private void Awake()
+    {
+        pIdentity = GetComponent<PlayerIdentity>();
+    }
     private void Start()
     {
-
-        pIdentity = GetComponent<PlayerIdentity>();
         //initalize color of other players that have loaded
         if (!photonView.IsMine)
         {

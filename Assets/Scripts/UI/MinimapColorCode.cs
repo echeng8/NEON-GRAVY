@@ -11,9 +11,9 @@ public class MinimapColorCode : MonoBehaviour
     void Start()
     {
         ren = GetComponent<Renderer>();
-        if (GetComponentInParent<PhotonView>().IsMine)
+        if (GetComponentInParent<PlayerIdentity>().IsMyPlayer())
         {
-            ren.material.SetColor("_BaseColor", Color.green);
+            ren.material.SetColor("_BaseColor", Color.yellow);
         }
     }
 }

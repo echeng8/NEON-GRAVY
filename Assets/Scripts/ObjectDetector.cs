@@ -16,7 +16,7 @@ public class ObjectDetector : MonoBehaviourPun
 
     public GameObjectEvent OnObjectChange = new GameObjectEvent();
     public GameObjectEvent OnObjectLeave = new GameObjectEvent();
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(ObjectTag) && !ObjectsDetected.Contains(other.gameObject))
@@ -44,5 +44,11 @@ public class ObjectDetector : MonoBehaviourPun
             OnObjectLeave.Invoke(other.gameObject); 
             OnObjectChange.Invoke(ObjectDetected);
         }
+    }
+
+    public void ClearObjectList()
+    {
+        ObjectsDetected.Clear();
+        OnObjectChange.Invoke(null);
     }
 }
