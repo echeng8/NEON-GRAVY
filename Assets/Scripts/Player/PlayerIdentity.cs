@@ -72,6 +72,8 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
     public static PlayerIdentity localPlayerInstance;
     public static GameObjectEvent OnLocalPlayerSet = new GameObjectEvent();
 
+    //temp singleton for the bot 
+    public static PlayerIdentity BOT; 
     #endregion
 
     #region Unity Callbacks
@@ -90,13 +92,16 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
             if (photonView.Owner == null)
             {
                 isBot = true;
-                gameObject.AddComponent<BotPlayer>(); 
+                gameObject.AddComponent<BotPlayer>();
+                BOT = this; 
             }
             else
             {
                 photonView.Owner.TagObject = gameObject;
             }
         }
+
+        
     }
 
     private void Start()
@@ -163,11 +168,14 @@ public class PlayerIdentity : MonoBehaviourPunCallbacks
         if(id > -1)
         {
             return (PhotonNetwork.CurrentRoom.GetPlayer(id).TagObject as GameObject).GetComponent<PlayerIdentity>();
-        } else
+        } 
+
+        if(id == -2)
         {
             //TODO support multiple bots
-            return GameObject.Find("BOT (1)").GetComponent<PlayerIdentity>(); 
+            return BOT; 
         }
+        return null;
     }
 
     /// <summary>

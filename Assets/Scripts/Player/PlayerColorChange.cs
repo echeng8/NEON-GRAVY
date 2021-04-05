@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 /// <summary>
 /// Change the color of the player when the last 3 platforms are the same state. 
 /// </summary>
@@ -91,6 +92,8 @@ public class PlayerColorChange : MonoBehaviourPunCallbacks
     }
 
     #endregion
+    
+    
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {

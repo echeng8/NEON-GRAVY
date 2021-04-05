@@ -7,11 +7,45 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
-using Photon.Pun; 
+using Photon.Pun;
 
 
 public static class Utility
 {
+    public static PlatformState GetOpposingPlatState(PlatformState ps)
+    {
+        if (ps == PlatformState.FIRE)
+            return PlatformState.WATER;
+
+        if (ps == PlatformState.GRASS)
+            return PlatformState.FIRE; 
+
+        if (ps == PlatformState.WATER)
+            return PlatformState.GRASS;
+
+        return PlatformState.FIRE;   
+    }
+
+    /// <summary>
+    /// returns COLORED BY markup string of the plat state name
+    /// </summary>
+    /// <param name="ps"></param>
+    /// <returns></returns>
+    public static string GetPlatString(PlatformState ps)
+    {
+        if (ps == PlatformState.FIRE)
+            return "<color=#FF0000>RED</color>";
+
+        if (ps == PlatformState.GRASS)
+            return "<color=#3EFF00>GREEN</color>";
+
+        if (ps == PlatformState.WATER)
+            return "<color=#004DFF>BLUE</color>";
+
+        return "errorerrorerror";
+    }
+
+
     public static void Invoke(this MonoBehaviour mb, Action f, float delay)
     {
         mb.StartCoroutine(InvokeRoutine(f, delay));

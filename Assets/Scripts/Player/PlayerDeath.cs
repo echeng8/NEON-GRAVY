@@ -186,7 +186,7 @@ public class PlayerDeath : MonoBehaviourPun
     [PunRPC]
     void RPC_KillPlayer(int lastAttackerNum)
     {
-        if (lastAttacker != -1)
+        if (lastAttackerNum != -1)
             lastAttacker = lastAttackerNum;
 
         alive = false;
