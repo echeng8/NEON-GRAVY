@@ -11,11 +11,16 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// main bot component
 /// controls player behavior to act as a bot 
 /// </summary>
-public class BotPlayer : MonoBehaviour
+public class BotPlayer : MonoBehaviourPunCallbacks 
 {
     PlayerMovement pMovement;
+    PlayerDeath pDeath;
     float respawnDelay = 5f;
 
+    /// <summary>
+    /// If there are more that this many players, the bot doesn't respawn. 
+    /// </summary>
+    int maxPlayersForBot = 3; 
 
     private void Awake()
     {
@@ -27,26 +32,54 @@ public class BotPlayer : MonoBehaviour
     {
         pMovement = GetComponent<PlayerMovement>();
         pMovement.OnPlatformBelowChange.AddListener(BotBounce);
-        PlayerDeath pDeath = GetComponent<PlayerDeath>();
+        pDeath = GetComponent<PlayerDeath>();
+
+
         pDeath.OnDeath.AddListener(
-            () => this.Invoke(pDeath.Spawn, respawnDelay)
-            );
-        
+            () =>
+            {
+                this.Invoke(BotRespawn, respawnDelay);
+            } );
     }
-    
+
+    #region Pun Callbacks
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if(!pDeath.alive)
+            BotRespawn(); 
+    }
+    #endregion
+
+    /// <summary>
+    /// RPC's the bot Spawn() if the player is the master client and the player count
+    /// is below maxPlayersForBot
+    /// </summary>
+    void BotRespawn()
+    {
+        if(PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount <= maxPlayersForBot)
+        {
+            pDeath.Spawn(); 
+        }
+    }
+
+
 
     void BotBounce(GameObject platformBelow)
     {
-        if(platformBelow != null)
+        if(PhotonNetwork.IsMasterClient && platformBelow != null) 
         {
             pMovement.Bounce(GetTopPlayerDirection()); 
         }
     } 
+
+
     void InitBotCustomProperties()
     {
         Hashtable h = new Hashtable { { "plat_state", Convert.ToByte(0) }, { "kills", 0 } };
         PhotonNetwork.CurrentRoom.SetCustomProperties(h);
     }
+
+
     Vector3 GetRandomDirection()
     {
         Vector2 randomVec = UnityEngine.Random.insideUnitCircle;

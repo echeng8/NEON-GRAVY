@@ -16,7 +16,11 @@ public class ObjectDetector : MonoBehaviourPun
 
     public GameObjectEvent OnObjectChange = new GameObjectEvent();
     public GameObjectEvent OnObjectLeave = new GameObjectEvent();
-    
+
+    private void Start()
+    {
+        GetComponentInParent<PlayerDeath>().OnDeath.AddListener(ClearObjectList); 
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(ObjectTag) && !ObjectsDetected.Contains(other.gameObject))
