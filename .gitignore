@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+#appID hide
+/Assets/Thirdparty/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
