@@ -20,6 +20,7 @@
 - multiplayer joining via room code system 
 - leaderboard system
 - minimap
+- AI enemies
 
 ## Credits
 Lead Programmer: Evan Cheng
